@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZztWU3IiMoWGfoBw7MWK4dV1h5FmCI66A9rNOzSqvBIu4ba6gg4qAwELDIVWSSj8BLJPjF3b8P6hbvECwLxgXQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kasusa\\source\\repos\\archiver\\archiver\\archiver.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kasusa\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.21\\microsoft.netcore.app.host.win-x64.3.1.21.nupkg.sha512",
+    "C:\\Users\\kasusa\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\kasusa\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\kasusa\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
