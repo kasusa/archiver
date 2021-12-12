@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <Reference Include="Xceed.Document.NET">
-      <HintPath>..\..\..\..\Desktop\Xceed.Document.NET.dll</HintPath>
+      <HintPath>..\mylibs\Xceed.Document.NET.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Words.NET">
-      <HintPath>..\..\..\..\Desktop\Xceed.Words.NET.dll</HintPath>
+      <HintPath>..\mylibs\Xceed.Words.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
 
