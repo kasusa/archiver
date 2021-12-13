@@ -31,6 +31,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.textBoxlog = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -45,11 +49,11 @@
             // 
             // textBoxlog
             // 
-            this.textBoxlog.Location = new System.Drawing.Point(12, 12);
+            this.textBoxlog.Location = new System.Drawing.Point(12, 75);
             this.textBoxlog.Multiline = true;
             this.textBoxlog.Name = "textBoxlog";
             this.textBoxlog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxlog.Size = new System.Drawing.Size(513, 267);
+            this.textBoxlog.Size = new System.Drawing.Size(513, 204);
             this.textBoxlog.TabIndex = 1;
             // 
             // label1
@@ -61,11 +65,53 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "label1";
             // 
+            // textBox1
+            // 
+            this.textBox1.AllowDrop = true;
+            this.textBox1.Location = new System.Drawing.Point(126, 15);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(399, 23);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox1_DragDrop);
+            this.textBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox1_DragEnter);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(108, 17);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "文件拖动到这里 →";
+            // 
+            // textBox2
+            // 
+            this.textBox2.AllowDrop = true;
+            this.textBox2.Location = new System.Drawing.Point(126, 46);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(399, 23);
+            this.textBox2.TabIndex = 5;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 50);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(72, 17);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "输出目录 →";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 360);
+            this.ClientSize = new System.Drawing.Size(536, 360);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxlog);
             this.Controls.Add(this.button1);
@@ -81,5 +127,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBoxlog;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label3;
     }
 }

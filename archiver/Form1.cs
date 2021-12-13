@@ -9,67 +9,72 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
+using System.Runtime.InteropServices;
+
 
 namespace archiver
 {
     public partial class Form1 : Form
     {
+        myutil doc;
         public Form1()
         {
             InitializeComponent();
         }
 
+
+
         private void button1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Hello, World!");
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\1.docx";
-            label1.Text = path;
-            var document = DocX.Load(path);
-
-
-            var p = Find_Paragraph_for_i(document, "我的后面是");
-            if (p == null )
-            {
-                mylog("啥也找不到");
-            }
-            //List<int> a = document.FindAll("我的听啊俺");
-            //foreach (var index in a)
-            //{
-            //    textBoxlog.Text += a.t;
-            //    textBoxlog.Text +=  document.Paragraphs[index].Text;
-
-            //}
+           doc._replacePatterns.Clear();
+           doc.cw_read_dictionary("项目编号");
+           doc.cw_read_dictionary("备案号");
+           doc.cw_read_dictionary("报告编号");
+           doc.cw_read_dictionary("分数");
+           doc.cw_read_dictionary("xxx公司");
+           doc.cw_read_dictionary("xxx系统");
+           doc.cw_read_dictionary("级别数字");
+           doc.cw_read_dictionary("起始日期");
+           doc.cw_read_dictionary("出报告日期");
+           doc.cw_read_dictionary("我方人员");
+           doc.ReplaceTextWithText_all();
+           doc.save();
         }
 
-        public Paragraph Find_Paragraph_for_p(DocX document, string v)
-        {
-            foreach (var p in document.Paragraphs)
-            {
-                if (p.Text.Contains(v))
-                {
-                    mylog("【找到:】"+p.Text + Environment.NewLine);
-                    return p;
-                }
-            }
-            return null;
-        }
-        public int Find_Paragraph_for_i(DocX document, string v)
-        {
-            for (int i = 0; i < document.Paragraphs.Count; i++)
-            {
-                var p = document.Paragraphs[i];
-                if (p.Text.Contains(v))
-                {
-                    mylog("【找到:】" + p.Text + Environment.NewLine+"在"+i);
-                    return i;
-                }
-            }
-            return -1;
-        }
 
         private void mylog(string v)
         {
             textBoxlog.Text += v+Environment.NewLine;
+        }
+
+        private void textBox1_DragDrop(object sender, DragEventArgs e)
+        {
+            textBox1.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+        }
+
+        private void textBox1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Link;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        //自动生成输出目录
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            // 更换源文件，重新生成doc
+            string path = textBox1.Text;
+            doc = new myutil(path);
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

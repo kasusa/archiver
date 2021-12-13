@@ -36,3 +36,5 @@ C:\Users\kasusa\Desktop\src\archiver\archiver\bin\Debug\netcoreapp3.1\Xceed.Docu
 C:\Users\kasusa\Desktop\src\archiver\archiver\bin\Debug\netcoreapp3.1\Xceed.Words.NET.dll
 C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.csproj.CopyComplete
 C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.genruntimeconfig.cache
+C:\Users\kasusa\source\repos\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Form_main.resources
+C:\Users\kasusa\source\repos\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Form_出报告申请.resources
