@@ -20,26 +20,27 @@ namespace archiver
         public Form1()
         {
             InitializeComponent();
+            AllocConsole();
         }
-
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
 
 
         private void button1_Click(object sender, EventArgs e)
         {
-           doc._replacePatterns.Clear();
-           doc.cw_read_dictionary("项目编号");
-           doc.cw_read_dictionary("备案号");
-           doc.cw_read_dictionary("报告编号");
-           doc.cw_read_dictionary("分数");
-           doc.cw_read_dictionary("xxx公司");
-           doc.cw_read_dictionary("xxx系统");
-           doc.cw_read_dictionary("级别数字");
-           doc.cw_read_dictionary("起始日期");
-           doc.cw_read_dictionary("出报告日期");
-           doc.cw_read_dictionary("我方人员");
-           doc.ReplaceTextWithText_all();
-           doc.save();
+            var tables = doc.document.Tables;
+            foreach (var table in tables)
+            {
+                doc.table_add_merged_cell(table, "本次测评为设计");
+            }
+            mylog("-- merge");
+
+
+            doc.save();
         }
+
+        #region hide
 
 
         private void mylog(string v)
@@ -50,6 +51,7 @@ namespace archiver
         private void textBox1_DragDrop(object sender, DragEventArgs e)
         {
             textBox1.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+
         }
 
         private void textBox1_DragEnter(object sender, DragEventArgs e)
@@ -71,10 +73,11 @@ namespace archiver
             string path = textBox1.Text;
             doc = new myutil(path);
         }
+        #endregion
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

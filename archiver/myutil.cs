@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -11,31 +12,147 @@ namespace archiver
 {
     public class myutil
     {
-       public  DocX document = null;
-       public string path = "";
-       public string savepath = "";
-
+        public DocX document = null;
+        public string path = "";
+        
         public myutil(string str_path)
         {
 
             this.path = str_path;
-            var document = DocX.Load(str_path);
+            //复制到这里c、temp 防被占用
+            string sourceFile = str_path;
+            string filename = str_path.Split('\\')[str_path.Split('\\').Count() - 1];
+            string destinationFile = @$"c:\temp\{filename}";
+            bool isrewrite = true; // true=覆盖已存在的同名文件,false则反之
+            System.IO.File.Copy(sourceFile, destinationFile, isrewrite);
+            this.path = destinationFile;
+
+            var document = DocX.Load(path);
             this.document = document;
 
-            //获取savepath （同目录下加上-out）
-            string text = path;
-            string filename = text.Split('\\')[text.Split('\\').Count() - 1];
-            savepath = text.Replace(filename, "");
+            //获取savepath （桌面/out/文件名）
+
+
+
             //string newfilename = filename.Split(".")[0] + "-out." + filename.Split(".")[1];
             //savepath = savepath + newfilename;
 
             // 把文件拷贝到temp文件夹防止被占用
-            string sourceFile = str_path;
-            string destinationFile = @"c:\temp\temp.docx";
-            bool isrewrite = true; // true=覆盖已存在的同名文件,false则反之
-            System.IO.File.Copy(sourceFile, destinationFile, isrewrite);
-            this.path = destinationFile;
+
+
+
+            
+
         }
+
+        public Cell Get_cell(int tableindex, int rowindex, int cellindex)
+        {
+            try
+            {
+                return document.Tables[tableindex]
+                        .Rows[rowindex]
+                        .Cells[cellindex];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("cell is not exist!");
+                return null;
+            }
+        }
+
+        public Cell Get_cell_from_table( Table table, int rowindex, int cellindex)
+        {
+            try
+            {
+                return table.Rows[rowindex].Cells[cellindex];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("cell is not exist!");
+                return null;
+            }
+            
+        }
+
+        public void table_add_merged_cell(Table table, string v)
+        {
+            table.InsertRow();
+            Row lastrow = table.Rows[table.RowCount - 1];
+
+            lastrow.MergeCells(0,lastrow.Cells.Count -1 );
+
+            Cell cell = lastrow.Cells[0];
+            cell_settext(cell,v);
+        }
+
+        public List<string> cell_get_textList(Cell cell)
+        {
+            if(cell == null) return null;
+            List<string> texts = new List<string>();
+
+            foreach (var p in cell.Paragraphs)
+            {
+                texts.Add(p.Text);
+            }
+            return texts;
+        }
+
+        public string cell_get_text(Cell cell)
+        {
+
+            if (cell == null) return null;
+            string texts = "";
+
+            foreach (var p in cell.Paragraphs)
+            {
+                texts += p.Text;
+            }
+            return texts;
+        }
+
+        public void cell_clear(Cell cell)
+        {
+            if (cell == null) return;
+
+            var paragraphs = cell.Paragraphs;
+            foreach (var paragraph in paragraphs)
+            {
+                cell.RemoveParagraph(paragraph);
+            }
+            cell.InsertParagraph("");//最后添加一个防止word报错
+           
+        }
+
+        public void cell_settext(Cell cell, string v)
+        {
+            cell_clear(cell);
+            cell.Paragraphs[0].Append(v);
+
+            //居中五号
+            cell.Paragraphs[0].Alignment = Alignment.center;
+            cell.Paragraphs[0].FontSize(10.5d);
+
+        }
+
+        public void table_lastcell_ganggang(Table table)
+        {
+            int linelength = table.Rows[0].Cells.Count;
+            int lastindex = linelength - 1;
+            int rowcount = table.RowCount;
+            for (int i = 1; i < rowcount; i++)
+            {
+                Cell cell = table.Rows[i].Cells[lastindex];
+                cell_settext(cell, "--");
+            }
+        }
+
+
+
+
+        #region 段落查找
+
 
         public Paragraph Find_Paragraph_for_p(string v)
         {
@@ -43,7 +160,7 @@ namespace archiver
             {
                 if (p.Text.Contains(v))
                 {
-                    //mylog("【找到:】" + p.Text + Environment.NewLine);
+                    Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
                     return p;
                 }
             }
@@ -57,7 +174,7 @@ namespace archiver
             {
                 if (p.Text.Contains(v))
                 {
-                    //mylog("【找到:】" + p.Text + Environment.NewLine);
+                    Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
                     plist.Add( p);
                 }
             }
@@ -91,7 +208,9 @@ namespace archiver
             }
             return ilist;
         }
+        #endregion
 
+        #region 段落替换    
         //进行换字功能前请先设置好字典。
         //可以同时替换多个位置的文字。
         //前提是替换用变量前写成【xxx】这种格式，两边都是中文方括号即可
@@ -136,12 +255,36 @@ namespace archiver
             return findStr;
         }
 
+        #endregion
 
+        #region save
 
+        //使用原文件名保存
         public bool save()
         {
+            checkoutdir();
+            string text = this.path;
+            string filename = text.Split('\\')[text.Split('\\').Count() - 1];
+            string savepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + "out" + "//" + filename;
             document.SaveAs(savepath);
             return true;
         }
+        //新建名称保存
+        public bool save(string filename)
+        {
+            checkoutdir();
+            string savepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + "out" + "//" + filename;
+            document.SaveAs(savepath);
+            return true;
+        }
+        private void checkoutdir()
+        {
+            string outpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + '\\' + "out";
+            if (!Directory.Exists(outpath))
+                Directory.CreateDirectory(outpath);
+        }
+
+        #endregion
+
     }
 }
