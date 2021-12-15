@@ -29,15 +29,7 @@ namespace archiver
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var tables = doc.document.Tables;
-            foreach (var table in tables)
-            {
-                doc.table_add_merged_cell(table, "本次测评为设计");
-            }
-            mylog("-- merge");
 
-
-            doc.save();
         }
 
         #region hide
@@ -75,9 +67,18 @@ namespace archiver
         }
         #endregion
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            mylog(myutil. get_string_after(textBox_input.Text, "离开家", "；拉伸看解法，".Length));
+
+        }
+
+
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
+
+
     }
 }

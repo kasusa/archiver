@@ -36,6 +36,10 @@ namespace archiver
         private void textBox1_DragDrop(object sender, DragEventArgs e)
         {
             textBox1.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            string path = textBox1.Text;
+
+            doc = new myutil(path);
+
         }
 
         private void textBox1_DragEnter(object sender, DragEventArgs e)
@@ -61,7 +65,35 @@ namespace archiver
         }
         private void gp1_button1_Click(object sender, EventArgs e)
         {
-
+            string a = "";
+            tempo._replacePatterns.Clear();
+            a = doc.Paragraphs[0].Text;
+            a = myutil.get_string_after(a, "报告编号", "31001322060-19012-21-0092-01".Length);
+            tempo.write_dictionary("报告编号", a);
+            a = myutil.get_string_before(a, "-0092", "31001322060-19012".Length);
+            tempo.write_dictionary("备案号", a);
+            a = doc.table_Get_cell_text(doc.tables[4], 4, 1);
+            a = myutil.get_string_bewteen(a, "综合得分为", "分");
+            tempo.write_dictionary("分数", a);
+            a = doc.table_Get_cell_text(doc.tables[2], 1, 1);
+            str_公司 = a;
+            tempo.write_dictionary("xxx公司", a);
+            a = doc.table_Get_cell_text(doc.tables[1], 1, 1);
+            str_系统 = a;
+            tempo.write_dictionary("xxx系统", a);
+            a = doc.table_Get_cell_text(doc.tables[1], 1, 3);
+            if (a.Contains("3")) a = "3";
+            else if (a.Contains("2")) a = "2";
+            tempo.write_dictionary("级别数字", a);
+            this.Hide();
+            Console.WriteLine("还请输入：");
+            tempo.cw_read_dictionary("项目编号");
+            tempo.cw_read_dictionary("起始日期");
+            tempo.cw_read_dictionary("出报告日期");
+            tempo.cw_read_dictionary("我方人员");
+            tempo.ReplaceTextWithText_all();
+            this.Show();
+            doc.save($"出报告申请_{str_公司}_{str_系统}.docx");
         }
         //手工录入
         private void gp2_button1_Click(object sender, EventArgs e)

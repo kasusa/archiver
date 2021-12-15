@@ -14,6 +14,8 @@ namespace archiver
     {
         public DocX document = null;
         public string path = "";
+        public List<Table> tables;
+        public System.Collections.ObjectModel.ReadOnlyCollection<Paragraph> Paragraphs;
         
         public myutil(string str_path)
         {
@@ -29,39 +31,63 @@ namespace archiver
 
             var document = DocX.Load(path);
             this.document = document;
-
-            //获取savepath （桌面/out/文件名）
-
-
-
-            //string newfilename = filename.Split(".")[0] + "-out." + filename.Split(".")[1];
-            //savepath = savepath + newfilename;
-
-            // 把文件拷贝到temp文件夹防止被占用
-
-
-
-            
+            this.tables = document.Tables;
+            this.Paragraphs = document.Paragraphs;
 
         }
+        #region string操作    
 
-        public Cell Get_cell(int tableindex, int rowindex, int cellindex)
+        /// <summary>
+        /// 获取str中指定搜索字段后面的字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="str_search"></param>
+        /// <param name="len"></param>
+        /// <returns></returns>
+        public static string get_string_after(string str, string str_search, int len)
         {
-            try
-            {
-                return document.Tables[tableindex]
-                        .Rows[rowindex]
-                        .Cells[cellindex];
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine("cell is not exist!");
-                return null;
-            }
+            string x = str.Substring(str.LastIndexOf(str_search) + str_search.Length, len);
+            return x;
         }
 
-        public Cell Get_cell_from_table( Table table, int rowindex, int cellindex)
+        public static string get_string_before(string str, string str_search, int len)
+        {
+            string x = str.Substring(str.LastIndexOf(str_search) - len, len);
+            return x;
+        }
+
+        /// <summary>
+        /// 获取字符串-中间部分
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="str_search"></param>
+        /// <param name="str_search2"></param>
+        /// <returns></returns>
+        public static string get_string_bewteen(string str, string str_search, string str_search2)
+        {
+            //截取前面一段
+            string x = str.Substring(0, str.LastIndexOf(str_search2));
+            //找到str_search末位置
+            int startindex = str.LastIndexOf(str_search) + str_search.Length;
+            //计算所需str长度
+            int len = x.Length - startindex;
+            //获取所需字符串
+            x = str.Substring(startindex, len);
+            return x;
+        }
+        #endregion
+
+
+        #region table操作
+
+        /// <summary>
+        /// 获取table中的指定cell
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="rowindex"></param>
+        /// <param name="cellindex"></param>
+        /// <returns></returns>
+        public Cell table_Get_cell(Table table, int rowindex, int cellindex)
         {
             try
             {
@@ -76,6 +102,24 @@ namespace archiver
             
         }
 
+        /// <summary>
+        /// 获取table指定 rowindex,cellindex的文字内容
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="rowindex"></param>
+        /// <param name="cellindex"></param>
+        /// <returns></returns>
+        public string table_Get_cell_text(Table table, int rowindex, int cellindex)
+        {
+            Cell cell = table.Rows[rowindex].Cells[cellindex];
+            return cell_get_text(cell);
+        }
+
+        /// <summary>
+        /// 给table增加一行合并行
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="v"></param>
         public void table_add_merged_cell(Table table, string v)
         {
             table.InsertRow();
@@ -85,8 +129,50 @@ namespace archiver
 
             Cell cell = lastrow.Cells[0];
             cell_settext(cell,v);
+
         }
 
+        /// <summary>
+        /// 把table最后一列杠杠(除了第一行)
+        /// </summary>
+        /// <param name="table"></param>
+        public void table_lastcell_ganggang(Table table)
+        {
+            int linelength = table.Rows[0].Cells.Count;
+            int lastindex = linelength - 1;
+            int rowcount = table.RowCount;
+            for (int i = 1; i < rowcount; i++)
+            {
+                Cell cell = table.Rows[i].Cells[lastindex];
+                cell_settext(cell, "--");
+            }
+        }
+        /// <summary>
+        /// 获取table第一行文字
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public string table_get_first_row_text(Table table)
+        {
+            string text = "";
+            var row = table.Rows.First();
+            int cellcount = row.Cells.Count;
+            for (int i = 0; i < cellcount; i++)
+            {
+               text += " "+ cell_get_text(table_Get_cell(table, 0, i));
+            }
+            Console.WriteLine(text);
+            return text;
+        }
+        #endregion
+
+        #region cell操作
+
+        /// <summary>
+        /// 获取cell的段落(string列表)
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
         public List<string> cell_get_textList(Cell cell)
         {
             if(cell == null) return null;
@@ -99,6 +185,11 @@ namespace archiver
             return texts;
         }
 
+        /// <summary>
+        /// 获取cell的内容文字（所有段落）
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
         public string cell_get_text(Cell cell)
         {
 
@@ -112,6 +203,10 @@ namespace archiver
             return texts;
         }
 
+        /// <summary>
+        /// 清空这个cell中的文字
+        /// </summary>
+        /// <param name="cell"></param>
         public void cell_clear(Cell cell)
         {
             if (cell == null) return;
@@ -125,6 +220,11 @@ namespace archiver
            
         }
 
+        /// <summary>
+        /// 为空cell添加内容（5号，居中）
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="v"></param>
         public void cell_settext(Cell cell, string v)
         {
             cell_clear(cell);
@@ -133,20 +233,11 @@ namespace archiver
             //居中五号
             cell.Paragraphs[0].Alignment = Alignment.center;
             cell.Paragraphs[0].FontSize(10.5d);
-
         }
 
-        public void table_lastcell_ganggang(Table table)
-        {
-            int linelength = table.Rows[0].Cells.Count;
-            int lastindex = linelength - 1;
-            int rowcount = table.RowCount;
-            for (int i = 1; i < rowcount; i++)
-            {
-                Cell cell = table.Rows[i].Cells[lastindex];
-                cell_settext(cell, "--");
-            }
-        }
+
+
+        #endregion
 
 
 
@@ -232,6 +323,12 @@ namespace archiver
             string x = Console.ReadLine();
             this._replacePatterns.Add(a, x);
             return x;
+        }
+        public void write_dictionary(string a,string x)
+        {
+            //a 被替换
+            //x 替换成
+            this._replacePatterns.Add(a, x);
         }
         public void ReplaceTextWithText_all()
         {
