@@ -33,8 +33,16 @@ namespace archiver
             this.document = document;
             this.tables = document.Tables;
             this.Paragraphs = document.Paragraphs;
-
+            
         }
+
+        public void remove_p(Paragraph paragraph)
+        {
+            document.RemoveParagraph(paragraph);
+        }
+
+
+
         #region string操作    
 
         /// <summary>
@@ -52,7 +60,7 @@ namespace archiver
 
         public static string get_string_before(string str, string str_search, int len)
         {
-            string x = str.Substring(str.LastIndexOf(str_search) - len, len);
+            string x = str.Substring(0,str.LastIndexOf(str_search) - len);
             return x;
         }
 
@@ -112,6 +120,11 @@ namespace archiver
         public string table_Get_cell_text(Table table, int rowindex, int cellindex)
         {
             Cell cell = table.Rows[rowindex].Cells[cellindex];
+            return cell_get_text(cell);
+        }
+        public string table_index_Get_cell_text(int tableindex, int rowindex, int cellindex)
+        {
+            Cell cell = this.tables[tableindex].Rows[rowindex].Cells[cellindex];
             return cell_get_text(cell);
         }
 
@@ -251,11 +264,27 @@ namespace archiver
             {
                 if (p.Text.Contains(v))
                 {
-                    Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
+                    //Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
                     return p;
                 }
             }
             return null;
+        }
+
+        public string Find_Paragraph_for_text(string v,int count = 1)
+        {
+            foreach (var p in document.Paragraphs)
+            {
+                if (p.Text.Contains(v))
+                {
+                    count--;
+                    if (count == 0)
+                    {
+                        return p.Text;
+                    }
+                }
+            }
+            return "";
         }
 
         public List<Paragraph> Find_Paragraph_for_plist( string v)
@@ -328,6 +357,7 @@ namespace archiver
         {
             //a 被替换
             //x 替换成
+            Console.WriteLine($"{a}\t:{x}");
             this._replacePatterns.Add(a, x);
         }
         public void ReplaceTextWithText_all()
