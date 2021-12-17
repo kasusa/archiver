@@ -18,17 +18,19 @@ namespace archiver
         public Form_出报告申请()
         {
             InitializeComponent();
-            try
+            string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + '\\' + "Sample\\出报告申请_模板.docx";
+            if (!File.Exists(tempo_path))
             {
-                string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + '\\' + "Sample\\出报告申请_模板.docx";
-                tempo = new myutil(tempo_path);
-            }
-            catch (Exception)
-            {
+                toolStripStatusLabel1.ForeColor = System.Drawing.Color.Red;
                 toolStripStatusLabel1.Text = "获取模板 失败，检查桌面的Sample\\出报告申请_模板.docx";
-                throw;
             }
-            toolStripStatusLabel1.Text = "获取模板 成功";
+            else
+            {
+                tempo = new myutil(tempo_path);
+
+                toolStripStatusLabel1.Text = "获取模板 成功";
+
+            }
 
         }
 
@@ -68,7 +70,7 @@ namespace archiver
             string a = "";
             tempo._replacePatterns.Clear();
             a = doc.Paragraphs[0].Text;
-            a = myutil.get_string_after(a, "报告编号", "31001322060-19012-21-0092-01".Length);
+            a = myutil.get_string_after(a, "报告编号：", "31001322060-19012-21-0092-01".Length);
             tempo.write_dictionary("报告编号", a);
             a = myutil.get_string_before(a, "-0092", "31001322060-19012".Length);
             tempo.write_dictionary("备案号", a);
@@ -93,6 +95,9 @@ namespace archiver
             tempo.cw_read_dictionary("我方人员");
             tempo.ReplaceTextWithText_all();
             this.Show();
+            Console.WriteLine("已经自动保存到桌面-out文件夹，按任意键继续……");
+            Console.ReadKey();
+            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
             doc.save($"出报告申请_{str_公司}_{str_系统}.docx");
         }
         //手工录入
