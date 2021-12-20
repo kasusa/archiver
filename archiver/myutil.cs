@@ -110,6 +110,22 @@ namespace archiver
             
         }
 
+        public Cell table_index_Get_cell(int i, int rowindex, int cellindex)
+        {
+            Table table = tables[i];
+            try
+            {
+                return table.Rows[rowindex].Cells[cellindex];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("cell is not exist!");
+                return null;
+            }
+
+        }
+
         /// <summary>
         /// 获取table指定 rowindex,cellindex的文字内容
         /// </summary>
@@ -252,7 +268,65 @@ namespace archiver
 
         #endregion
 
+        /// <summary>
+        /// 输入日期（2021年12月5日）输出 全大写日期 二〇二一年十二月五日
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static string datetochinese(string date)
+        {
+            Dictionary<string, string> chinese_data_dict = new Dictionary<string, string>() {
+            {"1", "一" },
+            {"2", "二"},
+            {"3", "三"},
+            {"4", "四"},
+            {"5", "五"},
+            {"6", "六"},
+            {"7", "七"},
+            {"8", "八"},
+            {"9", "九"},
+            {"0", "〇"}
+            };
+            Dictionary<string, string> chinese_data2_dict = new Dictionary<string, string>()
+            {
+                {"一", "十"},
+                {"二", "二十"},
+                {"三", "三十"},
+            };
 
+            foreach(var chr in date)
+            {
+                string c = chr.ToString();
+                if (chinese_data_dict.ContainsKey(c))
+                {
+                    date = date.Replace(c, chinese_data_dict[c]);
+                }
+            }
+
+            string y = date.Split("年")[0];
+            string m = date.Split("年")[1].Split("月")[0];
+            string temp = "";
+            if(m.Length == 2)
+            {
+                temp += chinese_data2_dict[m[0].ToString()];
+                temp += m[1];
+                m = temp;
+            }
+
+
+            string d = date.Split("月")[1].Split("日")[0];
+            temp = "";
+            if (d.Length == 2)
+            {
+                temp += chinese_data2_dict[d[0].ToString()];
+                temp += d[1];
+                d = temp;
+            }
+
+
+            date = y + "年" + m + "月" + d + "日";
+            return date;
+        }
 
 
         #region 段落查找

@@ -11,7 +11,6 @@ using Xceed.Document.NET;
 using Xceed.Words.NET;
 using System.Runtime.InteropServices;
 
-
 namespace archiver
 {
     public partial class Form1 : Form
@@ -29,7 +28,18 @@ namespace archiver
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            MyData.a_出报告日期 = doc.table_index_Get_cell_text(0, 2, 1).Trim();
+            MyData.a_甲方单位 = doc.table_index_Get_cell_text(0, 0, 1).Trim();
+            MyData.a_系统名称 = doc.table_index_Get_cell_text(1, 1, 1).Trim();
+            MyData.a_下标数量 = 3;
+            //todo 网络结构的描述要设定，用于填入报告-2.1.3网络描述中
+            MyData.a_网络结构 = "";
+            MyData.a_被测对象描述_1 = doc.table_index_Get_cell(4,3,1).Paragraphs[0].Text;
+            MyData.a_被测对象描述_2 = doc.table_index_Get_cell(4,3,1).Paragraphs[0].Text;
+            
+            //MyData.a_xitong;
+            mylog(MyData.a_系统名称);
+            mylog(MyData.a_被测对象描述_1);
 
         }
 
@@ -70,7 +80,6 @@ namespace archiver
 
         private void button2_Click(object sender, EventArgs e)
         {
-            mylog(myutil. get_string_after(textBox_input.Text, "离开家", "；拉伸看解法，".Length));
 
         }
 
