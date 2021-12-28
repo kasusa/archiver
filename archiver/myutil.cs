@@ -19,6 +19,10 @@ namespace archiver
         
         public myutil(string str_path)
         {
+            //如果没有创建temp文件夹（用于暂存文件）则自动创建
+            string tempath = @$"c:\temp";
+            if (!Directory.Exists(tempath))
+                Directory.CreateDirectory(tempath);
 
             this.path = str_path;
             //复制到这里c、temp 防被占用
