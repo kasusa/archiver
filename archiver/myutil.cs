@@ -272,6 +272,7 @@ namespace archiver
 
         #endregion
 
+        #region 年月日大写
         /// <summary>
         /// 输入日期（2021年12月5日）输出 全大写日期 二〇二一年十二月五日
         /// </summary>
@@ -331,6 +332,7 @@ namespace archiver
             date = y + "年" + m + "月" + d + "日";
             return date;
         }
+        #endregion
 
 
         #region 段落查找
@@ -445,6 +447,18 @@ namespace archiver
             {
                 // Do the replacement of all the found tags and with green bold strings.
                 document.ReplaceText("【(.*?)】", ReplaceFunc, false, RegexOptions.IgnoreCase);
+
+                // Save this document to disk.
+                Console.WriteLine("\tCreated: ReplacedTextWithText.docx\n");
+            }
+        }
+        public void ReplaceTextWithText_all_noBracket()
+        {
+            // Check if some of the replace patterns are used in the loaded document.
+            if (document.FindUniqueByPattern(@"(.*?)", RegexOptions.IgnoreCase).Count > 0)
+            {
+                // Do the replacement of all the found tags and with green bold strings.
+                document.ReplaceText("(.*?)", ReplaceFunc, false, RegexOptions.IgnoreCase);
 
                 // Save this document to disk.
                 Console.WriteLine("\tCreated: ReplacedTextWithText.docx\n");
