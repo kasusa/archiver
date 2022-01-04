@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -33,10 +34,20 @@ namespace archiver
             }
             else
             {
-                //tempo = new myutil(tempo_path);
                 toolStripStatusLabel1.Text = "获取模板 成功";
+                string[] fangan_list = Directory.GetFiles(tempo_path,"*.docx");
+
+                listBox1.Items.Clear();
+                foreach (var item in fangan_list)
+                {
+                    listBox1.Items.Add(item.Replace(tempo_path+"\\", ""));
+                }
             }
         }
 
+        private void Loadlist()
+        {
+
+        }
     }
 }
