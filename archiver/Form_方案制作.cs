@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using archiver.ConsoleColorWriter;
 
 namespace archiver
 {
@@ -13,18 +15,74 @@ namespace archiver
     {
         myutil doc;//等保报告
         myutil tempo;//出报告模板
+        string str_公司;
+        string str_系统;
+
         public Form_方案制作()
         {
+            
             InitializeComponent();
+            AllocConsole();
         }
-
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
         private void Form_方案制作_Load(object sender, EventArgs e)
         {
-            loadSample();
-
+            loadSampleList();
         }
 
+        #region textDrop
+        private void textBox1_DragDrop(object sender, DragEventArgs e)
+        {
+            textBox1.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            string path = textBox1.Text;
+
+            doc = new myutil(path);
+            toolStripStatusLabel1.Text = "加载测试报告完毕";
+        }
+
+        private void textBox1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Link;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+        #endregion
+
+        #region 加载模板
+
         private void loadSample()
+        {
+            if (listBox1.SelectedItem != null)
+            {
+                string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @$"\Sample\方案";
+                if (!System.IO.Directory.Exists(tempo_path))
+                {
+                    toolStripStatusLabel1.ForeColor = System.Drawing.Color.Red;
+                    toolStripStatusLabel1.Text = "获取模板 失败";
+                }
+                else
+                {
+                    //拼接字符串，加载项目模板
+                    string  a = tempo_path + "\\"+ listBox1.SelectedItem.ToString();
+                    tempo = new myutil(a);
+                    Console.WriteLine("模板已加载" + a);
+                }
+            }
+            else
+            {
+                toolStripStatusLabel1.ForeColor = System.Drawing.Color.Red;
+                toolStripStatusLabel1.Text = "先选择一个模板";
+            }
+        }
+
+        private void loadSampleList()
         {
             string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @$"\Sample\方案";
             if (!System.IO.Directory.Exists(tempo_path))
@@ -35,8 +93,8 @@ namespace archiver
             else
             {
                 toolStripStatusLabel1.Text = "获取模板 成功";
-                string[] fangan_list = Directory.GetFiles(tempo_path,"*.docx");
 
+                string[] fangan_list = Directory.GetFiles(tempo_path,"*.docx");
                 listBox1.Items.Clear();
                 foreach (var item in fangan_list)
                 {
@@ -44,10 +102,470 @@ namespace archiver
                 }
             }
         }
+        #endregion
 
+        /// <summary>
+        /// 重新搜索方案文件夹
+        /// </summary>
         private void Loadlist()
         {
+            string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @$"\Sample\方案";
+
+            string[] fangan_list = Directory.GetFiles(tempo_path, "*.docx");
+            listBox1.Items.Clear();
+            foreach (var item in fangan_list)
+            {
+                listBox1.Items.Add(item.Replace(tempo_path + "\\", ""));
+            }
+        }
+        /// <summary>
+        /// 刷新按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Loadlist();
+        }
+
+
+
+        //通过报告提取
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null)
+            {
+                toolStripStatusLabel1.Text = "请先选择一个模板文件。";
+                return;
+            }
+            loadSample();
+            // 设定预设临时变量
+            Xceed.Document.NET.Cell cell;
+            Xceed.Document.NET.Table table;
+            List<int> ilist = new List<int>();
+            List<Xceed.Document.NET.Table> tlist;
+            string tmpstr;
+            this.Hide();
+
+            Console.WriteLine("公司名↓");
+            tmpstr = "金元顺安基金管理有限公司";
+            tempo._replacePatterns.Add("AAAAA", tmpstr);
+            //tempo.cw_read_dictionary("AAAAA");
+
+
+            Console.WriteLine("系统名称↓");
+            tmpstr = "投资管理系统";
+            tempo._replacePatterns.Add("BBBBB", tmpstr);
+            //tempo.cw_read_dictionary("BBBBB");
+
+            Console.WriteLine("封面日期 2021年XX月XX日:");
+            cell = tempo.table_index_Get_cell(0, 3, 1);
+            tmpstr = "2021年12月31日";
+            tempo.cell_settext_Big(cell, tmpstr);
+
+
+            Console.WriteLine("方案作者:");
+            cell = tempo.table_index_Get_cell(1, 1, 1);
+            tmpstr = "黄瀚国";
+            tempo.cell_settext(cell, tmpstr);
+
+
+            Console.WriteLine("创作日期 2021-XX-XX:");
+            cell = tempo.table_index_Get_cell(1, 1, 3);
+            tmpstr = "2021-12-31";
+            tempo.cell_settext(cell, tmpstr);
+
+
+            Console.WriteLine("审核日期 2021-XX-XX:");
+            cell = tempo.table_index_Get_cell(2, 1, 3);
+            tmpstr = "2021-12-31";
+            tempo.cell_settext(cell, tmpstr);
+
+
+            Console.WriteLine("审核人:");
+            cell = tempo.table_index_Get_cell(2, 1, 1);
+            tmpstr = "陈家琦";
+            tempo.cell_settext(cell, tmpstr);
+
+            Console.WriteLine("系统责任描述↓");
+            tmpstr = "责任情况的描述";
+            tempo._replacePatterns.Add("被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。", tmpstr);
+
+
+            Console.WriteLine("系统业务描述↓");
+            tmpstr = "业务情况的描述";
+            tempo._replacePatterns.Add("系统提供的服务介绍；系统存储的主要业务数据。", tmpstr);
+
+            Console.WriteLine("系统功能截图↓");
+            //暂时还是先算了
+
+            Console.WriteLine("系统业务描述↓");
+            tmpstr = "网络架构的说明";
+            tempo._replacePatterns.Add("网络架构图说明。", tmpstr);
+            tempo.remove_p(tempo.Find_Paragraph_for_p("至少说明边界、区域划分、主要的设备等。"));
+
+            var p = tempo.Find_Paragraph_for_p("安全管理文档");
+            Console.WriteLine(p.Text);
+
+            Console.WriteLine("测评首日↓");
+            string day = "2021.11.20";
+            DateTime day1 = DateTime.Parse(day);
+            DateTime day2 = addOne_not_weekend(day1);
+            DateTime day3 = addOne_not_weekend(day2);
+            DateTime day4 = addOne_not_weekend(day3);
+            DateTime day5 = addOne_not_weekend(day4);
+            DateTime day6 = addOne_not_weekend(day5);
+            textBox1.Text = day6.ToString();
+
+            tlist = tempo.findTableList("序号	日期	时间	测评内容	测评方法	配合人员");
+            table = tlist[0];
+            cell = tempo.table_Get_cell(table, 1, 1);
+            tempo.cell_settext(cell, day1.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 4, 1);
+            tempo.cell_settext(cell, day2.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 7, 1);
+            tempo.cell_settext(cell, day3.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 9, 1);
+            tempo.cell_settext(cell, day4.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 11, 1);
+            tempo.cell_settext(cell, day5.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 13, 1);
+            tempo.cell_settext(cell, day6.ToString("yyyy.MM.dd"));
+
+
+            Console.WriteLine("\n 4.2	主要测评工具 表");
+            table = tempo.findTableList("序号	工具名称	厂商	系统版本	漏洞库版本")[0];
+            for (int i = 1; i < table.RowCount; i++)
+            {
+                cell = tempo.table_Get_cell(table, i, 1);
+                Console.WriteLine(i + " " + tempo.cell_get_text(cell));
+                ilist.Add(i);
+            }
+
+            Console.WriteLine("  输入要保留的测评工具序号(空格分隔):");
+            string v = Console.ReadLine();
+            var vlist = v.Split(" ");
+
+            foreach (var i in vlist)
+            {
+                ilist.Remove(Convert.ToInt32(i));
+            }
+            ilist.Reverse();
+            foreach (var i in ilist)
+            {
+                table.RemoveRow(i);
+            }
+
+            Console.WriteLine("\n 5.2	工具测试 表");
+
+            table = tempo.findTableList("序号 工具名称    测评对象 接入点 说明")[0];
+            ilist.Clear();
+            for (int i = 1; i < table.RowCount; i++)
+            {
+                cell = tempo.table_Get_cell(table, i, 1);
+                Console.WriteLine(i + " " + tempo.cell_get_text(cell));
+                ilist.Add(i);
+            }
+
+            Console.WriteLine("  输入要保留的测评工具序号(空格分隔):");
+            v = Console.ReadLine();
+            vlist = v.Split(" ");
+            foreach (var i in vlist)
+            {
+                ilist.Remove(Convert.ToInt32(i));
+            }
+            //倒序防止删除出问题
+            ilist.Reverse();
+            foreach (var i in ilist)
+            {
+                table.RemoveRow(i);
+            }
+
+
+
+            //替换所有字典中的文字
+            tempo.ReplaceTextWithText_all_noBracket();
+
+
+            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
+            tempo.save($"输出方案（测试）.docx");
+            this.Show();
+        }
+
+        #region 测试输出按钮
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null)
+            {
+                toolStripStatusLabel1.Text = "请先选择一个模板文件。";
+                return;
+            }
+            loadSample();
+            // 设定预设临时变量
+            Xceed.Document.NET.Cell cell;
+            Xceed.Document.NET.Table table;
+            List<int> ilist = new List<int>();
+            List<Xceed.Document.NET.Table> tlist;
+            string tmpstr;
+            this.Hide();
+
+            Console.WriteLine("公司名↓");
+            tmpstr = "金元顺安基金管理有限公司";
+            tempo._replacePatterns.Add("AAAAA", tmpstr);
+            //tempo.cw_read_dictionary("AAAAA");
+
+
+            Console.WriteLine("系统名称↓");
+            tmpstr = "投资管理系统";
+            tempo._replacePatterns.Add("BBBBB", tmpstr);
+            //tempo.cw_read_dictionary("BBBBB");
+
+            Console.WriteLine("封面日期 2021年XX月XX日:");
+            cell = tempo.table_index_Get_cell(0, 3, 1);
+            tmpstr = "2021年12月31日";
+            tempo.cell_settext_Big(cell, tmpstr);
+
+
+            Console.WriteLine("方案作者:");
+            cell = tempo.table_index_Get_cell(1, 1, 1);
+            tmpstr = "黄瀚国";
+            tempo.cell_settext(cell, tmpstr);
+
+
+            Console.WriteLine("创作日期 2021-XX-XX:");
+            cell = tempo.table_index_Get_cell(1, 1, 3);
+            tmpstr = "2021-12-31";
+            tempo.cell_settext(cell, tmpstr);
+
+
+            Console.WriteLine("审核日期 2021-XX-XX:");
+            cell = tempo.table_index_Get_cell(2, 1, 3);
+            tmpstr = "2021-12-31";
+            tempo.cell_settext(cell, tmpstr);
+
+
+            Console.WriteLine("审核人:");
+            cell = tempo.table_index_Get_cell(2, 1, 1);
+            tmpstr = "陈家琦";
+            tempo.cell_settext(cell, tmpstr);
+
+            Console.WriteLine("系统责任描述↓");
+            tmpstr = "责任情况的描述";
+            tempo._replacePatterns.Add("被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。", tmpstr);
+            
+            
+            Console.WriteLine("系统业务描述↓");
+            tmpstr = "业务情况的描述";
+            tempo._replacePatterns.Add("系统提供的服务介绍；系统存储的主要业务数据。", tmpstr);
+            
+            Console.WriteLine("系统功能截图↓");
+            //暂时还是先算了
+
+            Console.WriteLine("系统业务描述↓");
+            tmpstr = "网络架构的说明";
+            tempo._replacePatterns.Add("网络架构图说明。", tmpstr);
+            tempo.remove_p(tempo.Find_Paragraph_for_p("至少说明边界、区域划分、主要的设备等。"));
+
+            var p = tempo.Find_Paragraph_for_p("安全管理文档");
+            Console.WriteLine(p.Text);
+
+            Console.WriteLine("测评首日↓");
+            string day = "2021.11.20";
+            DateTime day1 = DateTime.Parse(day);
+            DateTime day2 = addOne_not_weekend(day1);
+            DateTime day3 = addOne_not_weekend(day2);
+            DateTime day4 = addOne_not_weekend(day3);
+            DateTime day5 = addOne_not_weekend(day4);
+            DateTime day6 = addOne_not_weekend(day5);
+            textBox1.Text = day6.ToString();
+
+            tlist = tempo.findTableList("序号	日期	时间	测评内容	测评方法	配合人员");
+            table = tlist[0];
+            cell = tempo.table_Get_cell(table, 1, 1);
+            tempo.cell_settext(cell, day1.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 4, 1);
+            tempo.cell_settext(cell, day2.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 7, 1);
+            tempo.cell_settext(cell, day3.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 9, 1);
+            tempo.cell_settext(cell, day4.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 11, 1);
+            tempo.cell_settext(cell, day5.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 13, 1);
+            tempo.cell_settext(cell, day6.ToString("yyyy.MM.dd"));
+
+            ConsoleWriter.WriteColoredText("主要测评工具 - 选择需要留下的工具序号(空格分隔)：", ConsoleColor.Green);
+            Delete_selectRow("序号	工具名称	厂商	系统版本	漏洞库版本");
+            ConsoleWriter.WriteColoredText("工具测试 - 选择需要留下的工具序号(空格分隔)：", ConsoleColor.Green);
+            Delete_selectRow("序号 工具名称    测评对象 接入点 说明");
+
+            
+            //替换所有字典中的文字
+            tempo.ReplaceTextWithText_all_noBracket();
+
+
+            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
+            tempo.save($"输出方案（测试）.docx");
+            this.Show();
+        }
+        #endregion
+
+        #region 小测试按钮
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null)
+            {
+                toolStripStatusLabel1.Text = "请先选择一个模板文件。";
+                return;
+            }
+            loadSample();
+            // 设定预设临时变量
+            Xceed.Document.NET.Cell cell;
+            Xceed.Document.NET.Table table;
+            List<int> ilist = new List<int>();
+            List<Xceed.Document.NET.Table> tlist;
+            string tmpstr;
+            this.Hide();
+            //Console.WriteLine("copy 表格 A.机房 →系统构成机房 ");
+            //CopyTable("序号	机房名称	物理位置	重要程度	备注", "序号	机房名称	物理位置	重要程度");
+
+            //Console.WriteLine("copy 表格 A.网络设备 →系统构成 网络设备 ");
+            //CopyTable("序号 设备名称    是否虚拟设备 系统及版本   品牌及型号 用途  重要程度  备注",
+            //    "序号	设备名称	虚拟设备	系统及版本	品牌型号	用途	重要程度	备注");
+            
+            //Console.WriteLine("copy 表格 A.安全设备 →系统构成 安全设备 ");
+            //CopyTable("序号	设备名称	是否虚拟设备	系统及版本	品牌及型号	用途	重要程度	备注",
+            //    "序号	设备名称	虚拟设备	系统及版本 品牌型号	用途	重要程度	备注",1,1);
+            
+            Console.WriteLine("copy 表格 A.服务器 →系统构成 服务器 ");
+            CopyTable(
+                "序号设备名称所属业务应用系统/平台虚拟设备操作系统及版本数据库管理系统及版本中间件及版本重要程度",
+                "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本	数据库管理系统及版本	中间件及版本	重要程度	备注"
+                );
+
+            
+
+
+
+            //替换所有字典中的文字
+            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
+            tempo.save($"输出方案（测试）.docx");
+            this.Show();
+
+           
 
         }
+
+
+
+        #endregion
+
+        #region 表格复制函数
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="t1head">table1 表头</param>
+        /// <param name="i1">table1 所在位数</param>
+        /// <param name="t2head">table2 表头</param>
+        /// <param name="i2">table 2 所在位数</param>
+        void CopyTable(string t1head, string t2head, int i1 = 0, int i2 = 0)
+        {
+            bool toremove = false;
+            var table1 = doc.findTableList(t1head)[i1];
+            ConsoleWriter.WriteColoredText("table 报告中 ↑", ConsoleColor.Green);
+            var table2 = tempo.findTableList(t2head)[i2];
+            ConsoleWriter.WriteColoredText("table 模板中 ↑", ConsoleColor.Green);
+            //如果t1比t2更宽，增加一列临时列
+            if (table1.ColumnCount > table2.ColumnCount)
+            {
+                table2.InsertColumn();
+                toremove = true;
+            }
+            //删除所有空的内容行
+            if (table2.RowCount > 1)
+            {
+                table2.RemoveRow(table2.RowCount - 1);
+            }
+            //从内容行数开始复制
+            for (int i = 1; i < table1.RowCount; i++)
+            {
+                Xceed.Document.NET.Row row = table1.Rows[i];
+
+                table2.InsertRow(row);
+            }
+            //删除多复制过来的列
+            if (toremove)
+            {
+                table2.RemoveColumn(table2.ColumnCount - 1);
+            }
+            ConsoleWriter.WriteColoredText("复制表完毕;", ConsoleColor.Yellow);
+
+        }
+
+        #endregion
+
+        #region 删除表格行数函数
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="t1head"></param>
+        /// <param name="i1"></param>
+        void Delete_selectRow(string t1head,int i1=0)
+        {
+            var table = tempo.findTableList(t1head)[i1];
+            List<int> ilist = new List<int>();
+            //输出所有的可选项
+            for (int i = 1; i < table.RowCount; i++)
+            {
+                var cell = tempo.table_Get_cell(table, i, 1);
+                Console.WriteLine(i + " " + tempo.cell_get_text(cell));
+                ilist.Add(i);
+            }
+            //读取用户的选择（保留项）
+            string v = Console.ReadLine();
+            var vlist = v.Split(" ");
+            //移除要保留的项目
+            foreach (var i in vlist)
+            {
+                ilist.Remove(Convert.ToInt32(i));
+            }
+            //倒序删除所有不需要的row
+            ilist.Reverse();
+            foreach (var i in ilist)
+            {
+                table.RemoveRow(i);
+            }
+        }
+        #endregion
+
+        #region 日期顺延函数
+        /// <summary>
+        /// 获取下一天且下一天不在周六、周日中
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public static DateTime addOne_not_weekend(DateTime day)
+        {
+           day = day.AddDays(1);
+           while(day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday)
+           {
+                day = day.AddDays(1);
+           }
+           return day;
+        }
+        #endregion
     }
+
 }

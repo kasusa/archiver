@@ -1,4 +1,5 @@
-﻿using System;
+﻿using archiver.ConsoleColorWriter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,7 +43,11 @@ namespace archiver
 
         public void remove_p(Paragraph paragraph)
         {
-            document.RemoveParagraph(paragraph);
+            if (paragraph != null)
+            {
+                document.RemoveParagraph(paragraph);
+
+            }
         }
 
 
@@ -92,6 +97,35 @@ namespace archiver
 
         #region table操作
 
+        public List<Table> findTableList(string v1)
+        {
+            v1 = v1.Replace(" ", "").Replace("\t", "");
+            List<Table> tlist = new List<Table>();
+            //Console.WriteLine("开始寻找表头是 :"+v1+ "的表格");
+            for (int i = 0; i < tables.Count; i++)
+            {
+                string rowstring = "";
+                for (int j = 0; j < tables[i].ColumnCount; j++)
+                {
+                    if (rowstring.Contains("安全通用要求测评指标类"))
+                    {
+                        break;
+                    }
+                    rowstring += cell_get_text(table_Get_cell(tables[i], 0, j));
+                }
+                Console.WriteLine("look@me:" + i + ":" + rowstring);
+
+                if (rowstring== v1)
+                {
+                    //Console.WriteLine("找到了table"+i);
+                    tlist.Add(tables[i]);
+                }
+            }
+                Console.WriteLine("找到table个数：" + tlist.Count);
+
+            return tlist;
+        }
+
         /// <summary>
         /// 获取table中的指定cell
         /// </summary>
@@ -111,7 +145,6 @@ namespace archiver
                 Console.WriteLine("cell is not exist!");
                 return null;
             }
-            
         }
 
         public Cell table_index_Get_cell(int i, int rowindex, int cellindex)
@@ -268,6 +301,18 @@ namespace archiver
             cell.Paragraphs[0].FontSize(10.5d);
         }
 
+        public void cell_settext_Big(Cell cell, string v)
+        {
+            cell_clear(cell);
+            cell.Paragraphs[0].Append(v);
+
+            //居中四号
+            cell.Paragraphs[0].Alignment = Alignment.center;
+            cell.Paragraphs[0].FontSize(14d);
+            cell.Paragraphs[0].Bold();
+            cell.Paragraphs[0].Font("宋体");
+
+        }
 
 
         #endregion
@@ -454,14 +499,9 @@ namespace archiver
         }
         public void ReplaceTextWithText_all_noBracket()
         {
-            // Check if some of the replace patterns are used in the loaded document.
-            if (document.FindUniqueByPattern(@"(.*?)", RegexOptions.IgnoreCase).Count > 0)
+            foreach(var keyValuePair in _replacePatterns)
             {
-                // Do the replacement of all the found tags and with green bold strings.
-                document.ReplaceText("(.*?)", ReplaceFunc, false, RegexOptions.IgnoreCase);
-
-                // Save this document to disk.
-                Console.WriteLine("\tCreated: ReplacedTextWithText.docx\n");
+                document.ReplaceText(keyValuePair.Key, keyValuePair.Value);
             }
         }
         //这个是上一个函数会利用的子函数，原理我不懂我是照着官方文档copy的
