@@ -43,3 +43,6 @@ C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.F
 C:\Users\kasusa\source\repos\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Form_方案制作.resources
 C:\Users\kasusa\source\repos\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Properties.Resources.resources
 C:\Users\kasusa\source\repos\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.form_loading.resources
+C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.form_loading.resources
+C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Form_方案制作.resources
+C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Properties.Resources.resources

@@ -44,6 +44,8 @@
             this.textBox_pingshen = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -55,14 +57,14 @@
             this.groupBox1.Controls.Add(this.listBox1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(667, 226);
+            this.groupBox1.Size = new System.Drawing.Size(671, 226);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "选择方案模板";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(607, 23);
+            this.button1.Location = new System.Drawing.Point(589, 23);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 23);
             this.button1.TabIndex = 2;
@@ -82,7 +84,8 @@
             "金融方案"});
             this.listBox1.Location = new System.Drawing.Point(6, 22);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(655, 191);
+            this.listBox1.ScrollAlwaysVisible = true;
+            this.listBox1.Size = new System.Drawing.Size(659, 191);
             this.listBox1.TabIndex = 0;
             // 
             // statusStrip1
@@ -91,7 +94,7 @@
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 343);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(687, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(693, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -104,6 +107,7 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button2.ForeColor = System.Drawing.Color.DarkGreen;
             this.button2.Location = new System.Drawing.Point(419, 273);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(94, 26);
@@ -114,7 +118,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(6, 25);
+            this.button3.Location = new System.Drawing.Point(82, 23);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 26);
             this.button3.TabIndex = 4;
@@ -124,11 +128,11 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(6, 57);
+            this.button4.Location = new System.Drawing.Point(6, 23);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 26);
             this.button4.TabIndex = 5;
-            this.button4.Text = "button4";
+            this.button4.Text = "查看图片列表";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -153,6 +157,7 @@
             // 
             // button5
             // 
+            this.button5.BackColor = System.Drawing.Color.WhiteSmoke;
             this.button5.ForeColor = System.Drawing.Color.Navy;
             this.button5.Location = new System.Drawing.Point(419, 305);
             this.button5.Name = "button5";
@@ -198,20 +203,42 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Location = new System.Drawing.Point(519, 247);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(160, 92);
+            this.groupBox2.Size = new System.Drawing.Size(164, 92);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "开发按钮";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(6, 55);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "button7";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(12, 316);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 14;
+            this.button6.Text = "使用教程";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form_方案制作
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(687, 365);
+            this.ClientSize = new System.Drawing.Size(693, 365);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.textBox_pingshen);
             this.Controls.Add(this.label3);
@@ -253,5 +280,7 @@
         private System.Windows.Forms.TextBox textBox_pingshen;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
     }
 }

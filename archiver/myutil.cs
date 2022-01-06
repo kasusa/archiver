@@ -1,6 +1,7 @@
 ﻿using archiver.ConsoleColorWriter;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ namespace archiver
         public string path = "";
         public List<Table> tables;
         public System.Collections.ObjectModel.ReadOnlyCollection<Paragraph> Paragraphs;
-        
+        public List<Bitmap> Bitmaplist;
         public myutil(string str_path)
         {
             //如果没有创建temp文件夹（用于暂存文件）则自动创建
@@ -38,8 +39,31 @@ namespace archiver
             this.document = document;
             this.tables = document.Tables;
             this.Paragraphs = document.Paragraphs;
-            
-            
+            List < Bitmap > bitmapList = new List<Bitmap>();
+
+            //获取bitmaplist
+            int i = 0;
+            document.Images.ToList().ForEach(image => {
+                Bitmap bitmap;
+                using (var stream = image.GetStream(FileMode.Open, FileAccess.ReadWrite))
+                {
+                    bitmap = new Bitmap(stream);
+                    if (bitmap.Size.Width > 30 && bitmap.Size.Height > 30)
+                    {
+                        bitmapList.Add(bitmap);
+                        //存储到文件方便后面添加
+                        bitmap.Save(@$"C:\temp\{i}.jpg");
+                        i++;
+                    }
+                }
+            });
+            bitmapList.Reverse();
+            //保存bitmaplist到对象
+            this.Bitmaplist = bitmapList;      
+
+
+
+
         }
         /// <summary>
         /// 

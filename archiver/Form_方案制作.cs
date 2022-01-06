@@ -7,8 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using archiver.ConsoleColorWriter;
+using Xceed.Document.NET;
 
 namespace archiver
 {
@@ -18,6 +20,7 @@ namespace archiver
         myutil tempo;//出报告模板
         string str_公司;
         string str_系统;
+        string str_P号;
 
         public Form_方案制作()
         {
@@ -145,7 +148,8 @@ namespace archiver
 
 
 
-        //通过报告提取
+        #region 通过报告制作
+
         private void button2_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem == null)
@@ -166,6 +170,7 @@ namespace archiver
             ConsoleWriter.WriteYEllow("项目编号↓");
             tmpstr = doc.Find_Paragraph_for_text("本报告记录编号：");
             tmpstr = myutil.get_string_after(tmpstr, "本报告记录编号：", "P202107109".Length);
+            str_P号 = tmpstr;
             tempo._replacePatterns.Add("P2021xxxxx", tmpstr);//后面页数
             tempo._replacePatterns.Add("P2021XXXXX", tmpstr);//首页
 
@@ -269,7 +274,7 @@ namespace archiver
             DateTime day4 = addOne_not_weekend(day3);
             DateTime day5 = addOne_not_weekend(day4);
             DateTime day6 = addOne_not_weekend(day5);
-            textBox1.Text = day6.ToString();
+            
 
             tlist = tempo.findTableList("序号	日期	时间	测评内容	测评方法	配合人员");
             table = tlist[0];
@@ -302,9 +307,12 @@ namespace archiver
 
 
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
-            tempo.save($"{str_公司}_{str_系统}_测评方案.docx");
+            tempo.save($"{str_P号}_{str_公司}_{str_系统}_测评方案.docx");
             this.Show();
         }
+
+        #endregion
+
 
         #region 测试输出按钮
         private void button3_Click(object sender, EventArgs e)
@@ -434,61 +442,58 @@ namespace archiver
         }
         #endregion
 
- 
 
-        #region 小测试按钮
+        #region 图片展示按钮
         private void button4_Click(object sender, EventArgs e)
         {
-
-
-            if (listBox1.SelectedItem == null)
+            if (textBox1.Text == "")
             {
-                toolStripStatusLabel1.Text = "请先选择一个模板文件。";
+                toolStripStatusLabel1.Text = "请先加载报告";
                 return;
             }
-            loadSample();
-            textBox1.Text = @"C:\Users\kasusa\Desktop\注册登记系统.docx";
-            textbox_do();
+            var form_a = new form_loading(doc.Bitmaplist);
+            form_a.Show();
 
-
-
-            Xceed.Document.NET.Cell cell;
-            Xceed.Document.NET.Table table;
-            List<int> ilist = new List<int>();
-            List<Xceed.Document.NET.Table> tlist;
-            string tmpstr;
-            string a;
-            this.Hide();
-
-            int i = doc.Find_Paragraph_for_ilist("网络结构")[1] +1;
-            a = doc.document.Paragraphs[i].Text;
-            Console.WriteLine(a);
-
-
-
-
-            //替换所有字典中的文字
-            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
-            tempo.save($"输出方案（测试button4）.docx");
-
-            ConsoleWriter.WriteYEllow(@"
-还有以下事项需要手工操作：
-1. 刷新目录
-2. 业务截图、拓扑图、工具测试图
-3. 是否涉及物理环境？删除相关字。
-4. 
-");
-            ConsoleWriter.WriteGray("jhy 2022-1");
-            this.Show();
-           
         }
+        #endregion
 
+        #region 测试按钮小
 
-        /// <summary>
-        /// 手动制作
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        private void button7_Click(object sender, EventArgs e)
+        {
+            //召唤图片窗体
+            Thread thread = new Thread(() => Thread1(doc.Bitmaplist));
+            thread.Start();
+
+            this.Hide();
+            Console.WriteLine("选择插入的图片序号：");
+            var a = Console.ReadLine();
+
+            string[] ilist = a.Split(" ");
+            var newdoc = new myutil();
+            string tmppath = @"C:\temp\";
+            foreach (var i in ilist)
+            {
+                var image = newdoc.document.AddImage(tmppath + $"{i}.jpg");
+                var picture = image.CreatePicture();
+                var p = newdoc.document.InsertParagraph("");
+                p.AppendPicture(picture);
+            }
+            newdoc.save($"button4-text.docx");
+            Console.WriteLine("已经保存");
+
+            this.Show();
+        }
+        static void Thread1(List<Bitmap> bitmaps)
+        {
+            //展示bitmap窗体
+            Application.Run(new form_loading(bitmaps));
+
+        }
+        #endregion
+
+        #region 命令行制作
+
         private void button5_Click(object sender, EventArgs e)
         // 手动制作
         {
@@ -508,6 +513,7 @@ namespace archiver
 
             ConsoleWriter.WriteYEllow("项目编号↓");
             tmpstr = Console.ReadLine();
+            str_P号 = tmpstr;
             tempo._replacePatterns.Add("P2021xxxxx", tmpstr);//后面页数
             tempo._replacePatterns.Add("P2021XXXXX", tmpstr);//首页
 
@@ -592,7 +598,6 @@ namespace archiver
             DateTime day4 = addOne_not_weekend(day3);
             DateTime day5 = addOne_not_weekend(day4);
             DateTime day6 = addOne_not_weekend(day5);
-            textBox1.Text = day6.ToString();
 
             tlist = tempo.findTableList("序号	日期	时间	测评内容	测评方法	配合人员");
             table = tlist[0];
@@ -619,14 +624,21 @@ namespace archiver
             //替换所有字典中的文字
             tempo.ReplaceTextWithText_all_noBracket();
 
+            ConsoleWriter.WriteYEllow(@"
+还有以下事项需要手工操作：
+1. 刷新目录
+2. 业务截图、拓扑图、工具测试图
+3. 是否涉及物理环境？删除相关字。
+4. 
+");
 
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
-            tempo.save($"{str_公司}_{str_系统}_测评方案.docx");
+            tempo.save($"{str_P号}{str_公司}_{str_系统}_测评方案.docx");
             this.Show();
         }
-
-
         #endregion
+
+
 
         #region 复制table\选择工具
 
@@ -904,7 +916,43 @@ namespace archiver
            }
            return day;
         }
+
         #endregion
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Console.WriteLine(@"
+本工具可以通过测评报告（2021版）生成项目方案
+
+0. 准备好Sample文件夹并放在桌面上
+1. 把报告拖动到textbox中
+2. 选择【自动制作】/【命令行制作】来生成报告
+2.1 在命令行输入选择要保留的扫描工具
+3. 生成之后在桌面out文件夹里可以找到生成的方案
+4. 按照提示进行部分手动更改后结束
+
+- [x] 项目编号
+- [x] AAAAA 公司
+- [x] BBBBB 项目
+- [x] 作者
+- [x] 发布日期 - 首页
+- [x] 发布日期 - 表格
+- [x] 审核日期 - 表格
+- [x] 被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。
+- [ ] 业务截图
+- [x] 业务描述
+- [ ] 拓扑图
+- [x] 拓扑描述
+- [x] 一堆表-1
+- [x] 一堆表-2
+- [x] 现场时间安排
+- [ ] 接入点图、接入工具修改");
+            ConsoleWriter.WriteSeperator('-');
+        ConsoleWriter.WriteYEllow("按Enter键继续");
+            Console.ReadLine();
+            this.Show();
+        }
 
 
     }
