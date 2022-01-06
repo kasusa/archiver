@@ -39,6 +39,19 @@ namespace archiver
             this.tables = document.Tables;
             this.Paragraphs = document.Paragraphs;
             
+            
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public myutil()
+        {
+            string str_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @$"\out\test.docx";
+
+            var document = DocX.Create(str_path);
+            this.document = document;
+            this.tables = document.Tables;
+            this.Paragraphs = document.Paragraphs;
         }
 
         public void remove_p(Paragraph paragraph)

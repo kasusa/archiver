@@ -38,6 +38,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -98,9 +99,9 @@
             // 
             this.button2.Location = new System.Drawing.Point(519, 244);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(94, 23);
             this.button2.TabIndex = 3;
-            this.button2.Text = "制作方案";
+            this.button2.Text = "自动制作";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -143,11 +144,22 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "拖放报告";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(519, 273);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(94, 23);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "命令行制作";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form_方案制作
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(691, 362);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button4);
@@ -178,5 +190,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button5;
     }
 }

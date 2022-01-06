@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -86,7 +87,7 @@ namespace archiver
                     //拼接字符串，加载项目模板
                     string  a = tempo_path + "\\"+ listBox1.SelectedItem.ToString();
                     tempo = new myutil(a);
-                    Console.WriteLine("模板已加载" + a);
+                    ConsoleWriter.WriteYEllow("模板已加载" + a);
                 }
             }
             else
@@ -161,67 +162,67 @@ namespace archiver
             string tmpstr;
             this.Hide();
 
-            Console.WriteLine("公司名↓");
+            ConsoleWriter.WriteYEllow("公司名↓");
             tmpstr = "金元顺安基金管理有限公司";
             tempo._replacePatterns.Add("AAAAA", tmpstr);
             //tempo.cw_read_dictionary("AAAAA");
 
 
-            Console.WriteLine("系统名称↓");
+            ConsoleWriter.WriteYEllow("系统名称↓");
             tmpstr = "投资管理系统";
             tempo._replacePatterns.Add("BBBBB", tmpstr);
             //tempo.cw_read_dictionary("BBBBB");
 
-            Console.WriteLine("封面日期 2021年XX月XX日:");
+            ConsoleWriter.WriteYEllow("封面日期 2021年XX月XX日:");
             cell = tempo.table_index_Get_cell(0, 3, 1);
             tmpstr = "2021年12月31日";
             tempo.cell_settext_Big(cell, tmpstr);
 
 
-            Console.WriteLine("方案作者:");
+            ConsoleWriter.WriteYEllow("方案作者:");
             cell = tempo.table_index_Get_cell(1, 1, 1);
             tmpstr = "黄瀚国";
             tempo.cell_settext(cell, tmpstr);
 
 
-            Console.WriteLine("创作日期 2021-XX-XX:");
+            ConsoleWriter.WriteYEllow("创作日期 2021-XX-XX:");
             cell = tempo.table_index_Get_cell(1, 1, 3);
             tmpstr = "2021-12-31";
             tempo.cell_settext(cell, tmpstr);
 
 
-            Console.WriteLine("审核日期 2021-XX-XX:");
+            ConsoleWriter.WriteYEllow("审核日期 2021-XX-XX:");
             cell = tempo.table_index_Get_cell(2, 1, 3);
             tmpstr = "2021-12-31";
             tempo.cell_settext(cell, tmpstr);
 
 
-            Console.WriteLine("审核人:");
+            ConsoleWriter.WriteYEllow("审核人:");
             cell = tempo.table_index_Get_cell(2, 1, 1);
             tmpstr = "陈家琦";
             tempo.cell_settext(cell, tmpstr);
 
-            Console.WriteLine("系统责任描述↓");
+            ConsoleWriter.WriteYEllow("系统责任描述↓");
             tmpstr = "责任情况的描述";
             tempo._replacePatterns.Add("被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。", tmpstr);
 
 
-            Console.WriteLine("系统业务描述↓");
+            ConsoleWriter.WriteYEllow("系统业务描述↓");
             tmpstr = "业务情况的描述";
             tempo._replacePatterns.Add("系统提供的服务介绍；系统存储的主要业务数据。", tmpstr);
 
-            Console.WriteLine("系统功能截图↓");
+            ConsoleWriter.WriteYEllow("系统功能截图↓");
             //暂时还是先算了
 
-            Console.WriteLine("系统业务描述↓");
+            ConsoleWriter.WriteYEllow("系统业务描述↓");
             tmpstr = "网络架构的说明";
             tempo._replacePatterns.Add("网络架构图说明。", tmpstr);
             tempo.remove_p(tempo.Find_Paragraph_for_p("至少说明边界、区域划分、主要的设备等。"));
 
             var p = tempo.Find_Paragraph_for_p("安全管理文档");
-            Console.WriteLine(p.Text);
+            ConsoleWriter.WriteYEllow(p.Text);
 
-            Console.WriteLine("测评首日↓");
+            ConsoleWriter.WriteYEllow("测评首日↓");
             string day = "2021.11.20";
             DateTime day1 = DateTime.Parse(day);
             DateTime day2 = addOne_not_weekend(day1);
@@ -229,7 +230,6 @@ namespace archiver
             DateTime day4 = addOne_not_weekend(day3);
             DateTime day5 = addOne_not_weekend(day4);
             DateTime day6 = addOne_not_weekend(day5);
-            textBox1.Text = day6.ToString();
 
             tlist = tempo.findTableList("序号	日期	时间	测评内容	测评方法	配合人员");
             table = tlist[0];
@@ -252,16 +252,16 @@ namespace archiver
             tempo.cell_settext(cell, day6.ToString("yyyy.MM.dd"));
 
 
-            Console.WriteLine("\n 4.2	主要测评工具 表");
+            ConsoleWriter.WriteYEllow("\n 4.2	主要测评工具 表");
             table = tempo.findTableList("序号	工具名称	厂商	系统版本	漏洞库版本")[0];
             for (int i = 1; i < table.RowCount; i++)
             {
                 cell = tempo.table_Get_cell(table, i, 1);
-                Console.WriteLine(i + " " + tempo.cell_get_text(cell));
+                ConsoleWriter.WriteYEllow(i + " " + tempo.cell_get_text(cell));
                 ilist.Add(i);
             }
 
-            Console.WriteLine("  输入要保留的测评工具序号(空格分隔):");
+            ConsoleWriter.WriteYEllow("  输入要保留的测评工具序号(空格分隔):");
             string v = Console.ReadLine();
             var vlist = v.Split(" ");
 
@@ -275,18 +275,18 @@ namespace archiver
                 table.RemoveRow(i);
             }
 
-            Console.WriteLine("\n 5.2	工具测试 表");
+            ConsoleWriter.WriteYEllow("\n 5.2	工具测试 表");
 
             table = tempo.findTableList("序号 工具名称    测评对象 接入点 说明")[0];
             ilist.Clear();
             for (int i = 1; i < table.RowCount; i++)
             {
                 cell = tempo.table_Get_cell(table, i, 1);
-                Console.WriteLine(i + " " + tempo.cell_get_text(cell));
+                ConsoleWriter.WriteYEllow(i + " " + tempo.cell_get_text(cell));
                 ilist.Add(i);
             }
 
-            Console.WriteLine("  输入要保留的测评工具序号(空格分隔):");
+            ConsoleWriter.WriteYEllow("  输入要保留的测评工具序号(空格分隔):");
             v = Console.ReadLine();
             vlist = v.Split(" ");
             foreach (var i in vlist)
@@ -328,68 +328,251 @@ namespace archiver
             string tmpstr;
             this.Hide();
 
-            Console.WriteLine("公司名↓");
+            ConsoleWriter.WriteYEllow("项目编号↓");
+            tmpstr = "P202199999";
+            tempo._replacePatterns.Add("P2021xxxxx", tmpstr);//后面页数
+            tempo._replacePatterns.Add("P2021XXXXX", tmpstr);//首页
+
+            ConsoleWriter.WriteYEllow("公司名↓");
             tmpstr = "金元顺安基金管理有限公司";
             tempo._replacePatterns.Add("AAAAA", tmpstr);
+
             //tempo.cw_read_dictionary("AAAAA");
 
 
-            Console.WriteLine("系统名称↓");
+
+            ConsoleWriter.WriteYEllow("系统名称↓");
             tmpstr = "投资管理系统";
             tempo._replacePatterns.Add("BBBBB", tmpstr);
             //tempo.cw_read_dictionary("BBBBB");
 
-            Console.WriteLine("封面日期 2021年XX月XX日:");
+            ConsoleWriter.WriteYEllow("封面日期 2021年XX月XX日:");
             cell = tempo.table_index_Get_cell(0, 3, 1);
             tmpstr = "2021年12月31日";
             tempo.cell_settext_Big(cell, tmpstr);
 
 
-            Console.WriteLine("方案作者:");
+            ConsoleWriter.WriteYEllow("方案作者:");
             cell = tempo.table_index_Get_cell(1, 1, 1);
             tmpstr = "黄瀚国";
             tempo.cell_settext(cell, tmpstr);
 
 
-            Console.WriteLine("创作日期 2021-XX-XX:");
+            ConsoleWriter.WriteYEllow("创作日期 2021-XX-XX:");
             cell = tempo.table_index_Get_cell(1, 1, 3);
             tmpstr = "2021-12-31";
             tempo.cell_settext(cell, tmpstr);
 
 
-            Console.WriteLine("审核日期 2021-XX-XX:");
+            ConsoleWriter.WriteYEllow("审核日期 2021-XX-XX:");
             cell = tempo.table_index_Get_cell(2, 1, 3);
             tmpstr = "2021-12-31";
             tempo.cell_settext(cell, tmpstr);
 
 
-            Console.WriteLine("审核人:");
+            ConsoleWriter.WriteYEllow("审核人:");
             cell = tempo.table_index_Get_cell(2, 1, 1);
             tmpstr = "陈家琦";
             tempo.cell_settext(cell, tmpstr);
 
-            Console.WriteLine("系统责任描述↓");
+            ConsoleWriter.WriteYEllow("系统责任描述↓");
             tmpstr = "责任情况的描述";
             tempo._replacePatterns.Add("被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。", tmpstr);
             
-            
-            Console.WriteLine("系统业务描述↓");
+
+            ConsoleWriter.WriteYEllow("系统业务描述↓");
             tmpstr = "业务情况的描述";
             tempo._replacePatterns.Add("系统提供的服务介绍；系统存储的主要业务数据。", tmpstr);
-            
-            Console.WriteLine("系统功能截图↓");
+
+            ConsoleWriter.WriteYEllow("系统功能截图↓");
             //暂时还是先算了
 
-            Console.WriteLine("系统业务描述↓");
+            ConsoleWriter.WriteYEllow("系统业务描述↓");
             tmpstr = "网络架构的说明";
             tempo._replacePatterns.Add("网络架构图说明。", tmpstr);
             tempo.remove_p(tempo.Find_Paragraph_for_p("至少说明边界、区域划分、主要的设备等。"));
 
             var p = tempo.Find_Paragraph_for_p("安全管理文档");
-            Console.WriteLine(p.Text);
+            ConsoleWriter.WriteYEllow(p.Text);
 
-            Console.WriteLine("测评首日↓");
+            ConsoleWriter.WriteYEllow("测评首日↓");
             string day = "2021.11.20";
+            DateTime day1 = DateTime.Parse(day);
+            DateTime day2 = addOne_not_weekend(day1);
+            DateTime day3 = addOne_not_weekend(day2);
+            DateTime day4 = addOne_not_weekend(day3);
+            DateTime day5 = addOne_not_weekend(day4);
+            DateTime day6 = addOne_not_weekend(day5);
+
+            tlist = tempo.findTableList("序号	日期	时间	测评内容	测评方法	配合人员");
+            table = tlist[0];
+            cell = tempo.table_Get_cell(table, 1, 1);
+            tempo.cell_settext(cell, day1.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 4, 1);
+            tempo.cell_settext(cell, day2.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 7, 1);
+            tempo.cell_settext(cell, day3.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 9, 1);
+            tempo.cell_settext(cell, day4.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 11, 1);
+            tempo.cell_settext(cell, day5.ToString("yyyy.MM.dd"));
+
+            cell = tempo.table_Get_cell(table, 13, 1);
+            tempo.cell_settext(cell, day6.ToString("yyyy.MM.dd"));
+
+
+            replace_tables_with_doc();
+
+            //替换所有字典中的文字
+            tempo.ReplaceTextWithText_all_noBracket();
+
+
+            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
+            tempo.save($"{str_公司}_{str_系统}_方案.docx");
+            this.Show();
+
+            
+        }
+        #endregion
+
+ 
+
+
+        #region 小测试按钮
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+
+            if (listBox1.SelectedItem == null)
+            {
+                toolStripStatusLabel1.Text = "请先选择一个模板文件。";
+                return;
+            }
+            loadSample();
+            //textBox1.Text = @"C:\Users\kasusa\Desktop\注册登记系统.docx";
+            //textbox_do();
+            // 设定预设临时变量
+            Xceed.Document.NET.Cell cell;
+            Xceed.Document.NET.Table table;
+            List<int> ilist = new List<int>();
+            List<Xceed.Document.NET.Table> tlist;
+            string tmpstr;
+            this.Hide();
+
+
+            //替换所有字典中的文字
+            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
+            tempo.save($"输出方案（测试button4）.docx");
+            this.Show();
+           
+        }
+
+
+        /// <summary>
+        /// 手动制作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button5_Click(object sender, EventArgs e)
+        // 手动制作
+        {
+            if (listBox1.SelectedItem == null)
+            {
+                toolStripStatusLabel1.Text = "请先选择一个模板文件。";
+                return;
+            }
+            loadSample();
+            // 设定预设临时变量
+            Xceed.Document.NET.Cell cell;
+            Xceed.Document.NET.Table table;
+            List<int> ilist = new List<int>();
+            List<Xceed.Document.NET.Table> tlist;
+            string tmpstr;
+            this.Hide();
+
+            ConsoleWriter.WriteYEllow("项目编号↓");
+            tmpstr = Console.ReadLine();
+            tempo._replacePatterns.Add("P2021xxxxx", tmpstr);//后面页数
+            tempo._replacePatterns.Add("P2021XXXXX", tmpstr);//首页
+
+            ConsoleWriter.WriteYEllow("公司名↓");
+            tmpstr = Console.ReadLine();
+            str_公司 = tmpstr;
+            tempo._replacePatterns.Add("AAAAA", tmpstr);
+
+            //tempo.cw_read_dictionary("AAAAA");
+
+
+
+            ConsoleWriter.WriteYEllow("系统名称↓");
+            tmpstr = Console.ReadLine();
+            str_系统 = tmpstr;
+            tempo._replacePatterns.Add("BBBBB", tmpstr);
+            //tempo.cw_read_dictionary("BBBBB");
+
+            ConsoleWriter.WriteYEllow("封面日期 2021年XX月XX日:");
+            cell = tempo.table_index_Get_cell(0, 3, 1);
+            tmpstr = "2021年12月31日";
+            tmpstr = Console.ReadLine();
+            tempo.cell_settext_Big(cell, tmpstr);
+
+
+            ConsoleWriter.WriteYEllow("方案作者:");
+            cell = tempo.table_index_Get_cell(1, 1, 1);
+            tmpstr = "黄瀚国";
+            tmpstr = Console.ReadLine();
+            tempo.cell_settext(cell, tmpstr);
+
+
+            ConsoleWriter.WriteYEllow("创作日期 2021-XX-XX:");
+            cell = tempo.table_index_Get_cell(1, 1, 3);
+            tmpstr = "2021-12-31";
+            tmpstr = Console.ReadLine();
+            tempo.cell_settext(cell, tmpstr);
+
+
+            ConsoleWriter.WriteYEllow("审核日期 2021-XX-XX:");
+            cell = tempo.table_index_Get_cell(2, 1, 3);
+            ConsoleWriter.WriteYEllow("自动使用创作日期同一天");
+            tempo.cell_settext(cell, tmpstr);
+
+
+            ConsoleWriter.WriteYEllow("审核人:");
+            cell = tempo.table_index_Get_cell(2, 1, 1);
+            tmpstr = "陈家琦";
+            tmpstr = Console.ReadLine();
+            tempo.cell_settext(cell, tmpstr);
+
+            ConsoleWriter.WriteYEllow("系统责任描述↓");
+            tmpstr = "责任情况的描述";
+            tmpstr = Console.ReadLine();
+            tempo._replacePatterns.Add("被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。", tmpstr);
+
+
+            ConsoleWriter.WriteYEllow("系统业务描述↓");
+            tmpstr = "业务情况的描述";
+            tmpstr = Console.ReadLine();
+            tempo._replacePatterns.Add("系统提供的服务介绍；系统存储的主要业务数据。", tmpstr);
+
+            ConsoleWriter.WriteYEllow("系统功能截图↓(未实现)");
+            //暂时还是先算了
+
+            ConsoleWriter.WriteYEllow("网络架构的说明↓");
+            tmpstr = "网络架构的说明";
+            tmpstr = Console.ReadLine();
+            tempo._replacePatterns.Add("网络架构图说明。", tmpstr);
+            tempo.remove_p(tempo.Find_Paragraph_for_p("至少说明边界、区域划分、主要的设备等。"));
+
+            //var p = tempo.Find_Paragraph_for_p("安全管理文档");
+            //ConsoleWriter.WriteYEllow(p.Text);
+
+            ConsoleWriter.WriteYEllow("测评首日↓");
+            string day = "2021.11.20";
+            tmpstr = Console.ReadLine();
             DateTime day1 = DateTime.Parse(day);
             DateTime day2 = addOne_not_weekend(day1);
             DateTime day3 = addOne_not_weekend(day2);
@@ -418,13 +601,31 @@ namespace archiver
             cell = tempo.table_Get_cell(table, 13, 1);
             tempo.cell_settext(cell, day6.ToString("yyyy.MM.dd"));
 
+
+            replace_tables_with_doc();
+            //替换所有字典中的文字
+            tempo.ReplaceTextWithText_all_noBracket();
+
+
+            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
+            tempo.save($"{str_公司}_{str_系统}_测评方案.docx");
+            this.Show();
+        }
+
+
+        #endregion
+
+        #region 复制table\选择工具
+
+        void replace_tables_with_doc()
+        {
             //删除多余的工具行
             ConsoleWriter.WriteColoredText("主要测评工具 - 选择需要留下的工具序号(空格分隔)：", ConsoleColor.Green);
             Delete_selectRow("序号	工具名称	厂商	系统版本	漏洞库版本");
             ConsoleWriter.WriteColoredText("工具测试 - 选择需要留下的工具序号(空格分隔)：", ConsoleColor.Green);
             Delete_selectRow("序号 工具名称    测评对象 接入点 说明");
 
-
+            //所有设备
             ConsoleWriter.WriteYEllow("copy 表格 A.机房 →系统构成机房 ");
             CopyTable("序号	机房名称	物理位置	重要程度	备注", "序号	机房名称	物理位置	重要程度");
 
@@ -449,9 +650,9 @@ namespace archiver
                 );
             //注意，模板这里的表格头部顺序和报告中不一样。
             ConsoleWriter.WriteYEllow("copy 表格 A.6	系统管理软件/平台 →系统构成 终端设备 ");
-            CopyTable(
+            CopyTable_withHead(
                 "序号	系统管理软件/平台名称	主要功能	版本	所在设备名称	重要程度	备注",
-                "序号	管理软件/平台名称主要功能 版本	所在设备名称	重要程度	备注"
+                "序号	管理软件/平台名称	所在设备名称	版本	主要功能	重要程度	备注"
                 );
             ConsoleWriter.WriteYEllow("copy 表格 A.7	业务应用系统软件/平台 →系统构成 终端设备 ");
             CopyTable(
@@ -474,37 +675,7 @@ namespace archiver
                 "序号	文档名称	主要内容"
                 , 1, 0);
 
-            //替换所有字典中的文字
-            tempo.ReplaceTextWithText_all_noBracket();
-
-
-            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
-            tempo.save($"输出方案（测试）.docx");
-            this.Show();
-        }
-        #endregion
-
-        #region 小测试按钮
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-
-            if (listBox1.SelectedItem == null)
-            {
-                toolStripStatusLabel1.Text = "请先选择一个模板文件。";
-                return;
-            }
-            loadSample();
-            textBox1.Text = @"C:\Users\kasusa\Desktop\注册登记系统.docx";
-            textbox_do();
-            // 设定预设临时变量
-            Xceed.Document.NET.Cell cell;
-            Xceed.Document.NET.Table table;
-            List<int> ilist = new List<int>();
-            List<Xceed.Document.NET.Table> tlist;
-            string tmpstr;
-            this.Hide();
-
+            //选中被测评的设备
             ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果机房 →选择结果 机房 ");
             CopyTable("序号	机房名称	物理位置	重要程度",
                 "序号	机房名称	物理位置	重要程度",
@@ -559,17 +730,7 @@ namespace archiver
                 "序号	文档名称	主要内容",
                 "序号	文档名称	主要内容",
                 1, 1);
-
-
-            //替换所有字典中的文字
-            toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
-            tempo.save($"输出方案（测试button4）.docx");
-            this.Show();
-           
         }
-
-
-
         #endregion
 
         #region 表格复制函数
@@ -685,7 +846,7 @@ namespace archiver
             for (int i = 1; i < table.RowCount; i++)
             {
                 var cell = tempo.table_Get_cell(table, i, 1);
-                Console.WriteLine(i + " " + tempo.cell_get_text(cell));
+                ConsoleWriter.WriteYEllow(i + " " + tempo.cell_get_text(cell));
                 ilist.Add(i);
             }
             //读取用户的选择（保留项）
@@ -721,6 +882,8 @@ namespace archiver
            return day;
         }
         #endregion
+
+
     }
 
 }
