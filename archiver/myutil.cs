@@ -427,6 +427,7 @@ namespace archiver
             List < Paragraph > plist = new List < Paragraph >();
             foreach (var p in document.Paragraphs)
             {
+
                 if (p.Text.Contains(v))
                 {
                     Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
@@ -435,32 +436,37 @@ namespace archiver
             }
             return plist;
         }
-        public int Find_Paragraph_for_i( string v)
+        public int Find_Paragraph_for_i( string v , int i1)
         {
-            for (int i = 0; i < document.Paragraphs.Count; i++)
+            int i = 0;
+            foreach (var p in document.Paragraphs)
             {
-                var p = document.Paragraphs[i];
                 if (p.Text.Contains(v))
                 {
-                    //mylog("【找到:】" + p.Text + Environment.NewLine + "在" + i);
+                    if (i1 > 0) { }
+                    Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
                     return i;
                 }
+                i++;
             }
+            
             return -1;
         }
 
         public List<int> Find_Paragraph_for_ilist( string v)
         {
             List<int> ilist = new List<int>();
-            for (int i = 0; i < document.Paragraphs.Count; i++)
+            int i = 0;
+            foreach (var p in document.Paragraphs)
             {
-                var p = document.Paragraphs[i];
                 if (p.Text.Contains(v))
                 {
-                    //mylog("【找到:】" + p.Text + Environment.NewLine + "在" + i);
-                    ilist.Add (i);
+                    //Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
+                    ilist.Add( i);
                 }
+                i++;
             }
+
             return ilist;
         }
         #endregion
