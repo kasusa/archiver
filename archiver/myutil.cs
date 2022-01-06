@@ -107,13 +107,10 @@ namespace archiver
                 string rowstring = "";
                 for (int j = 0; j < tables[i].ColumnCount; j++)
                 {
-                    if (rowstring.Contains("安全通用要求测评指标类"))
-                    {
-                        break;
-                    }
-                    rowstring += cell_get_text(table_Get_cell(tables[i], 0, j));
+                        rowstring += cell_get_text(table_Get_cell(tables[i], 0, j));
+                    
                 }
-                Console.WriteLine("look@me:" + i + ":" + rowstring);
+                //Console.WriteLine("look@me:" + i + ":" + rowstring);
 
                 if (rowstring== v1)
                 {
@@ -141,8 +138,8 @@ namespace archiver
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine("cell is not exist!");
+                //Console.WriteLine(e.Message);
+                //Console.WriteLine("cell is not exist!");
                 return null;
             }
         }

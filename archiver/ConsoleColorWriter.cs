@@ -161,7 +161,7 @@ namespace archiver.ConsoleColorWriter
         /// <param name="pBackgroundColor">The back color</param>
         /// <param name="pWriteLine">TRUE = creates a new line after text has been placed.</param>
         /// <param name="pWriteCurrentTime">TRUE = writes the current time in StandardFrontColor and StandardBackColor before writing the text.</param>
-        public static void WriteColoredText(string pText, ConsoleColor pFrontColor, ConsoleColor pBackgroundColor, bool pWriteLine = true, bool pWriteCurrentTime = true)
+        public static void WriteColoredText(string pText, ConsoleColor pFrontColor, ConsoleColor pBackgroundColor, bool pWriteLine = true, bool pWriteCurrentTime = false)
         {
             if (pWriteCurrentTime)
             {
@@ -177,6 +177,14 @@ namespace archiver.ConsoleColorWriter
                 Console.Write(pText);
             Console.ForegroundColor = StandardFrontColor;
             Console.BackgroundColor = StandardBackColor;
+        }
+        public static void WriteYEllow(string pText)
+        {
+            WriteColoredText(pText, ConsoleColor.Yellow);
+        }
+        public static void WriteGray(string pText)
+        {
+            WriteColoredText(pText, ConsoleColor.Gray,ConsoleColor.DarkBlue);
         }
     }
 }

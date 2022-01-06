@@ -37,9 +37,11 @@ namespace archiver
         {
             textBox1.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
             string path = textBox1.Text;
-
+            this.Hide();
+            ConsoleWriter.WriteColoredText("加载报告...",ConsoleColor.Green);
             doc = new myutil(path);
-            toolStripStatusLabel1.Text = "加载测试报告完毕";
+            ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
+            this.Show();
         }
 
         private void textBox1_DragEnter(object sender, DragEventArgs e)
@@ -53,6 +55,18 @@ namespace archiver
                 e.Effect = DragDropEffects.None;
             }
         }
+        //加载报告函数
+        void textbox_do()
+        {
+            string path = textBox1.Text;
+            this.Hide();
+            ConsoleWriter.WriteColoredText("加载报告...", ConsoleColor.Green);
+            doc = new myutil(path);
+            ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
+            this.Show();
+        }
+
+
         #endregion
 
         #region 加载模板
@@ -404,12 +418,62 @@ namespace archiver
             cell = tempo.table_Get_cell(table, 13, 1);
             tempo.cell_settext(cell, day6.ToString("yyyy.MM.dd"));
 
+            //删除多余的工具行
             ConsoleWriter.WriteColoredText("主要测评工具 - 选择需要留下的工具序号(空格分隔)：", ConsoleColor.Green);
             Delete_selectRow("序号	工具名称	厂商	系统版本	漏洞库版本");
             ConsoleWriter.WriteColoredText("工具测试 - 选择需要留下的工具序号(空格分隔)：", ConsoleColor.Green);
             Delete_selectRow("序号 工具名称    测评对象 接入点 说明");
 
-            
+
+            ConsoleWriter.WriteYEllow("copy 表格 A.机房 →系统构成机房 ");
+            CopyTable("序号	机房名称	物理位置	重要程度	备注", "序号	机房名称	物理位置	重要程度");
+
+            ConsoleWriter.WriteYEllow("copy 表格 A.网络设备 →系统构成 网络设备 ");
+            CopyTable("序号 设备名称    是否虚拟设备 系统及版本   品牌及型号 用途  重要程度  备注",
+                "序号	设备名称	虚拟设备	系统及版本	品牌型号	用途	重要程度	备注");
+
+            ConsoleWriter.WriteYEllow("copy 表格 A.安全设备 →系统构成 安全设备 ");
+            CopyTable("序号	设备名称	是否虚拟设备	系统及版本	品牌及型号	用途	重要程度	备注",
+                "序号	设备名称	虚拟设备	系统及版本 品牌型号	用途	重要程度	备注", 1, 1);
+
+            ConsoleWriter.WriteYEllow("copy 表格 A.服务器 →系统构成 服务器 ");
+            CopyTable(
+                "序号	设备名称	所属业务应用系统/平台名称	是否虚拟设备	操作系统及版本	数据库管理系统及版本	中间件及版本	重要程度	备注",
+                "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本	数据库管理系统及版本	中间件及版本	重要程度	备注"
+                );
+
+            ConsoleWriter.WriteYEllow("copy 表格 A.5终端设备 →系统构成 终端设备 ");
+            CopyTable(
+                "序号	设备名称	是否虚拟设备	操作系统/控制软件及版本	用途	重要程度	备注",
+                "序号	设备名称	虚拟设备	操作系统/控制软件及版本	设备类别/用途	重要程度	备注"
+                );
+            //注意，模板这里的表格头部顺序和报告中不一样。
+            ConsoleWriter.WriteYEllow("copy 表格 A.6	系统管理软件/平台 →系统构成 终端设备 ");
+            CopyTable(
+                "序号	系统管理软件/平台名称	主要功能	版本	所在设备名称	重要程度	备注",
+                "序号	管理软件/平台名称主要功能 版本	所在设备名称	重要程度	备注"
+                );
+            ConsoleWriter.WriteYEllow("copy 表格 A.7	业务应用系统软件/平台 →系统构成 终端设备 ");
+            CopyTable(
+                "序号	业务应用系统/平台名称	主要功能	业务应用软件及版本	开发厂商	重要程度	备注",
+                "序号	业务应用系统/平台名称	主要功能	业务应用软件及版本	开发厂商	重要程度"
+                );
+            ConsoleWriter.WriteYEllow("copy 表格 A.8 数据资源 →系统构成  数据资源");
+            CopyTable(
+                "序号	数据类别	所属业务应用	安全防护需求	重要程度",
+                "序号	数据类别	所属业务应用	安全防护需求"
+                , 1, 0);
+            ConsoleWriter.WriteYEllow("copy 表格 A.10 安全相关人员 →系统构成  安全相关人员");
+            CopyTable(
+                "序号	姓名	岗位/角色	联系方式	所属单位",
+                "序号	姓名	岗位/角色	联系方式"
+                , 1, 0);
+            ConsoleWriter.WriteYEllow("copy 表格 A.12 安全管理文档 →系统构成  管理文档");
+            CopyTable(
+                "序号	文档名称	主要内容",
+                "序号	文档名称	主要内容"
+                , 1, 0);
+
             //替换所有字典中的文字
             tempo.ReplaceTextWithText_all_noBracket();
 
@@ -423,12 +487,16 @@ namespace archiver
         #region 小测试按钮
         private void button4_Click(object sender, EventArgs e)
         {
+
+
             if (listBox1.SelectedItem == null)
             {
                 toolStripStatusLabel1.Text = "请先选择一个模板文件。";
                 return;
             }
             loadSample();
+            textBox1.Text = @"C:\Users\kasusa\Desktop\注册登记系统.docx";
+            textbox_do();
             // 设定预设临时变量
             Xceed.Document.NET.Cell cell;
             Xceed.Document.NET.Table table;
@@ -436,34 +504,68 @@ namespace archiver
             List<Xceed.Document.NET.Table> tlist;
             string tmpstr;
             this.Hide();
-            //Console.WriteLine("copy 表格 A.机房 →系统构成机房 ");
-            //CopyTable("序号	机房名称	物理位置	重要程度	备注", "序号	机房名称	物理位置	重要程度");
 
-            //Console.WriteLine("copy 表格 A.网络设备 →系统构成 网络设备 ");
-            //CopyTable("序号 设备名称    是否虚拟设备 系统及版本   品牌及型号 用途  重要程度  备注",
-            //    "序号	设备名称	虚拟设备	系统及版本	品牌型号	用途	重要程度	备注");
-            
-            //Console.WriteLine("copy 表格 A.安全设备 →系统构成 安全设备 ");
-            //CopyTable("序号	设备名称	是否虚拟设备	系统及版本	品牌及型号	用途	重要程度	备注",
-            //    "序号	设备名称	虚拟设备	系统及版本 品牌型号	用途	重要程度	备注",1,1);
-            
-            Console.WriteLine("copy 表格 A.服务器 →系统构成 服务器 ");
+            ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果机房 →选择结果 机房 ");
+            CopyTable("序号	机房名称	物理位置	重要程度",
+                "序号	机房名称	物理位置	重要程度",
+                0, 1);
+
+            ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果网路设备 →选择结果 网路设备 ");
+            CopyTable_withHead("序号	设备名称	虚拟设备  系统及版本   品牌及型号   用途  重要程度",
+                "序号	设备名称	虚拟设备	系统及版本	品牌型号  用途  重要程度  备注",
+                0, 2);
+
+            ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果安全设备 →选择结果 安全设备 ");
+            CopyTable_withHead("序号	设备名称	虚拟设备  系统及版本   品牌及型号   用途  重要程度",
+                "序号	设备名称	虚拟设备  系统及版本 品牌型号  用途  重要程度",
+                0, 0);
+
+            ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果 →选择结果 服务器 ");
+            CopyTable_withHead("序号	设备名称	所属业务应用系统/平台	虚拟设备  操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
+                "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
+                0, 0);
+
+            ConsoleWriter.WriteGray("Copy表格 2.3.2.5 终端设备 →选择结果 终端设备 ");
+            CopyTable_withHead("序号	设备名称	虚拟设备  操作系统及版本 用途  重要程度",
+                "序号	设备名称	虚拟设备  操作系统 /控制软件及版本 设备类别 / 用途 重要程度",
+                0, 0);
+
+
+            ConsoleWriter.WriteGray("Copy表格 2.3.2 系统管理软件/平台 → 选择结果 系统管理软件/平台 ");
+            CopyTable_withHead(
+                "序号	系统管理软件/平台名称	主要功能	版本	所在设备名称	重要程度",
+                "序号	管理软件/平台名称	所在设备名称	版本	主要功能	重要程度	备注",
+                0, 0);
+
+            ConsoleWriter.WriteGray("Copy表格 2.3.2	业务应用系统/平台 → 选择结果 业务应用软件/平台 ");
+            CopyTable_withHead(
+                "序号	业务应用系统/平台名称	主要功能	业务应用软件及版本	开发厂商	重要程度",
+                "序号	业务应用系统/ 平台名称   主要功能    业务应用软件及版本   开发厂商    重要程度",
+                0, 1);
+
+            ConsoleWriter.WriteGray("Copy表格 2.3.2	数据资源 → 选择结果 数据资源 ");
             CopyTable(
-                "序号设备名称所属业务应用系统/平台虚拟设备操作系统及版本数据库管理系统及版本中间件及版本重要程度",
-                "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本	数据库管理系统及版本	中间件及版本	重要程度	备注"
-                );
+                "序号	数据类别	所属业务应用	安全防护需求	重要程度",
+                "序号	数据类别	所属业务应用	安全防护需求",
+                1, 1);
 
-            
-
+            ConsoleWriter.WriteGray("Copy表格 2.3.2	人员 → 选择结果 人员 ");
+            CopyTable(
+                "序号	姓名	岗位/角色	联系方式	所属单位",
+                "序号	姓名	岗位/角色	联系方式",
+                1, 1);
+            ConsoleWriter.WriteGray("Copy表格 2.3.2	安全管理文档 → 选择结果 安全管理文档 ");
+            CopyTable(
+                "序号	文档名称	主要内容",
+                "序号	文档名称	主要内容",
+                1, 1);
 
 
             //替换所有字典中的文字
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
-            tempo.save($"输出方案（测试）.docx");
+            tempo.save($"输出方案（测试button4）.docx");
             this.Show();
-
            
-
         }
 
 
@@ -492,8 +594,13 @@ namespace archiver
                 table2.InsertColumn();
                 toremove = true;
             }
+            //如果t1比t2更窄，直接给t2瘦身
+            else if (table1.ColumnCount < table2.ColumnCount)
+            {
+                table2.RemoveColumn(table2.ColumnCount-1);
+            }
             //删除所有空的内容行
-            if (table2.RowCount > 1)
+            while (table2.RowCount > 1)
             {
                 table2.RemoveRow(table2.RowCount - 1);
             }
@@ -509,6 +616,54 @@ namespace archiver
             {
                 table2.RemoveColumn(table2.ColumnCount - 1);
             }
+            ConsoleWriter.WriteColoredText("复制表完毕;", ConsoleColor.Yellow);
+
+        }
+
+        /// <summary>
+        /// 复制表t1到表t2（包含表头）
+        /// </summary>
+        /// <param name="t1head">table1 表头</param>
+        /// <param name="i1">table1 所在位数</param>
+        /// <param name="t2head">table2 表头</param>
+        /// <param name="i2">table 2 所在位数</param>
+        void CopyTable_withHead(string t1head, string t2head, int i1 = 0, int i2 = 0)
+        {
+            bool toremove = false;
+            var table1 = doc.findTableList(t1head)[i1];
+            ConsoleWriter.WriteColoredText("table 报告中 ↑", ConsoleColor.Green);
+            var table2 = tempo.findTableList(t2head)[i2];
+            ConsoleWriter.WriteColoredText("table 模板中 ↑", ConsoleColor.Green);
+            //如果t1比t2更宽，增加一列临时列
+            if (table1.ColumnCount > table2.ColumnCount)
+            {
+                table2.InsertColumn();
+                toremove = true;
+            }
+            //如果t1比t2更窄，直接给t2瘦身
+            else if (table1.ColumnCount < table2.ColumnCount)
+            {
+                table2.RemoveColumn(table2.ColumnCount - 1);
+            }
+            //删除所有空的内容行
+            while (table2.RowCount > 1)
+            {
+                table2.RemoveRow(table2.RowCount - 1);
+            }
+            //从内容行数开始复制
+            for (int i = 0; i < table1.RowCount; i++)
+            {
+                Xceed.Document.NET.Row row = table1.Rows[i];
+
+                table2.InsertRow(row);
+            }
+            //删除多复制过来的列
+            if (toremove)
+            {
+                table2.RemoveColumn(table2.ColumnCount - 1);
+            }
+            //删除顶部的原始行（表头总是有问题服了）
+            table2.RemoveRow(0);
             ConsoleWriter.WriteColoredText("复制表完毕;", ConsoleColor.Yellow);
 
         }
