@@ -123,9 +123,11 @@ namespace archiver
         #endregion
 
         /// <summary>
-        /// 重新搜索方案文件夹
+        /// 刷新按钮
         /// </summary>
-        private void Loadlist()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
         {
             string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @$"\Sample\方案";
 
@@ -136,19 +138,10 @@ namespace archiver
                 listBox1.Items.Add(item.Replace(tempo_path + "\\", ""));
             }
         }
-        /// <summary>
-        /// 刷新按钮
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Loadlist();
-        }
 
 
 
-        #region 通过报告制作
+        #region 通过报告制作（自动）
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -313,7 +306,6 @@ namespace archiver
 
         #endregion
 
-
         #region 测试输出按钮
         private void button3_Click(object sender, EventArgs e)
         {
@@ -441,7 +433,6 @@ namespace archiver
             
         }
         #endregion
-
 
         #region 图片展示按钮
         private void button4_Click(object sender, EventArgs e)
@@ -637,7 +628,6 @@ namespace archiver
             this.Show();
         }
         #endregion
-
 
 
         #region 复制table\选择工具
@@ -946,6 +936,8 @@ namespace archiver
 
         #endregion
 
+        #region 帮助按钮
+
         private void button6_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -981,6 +973,7 @@ namespace archiver
             this.Show();
         }
 
+        #endregion
 
     }
 
