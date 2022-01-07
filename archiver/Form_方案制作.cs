@@ -644,15 +644,36 @@ namespace archiver
 
         void replace_tables_with_doc()
         {
-            int i;
-            i = doc.Find_Paragraph_for_ilist("本次验证测试使用以下工具：")[0];
-            ConsoleWriter.WriteGray("可能使用的扫描工具：");
-            ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
-            ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 2].Text);
+            try
+            {
+                int i;
+                i = doc.Find_Paragraph_for_ilist("本次验证测试使用以下工具：")[0];
+                ConsoleWriter.WriteGray("可能使用的扫描工具：");
+                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
+                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 2].Text);
 
-            i = doc.Find_Paragraph_for_ilist("渗透测试")[1];
-            ConsoleWriter.WriteGray("渗透测试的参考信息：");
-            ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
+
+            }
+            catch (Exception)
+            {
+
+                ConsoleWriter.WriteGray("无法获得扫描的提示信息");
+
+            }
+            try
+            {
+                int i;
+
+                i = doc.Find_Paragraph_for_ilist("渗透测试")[1];
+                ConsoleWriter.WriteGray("渗透测试的参考信息：");
+                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
+            }
+            catch (Exception)
+            {
+
+                ConsoleWriter.WriteGray("无法获得渗透测试的提示信息");
+            }
+
 
             //删除多余的工具行
             ConsoleWriter.WriteColoredText("↓主要测评工具 - 选择需要留下的工具序号(空格分隔)：", ConsoleColor.Green);
@@ -886,6 +907,12 @@ namespace archiver
             }
             //读取用户的选择（保留项）
             string v = Console.ReadLine();
+            if (v == "")
+            {
+                ConsoleWriter.WriteGray("本次测评未涉及工具。请后续自行在方案中修改。");
+                return;
+            }
+
             var vlist = v.Split(" ");
             //移除要保留的项目
             foreach (var i in vlist)
