@@ -186,7 +186,20 @@ namespace archiver
             ConsoleWriter.WriteYEllow("封面日期 2021年XX月XX日:");
             cell = tempo.table_index_Get_cell(0, 3, 1);
             a = doc.Find_Paragraph_for_text("方案编制过程。");
-            a = a.Substring("2、20xx年xx月xx日～".Length, "20xx年xx月xx日".Length);
+            //有的测评过程写的时间是左右都有年份的，有的不是。
+            if (a.Length == "1、2021年10月08日～2021年10月09日，测评准备过程。".Length)
+            {
+                a = a.Substring("2、20xx年xx月xx日～".Length, "20xx年xx月xx日".Length);
+            }
+            else
+            {
+                ConsoleWriter.WriteGray("gantaniangde");
+                string a1;
+                string a2;
+                a1 = a.Substring("2、".Length, "20xx年".Length);
+                a2 = a.Substring("2、20xx年xx月xx日～".Length, "xx月xx日".Length);
+                a = a1 + a2;
+            }
             tempo.cell_settext_Big(cell, a);
 
 
@@ -209,7 +222,19 @@ namespace archiver
             cell = tempo.table_index_Get_cell(1, 1, 3);
             tmpstr = "2021-12-31";
             a = doc.Find_Paragraph_for_text("方案编制过程。");
-            a = a.Substring("2、20xx年xx月xx日～".Length, "20xx年xx月xx日".Length);
+            //有的测评过程写的时间是左右都有年份的，有的不是。
+            if (a.Length == "1、2021年10月08日～2021年10月09日，方案编制过程。".Length)
+            {
+                a = a.Substring("2、20xx年xx月xx日～".Length, "20xx年xx月xx日".Length);
+            }
+            else
+            {
+                string a1;
+                string a2;
+                a1 = a.Substring("2、".Length, "20xx年".Length);
+                a2 = a.Substring("2、20xx年xx月xx日～".Length, "xx月xx日".Length);
+                a = a1 + a2;
+            }
             tmpstr = a.Replace("年", "-").Replace("日", "").Replace("月", "-");
             tempo.cell_settext(cell, tmpstr);
 
