@@ -285,7 +285,7 @@ namespace archiver
             string day = "2021.11.20";
             a = doc.Find_Paragraph_for_text("现场实施过程。");
             a = a.Substring("3、".Length, "20xx年xx月xx日".Length);
-            tmpstr = a;
+            day = a;
             DateTime day1 = DateTime.Parse(day);
             DateTime day2 = addOne_not_weekend(day1);
             DateTime day3 = addOne_not_weekend(day2);
@@ -473,30 +473,51 @@ namespace archiver
         }
         #endregion
 
-        #region 测试按钮小
+        #region 归档信息快查
 
         private void button7_Click(object sender, EventArgs e)
         {
-            //召唤图片窗体
-            Thread thread = new Thread(() => Thread1(doc.Bitmaplist));
-            thread.Start();
-
             this.Hide();
-            Console.WriteLine("选择插入的图片序号：");
-            var a = Console.ReadLine();
+            var cell = doc.table_index_Get_cell(0, 2, 1);
+            ConsoleWriter.WriteGray("报告日期：");
+            Console.WriteLine(doc.cell_get_text(cell));
 
-            string[] ilist = a.Split(" ");
-            var newdoc = new myutil();
-            string tmppath = @"C:\temp\";
-            foreach (var i in ilist)
+            ConsoleWriter.WriteGray("出任务时间：");
+            int k = doc.Find_Paragraph_for_ilist("本次等级测评分为四个过程")[0];
+            for (int i = k; i < k+5; i++)
             {
-                var image = newdoc.document.AddImage(tmppath + $"{i}.jpg");
-                var picture = image.CreatePicture();
-                var p = newdoc.document.InsertParagraph("");
-                p.AppendPicture(picture);
+                Console.WriteLine(doc.Paragraphs[i].Text);
             }
-            newdoc.save($"button4-text.docx");
-            Console.WriteLine("已经保存");
+
+
+            ConsoleWriter.WriteGray("测评设备：");
+            try
+            {
+                int i;
+                i = doc.Find_Paragraph_for_ilist("本次验证测试使用以下工具：")[0];
+                ConsoleWriter.WriteGray("可能使用的扫描工具：");
+                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
+                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 2].Text);
+            }
+            catch (Exception)
+            {
+                ConsoleWriter.WriteGray("无法获得扫描的提示信息");
+            }
+            try
+            {
+                int i;
+
+                i = doc.Find_Paragraph_for_ilist("渗透测试")[1];
+                ConsoleWriter.WriteGray("渗透测试的参考信息：");
+                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
+            }
+            catch (Exception)
+            {
+                ConsoleWriter.WriteGray("无法获得渗透测试的提示信息");
+            }
+
+            Console.WriteLine("任意按键继续……");
+            Console.ReadKey();
 
             this.Show();
         }
