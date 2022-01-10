@@ -46,6 +46,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -203,6 +204,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button8);
             this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Controls.Add(this.button4);
@@ -232,6 +234,16 @@
             this.button6.Text = "使用教程";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(87, 55);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "button8";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Form_方案制作
             // 
@@ -282,5 +294,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }

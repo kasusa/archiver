@@ -1021,6 +1021,37 @@ namespace archiver
 
         #endregion
 
+        #region 自动填空按钮
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var tables = doc.document.Tables;
+            foreach (var table in tables)
+            {
+                foreach(var row in table.Rows)
+                {
+                    bool jump = true;
+                    foreach(var cell in row.Cells)
+                    {
+                        if (jump)//跳过第一列（序号列）
+                        {
+                            jump = false;
+
+                            continue;
+                        }
+                        if (doc.cell_get_text(cell)=="")//如果没有杠，自动添加
+                        {
+                            doc.cell_settext(cell, "--");
+
+                        }
+
+                    }
+                }
+            }
+            doc.save("LD18-11 信息系统基本情况调查表.docx");
+            toolStripStatusLabel1.Text = "done!";
+        }
+        #endregion
+
     }
 
 }
