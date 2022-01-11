@@ -88,6 +88,39 @@ namespace archiver
             this.Show();
         }
 
+        //命令行模式
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ConsoleWriter.WriteGray("请输入（多行，空格分隔，输入Q离开）：");
+
+
+            foreach (var item in listBox1.Items)
+            {
+                string filenam = item.ToString();
+                myutil doc = new myutil(path_stub + filenam);
+                while (true)
+                {
+                    var line = Console.ReadLine().Split(" ");
+                    doc._replacePatterns.Add(line[0], line[1]);
+
+                }
+                doc.ReplaceTextWithText_all_noBracket();
+                Console.WriteLine("已经处理：" + filenam);
+                if (radioButton1.Checked)
+                {
+                    doc.save();
+                }
+                else
+                {
+                    doc.saveUrl(path_stub + filenam);
+                }
+            }
+            Console.WriteLine("处理完毕,保存到文件夹 out/replace");
+            ConsoleWriter.WriteSeperator('#');
+            this.Show();
+        }
+
         //刷新列表
         private void button2_Click(object sender, EventArgs e)
         {
@@ -134,6 +167,39 @@ namespace archiver
             {
                 radioButton1.Checked = true;
             }
+        }
+
+        //移除选中项目
+        private void button4_Click(object sender, EventArgs e)
+        {
+            List<int> f = new List<int>();
+            for (int i = listBox1.Items.Count - 1; i >0; i--)
+            {
+                if (listBox1.SelectedIndices.Contains(i))
+                {
+                    listBox1.Items.RemoveAt(i);
+                }
+            }
+            f.Reverse();
+
+            toolStripStatusLabel1.Text = "已删除";
+            
+        }
+
+        //仅保留选中项目
+        private void button5_Click(object sender, EventArgs e)
+        {
+            List<int> f = new List<int>();
+            for (int i = listBox1.Items.Count - 1; i > 0; i--)
+            {
+                if (!listBox1.SelectedIndices.Contains(i))
+                {
+                    listBox1.Items.RemoveAt(i);
+                }
+            }
+            f.Reverse();
+
+            toolStripStatusLabel1.Text = "已删除";
         }
     }
 }
