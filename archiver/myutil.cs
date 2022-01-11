@@ -576,6 +576,13 @@ namespace archiver
             document.SaveAs(savepath);
             return true;
         }
+        //保存到指定位置
+        public bool saveUrl(string url)
+        {
+            checkoutdir();
+            document.SaveAs(url);
+            return true;
+        }
         private void checkoutdir()
         {
             string outpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + '\\' + "out";

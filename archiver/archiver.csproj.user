@@ -11,6 +11,9 @@
     <Compile Update="Form_main.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Form_replaceForAll.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Form_出报告申请.cs">
       <SubType>Form</SubType>
     </Compile>

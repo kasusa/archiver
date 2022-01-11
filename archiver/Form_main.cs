@@ -53,5 +53,13 @@ namespace archiver
             a.ShowDialog();
             this.Show();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form a = new Form_replaceForAll();
+            a.ShowDialog();
+            this.Show();
+        }
     }
 }

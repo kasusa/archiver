@@ -17,8 +17,10 @@ namespace archiver
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            Application.Run(new Form_方案制作());
+            Application.Run(new Form_main());
+            //Application.Run(new Form_方案制作());
+            //Application.Run(new Form_replaceForAll());
+
         }
     }
 }

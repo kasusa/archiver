@@ -44,9 +44,9 @@
             this.textBox_pingshen = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -93,7 +93,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 354);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(693, 22);
             this.statusStrip1.TabIndex = 1;
@@ -215,6 +215,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "开发按钮";
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(83, 55);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "无限杠杠";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(6, 55);
@@ -235,21 +245,11 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(87, 55);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 7;
-            this.button8.Text = "button8";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
             // Form_方案制作
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(693, 365);
+            this.ClientSize = new System.Drawing.Size(693, 376);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.textBox_pingshen);
