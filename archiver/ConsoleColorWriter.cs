@@ -182,6 +182,10 @@ namespace archiver.ConsoleColorWriter
         {
             WriteColoredText(pText, ConsoleColor.Yellow);
         }
+        public static void WriteCyan(string pText)
+        {
+            WriteColoredText(pText, ConsoleColor.Cyan);
+        }
         public static void WriteGray(string pText)
         {
             WriteColoredText(pText, ConsoleColor.Gray,ConsoleColor.DarkBlue);

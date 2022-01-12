@@ -91,20 +91,42 @@ namespace archiver
         //命令行模式
         private void button3_Click(object sender, EventArgs e)
         {
+            if (textBox1.Text == "")
+            {
+                toolStripStatusLabel1.Text = "请先选择文件。";
+            }
             this.Hide();
-            ConsoleWriter.WriteGray("请输入（多行，空格分隔，输入Q离开）：");
+            Dictionary<string,string> map = new Dictionary<string,string>();
+            ConsoleWriter.WriteSeperator('-');
+            ConsoleWriter.WriteColoredText("请输入替换内容，支持多行，|（竖杠）分隔：",ConsoleColor.Green);
+            while (true)
+            {
+                var line = Console.ReadLine().Split("|");
+                if (line[0] == "") break;
+                if (line.Length==1)
+                {
+                    ConsoleWriter.WriteYEllow("未检查到竖杠，请正确地重新输入");
+                    continue;
+                }
+                map.Add(line[0], line[1]);
+                ConsoleWriter.WriteCyan("成功录入,请继续输入（回车离开）");
+            }
+
+            Console.WriteLine("获取到字典：");
+
+            foreach (var kvp in map)
+            {
+                ConsoleWriter.WriteCyan(kvp.Key + " → " + kvp.Value);
+            }
+            Console.WriteLine("将会替换:" + map.Count);
 
 
             foreach (var item in listBox1.Items)
             {
                 string filenam = item.ToString();
                 myutil doc = new myutil(path_stub + filenam);
-                while (true)
-                {
-                    var line = Console.ReadLine().Split(" ");
-                    doc._replacePatterns.Add(line[0], line[1]);
+                doc._replacePatterns = map;
 
-                }
                 doc.ReplaceTextWithText_all_noBracket();
                 Console.WriteLine("已经处理：" + filenam);
                 if (radioButton1.Checked)
@@ -134,16 +156,22 @@ namespace archiver
             {
                 path_stub = path + "\\";
                 string[] fangan_list = Directory.GetFiles(path, "*.docx");
+                
                 listBox1.Items.Clear();
                 foreach (var item in fangan_list)
                 {
-                    listBox1.Items.Add(item.Replace(path + "\\", ""));
+                    if (!item.StartsWith("~"))
+                    {
+                        listBox1.Items.Add(item.Replace(path + "\\", ""));
+                    }
                 }
             }
             //string text = textBox1.Text;
             //string filename = text.Split('\\')[text.Split('\\').Length - 1];
             toolStripStatusLabel1.Text = "已刷新";
         }
+
+        #region savelocation
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -168,12 +196,14 @@ namespace archiver
                 radioButton1.Checked = true;
             }
         }
+        #endregion
+
 
         //移除选中项目
         private void button4_Click(object sender, EventArgs e)
         {
             List<int> f = new List<int>();
-            for (int i = listBox1.Items.Count - 1; i >0; i--)
+            for (int i = listBox1.Items.Count - 1; i >=0; i--)
             {
                 if (listBox1.SelectedIndices.Contains(i))
                 {
@@ -190,7 +220,7 @@ namespace archiver
         private void button5_Click(object sender, EventArgs e)
         {
             List<int> f = new List<int>();
-            for (int i = listBox1.Items.Count - 1; i > 0; i--)
+            for (int i = listBox1.Items.Count - 1; i >= 0; i--)
             {
                 if (!listBox1.SelectedIndices.Contains(i))
                 {

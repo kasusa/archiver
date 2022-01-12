@@ -72,6 +72,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.AllowDrop = true;
             this.textBox1.Location = new System.Drawing.Point(79, 14);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(451, 23);
@@ -111,17 +112,21 @@
             // 
             // listBox1
             // 
+            this.listBox1.AllowDrop = true;
             this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 17;
             this.listBox1.Location = new System.Drawing.Point(79, 43);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(0);
             this.listBox1.Name = "listBox1";
             this.listBox1.ScrollAlwaysVisible = true;
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox1.Size = new System.Drawing.Size(451, 208);
             this.listBox1.TabIndex = 6;
+            this.listBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox1_DragDrop);
+            this.listBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox1_DragEnter);
             // 
             // label4
             // 
@@ -205,7 +210,7 @@
             this.保存位置.Controls.Add(this.radioButton1);
             this.保存位置.Location = new System.Drawing.Point(536, 151);
             this.保存位置.Name = "保存位置";
-            this.保存位置.Size = new System.Drawing.Size(205, 100);
+            this.保存位置.Size = new System.Drawing.Size(100, 100);
             this.保存位置.TabIndex = 11;
             this.保存位置.TabStop = false;
             this.保存位置.Text = "保存方式";
@@ -217,7 +222,7 @@
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(86, 21);
             this.radioButton2.TabIndex = 1;
-            this.radioButton2.Text = "替换源文件";
+            this.radioButton2.Text = "替换原文件";
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 

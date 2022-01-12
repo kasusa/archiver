@@ -118,16 +118,16 @@ namespace archiver
             tempo.write_dictionary("出报告日期",a);
 
             Console.WriteLine("三防信息A(如果没有请直接打回车)");
-            a = doc.Find_Paragraph_for_text("在防网页篡改方面：");
+            a = doc.Find_Paragraph_for_text("在防网页篡改方面");
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防网页篡改"));
             else
             {
-                a = a.Substring("在防网页篡改方面：".Length + 1) ;
+                a = a.Substring("在防网页篡改方面".Length + 1) ;
                 tempo.write_dictionary("防网页篡改", a);
             }
 
             Console.WriteLine("三防信息B.1");
-            a = doc.Find_Paragraph_for_text("在防数据泄露方面：");
+            a = doc.Find_Paragraph_for_text("在防数据泄露方面");
             if (a == "") a = doc.Find_Paragraph_for_text("在防数据泄漏方面：");
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防数据泄漏"));
             else
@@ -137,7 +137,7 @@ namespace archiver
             }
 
             Console.WriteLine("三防信息B.2");
-            a = doc.Find_Paragraph_for_text("在防数据勒索方面：");
+            a = doc.Find_Paragraph_for_text("在防数据勒索方面");
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防数据勒索"));
             else
             {
@@ -147,7 +147,7 @@ namespace archiver
             }
 
             Console.WriteLine("三防信息C");
-            a = doc.Find_Paragraph_for_text("在防服务中断方面：");
+            a = doc.Find_Paragraph_for_text("在防服务中断方面");
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防服务中断"));
             else
             {

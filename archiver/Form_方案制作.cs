@@ -164,12 +164,14 @@ namespace archiver
             tmpstr = doc.Find_Paragraph_for_text("本报告记录编号：");
             tmpstr = myutil.get_string_after(tmpstr, "本报告记录编号：", "P202107109".Length);
             str_P号 = tmpstr;
+            Console.WriteLine(tmpstr);
             tempo._replacePatterns.Add("P2021xxxxx", tmpstr);//后面页数
             tempo._replacePatterns.Add("P2021XXXXX", tmpstr);//首页
 
             ConsoleWriter.WriteYEllow("公司名↓");
             a = doc.table_Get_cell_text(doc.tables[2], 1, 1);
             str_公司 = a;
+            Console.WriteLine(a);
             tmpstr = a;
             tempo._replacePatterns.Add("AAAAA", tmpstr);
 
@@ -180,6 +182,8 @@ namespace archiver
             ConsoleWriter.WriteYEllow("系统名称↓");
             a = doc.table_Get_cell_text(doc.tables[1], 1, 1);
             str_系统 = a;
+            Console.WriteLine(a);
+
             tempo._replacePatterns.Add("BBBBB", a);
             //tempo.cw_read_dictionary("BBBBB");
 
@@ -200,6 +204,7 @@ namespace archiver
                 a2 = a.Substring("2、20xx年xx月xx日～".Length, "xx月xx日".Length);
                 a = a1 + a2;
             }
+            Console.WriteLine(a);
             tempo.cell_settext_Big(cell, a);
 
 
@@ -213,14 +218,34 @@ namespace archiver
             else
             {
                 tmpstr = textBox_zuozhe.Text;
-                Console.WriteLine(tmpstr);
             }
+            Console.WriteLine(tmpstr);
             tempo.cell_settext(cell, tmpstr);
 
 
             ConsoleWriter.WriteYEllow("创作日期 2021-XX-XX:");
             cell = tempo.table_index_Get_cell(1, 1, 3);
             tmpstr = "2021-12-31";
+            a = doc.Find_Paragraph_for_text("方案编制过程。");
+            //有的测评过程写的时间是左右都有年份的，有的不是。
+            if (a.Length == "1、2021年10月08日～2021年10月09日，方案编制过程。".Length)
+            {
+                a = a.Substring("2、".Length, "20xx年xx月xx日".Length);
+            }
+            else
+            {
+                string a1;
+                string a2;
+                a1 = a.Substring("2、".Length, "20xx年".Length);
+                a2 = a.Substring("2、".Length, "xx月xx日".Length);
+                a = a1 + a2;
+            }
+            tmpstr = a.Replace("年", "-").Replace("日", "").Replace("月", "-");
+            Console.WriteLine(tmpstr);
+            tempo.cell_settext(cell, tmpstr);
+
+
+            ConsoleWriter.WriteYEllow("审核日期 2021-XX-XX:");
             a = doc.Find_Paragraph_for_text("方案编制过程。");
             //有的测评过程写的时间是左右都有年份的，有的不是。
             if (a.Length == "1、2021年10月08日～2021年10月09日，方案编制过程。".Length)
@@ -236,12 +261,8 @@ namespace archiver
                 a = a1 + a2;
             }
             tmpstr = a.Replace("年", "-").Replace("日", "").Replace("月", "-");
-            tempo.cell_settext(cell, tmpstr);
-
-
-            ConsoleWriter.WriteYEllow("审核日期 2021-XX-XX:");
+            Console.WriteLine(tmpstr);
             cell = tempo.table_index_Get_cell(2, 1, 3);
-            ConsoleWriter.WriteYEllow("自动使用创作日期同一天");
             tempo.cell_settext(cell, tmpstr);
 
 
@@ -263,12 +284,14 @@ namespace archiver
             ConsoleWriter.WriteYEllow("系统责任描述↓");
             int i = doc.Find_Paragraph_for_ilist("总体评价")[0] + 1;
             a = doc.document.Paragraphs[i].Text;
+            Console.WriteLine(a);
             tempo._replacePatterns.Add("被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。", a);
 
 
             ConsoleWriter.WriteYEllow("系统业务描述↓");
             i = doc.Find_Paragraph_for_ilist("业务和采用的技术")[1] + 1;
             a = doc.document.Paragraphs[i].Text;
+            Console.WriteLine(a);
             tempo._replacePatterns.Add("系统提供的服务介绍；系统存储的主要业务数据。", a);
 
             ConsoleWriter.WriteYEllow("系统功能截图↓(未实现)");
@@ -277,6 +300,7 @@ namespace archiver
             ConsoleWriter.WriteYEllow("网络架构的说明↓");
             i = doc.Find_Paragraph_for_ilist("网络结构")[1] + 1;
             a = doc.document.Paragraphs[i].Text;
+            Console.WriteLine(a);
             tempo._replacePatterns.Add("网络架构图说明。", a);
             tempo.remove_p(tempo.Find_Paragraph_for_p("至少说明边界、区域划分、主要的设备等。"));
 
@@ -285,6 +309,7 @@ namespace archiver
             string day = "2021.11.20";
             a = doc.Find_Paragraph_for_text("现场实施过程。");
             a = a.Substring("3、".Length, "20xx年xx月xx日".Length);
+            Console.WriteLine("第一天："+a);
             day = a;
             DateTime day1 = DateTime.Parse(day);
             DateTime day2 = addOne_not_weekend(day1);
@@ -292,7 +317,6 @@ namespace archiver
             DateTime day4 = addOne_not_weekend(day3);
             DateTime day5 = addOne_not_weekend(day4);
             DateTime day6 = addOne_not_weekend(day5);
-            
 
             tlist = tempo.findTableList("序号	日期	时间	测评内容	测评方法	配合人员");
             table = tlist[0];
@@ -326,6 +350,8 @@ namespace archiver
 
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
             tempo.save($"{str_P号}_{str_公司}_{str_系统}_测评方案.docx");
+            tempo.save($"{str_P号}_GF01_测评方案_{str_系统}.docx");
+
             this.Show();
         }
 
@@ -453,6 +479,7 @@ namespace archiver
 
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
             tempo.save($"{str_公司}_{str_系统}_方案.docx");
+            tempo.save($"{str_P号}_GF01_测评方案_{str_系统}_方案.docx");
             this.Show();
 
             
@@ -478,6 +505,7 @@ namespace archiver
         private void button7_Click(object sender, EventArgs e)
         {
             this.Hide();
+            ConsoleWriter.WriteSeperator('^');
             var cell = doc.table_index_Get_cell(0, 2, 1);
             ConsoleWriter.WriteGray("报告日期：");
             Console.WriteLine(doc.cell_get_text(cell));
@@ -496,8 +524,10 @@ namespace archiver
                 int i;
                 i = doc.Find_Paragraph_for_ilist("本次验证测试使用以下工具：")[0];
                 ConsoleWriter.WriteGray("可能使用的扫描工具：");
-                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
-                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 2].Text);
+                ConsoleWriter.WriteYEllow(doc.document.Paragraphs[i-1].Text);
+
+                ConsoleWriter.WriteCyan(doc.document.Paragraphs[i + 1].Text);
+                ConsoleWriter.WriteCyan(doc.document.Paragraphs[i + 2].Text);
             }
             catch (Exception)
             {
@@ -509,16 +539,15 @@ namespace archiver
 
                 i = doc.Find_Paragraph_for_ilist("渗透测试")[1];
                 ConsoleWriter.WriteGray("渗透测试的参考信息：");
-                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
+                ConsoleWriter.WriteCyan(doc.document.Paragraphs[i + 1].Text);
             }
             catch (Exception)
             {
                 ConsoleWriter.WriteGray("无法获得渗透测试的提示信息");
             }
 
-            Console.WriteLine("任意按键继续……");
-            Console.ReadKey();
-
+            Console.WriteLine("按Enter继续……");
+            Console.ReadLine();
             this.Show();
         }
         static void Thread1(List<Bitmap> bitmaps)

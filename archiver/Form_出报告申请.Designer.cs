@@ -69,7 +69,7 @@
             this.gp1_button1.Name = "gp1_button1";
             this.gp1_button1.Size = new System.Drawing.Size(102, 23);
             this.gp1_button1.TabIndex = 2;
-            this.gp1_button1.Text = "从报告提取信息";
+            this.gp1_button1.Text = "自动制作";
             this.gp1_button1.UseVisualStyleBackColor = true;
             this.gp1_button1.Click += new System.EventHandler(this.gp1_button1_Click);
             // 
@@ -103,9 +103,9 @@
             // 
             this.gp2_button1.Location = new System.Drawing.Point(6, 21);
             this.gp2_button1.Name = "gp2_button1";
-            this.gp2_button1.Size = new System.Drawing.Size(124, 24);
+            this.gp2_button1.Size = new System.Drawing.Size(101, 24);
             this.gp2_button1.TabIndex = 5;
-            this.gp2_button1.Text = "通过命令行手工录入";
+            this.gp2_button1.Text = "命令行制作";
             this.gp2_button1.UseVisualStyleBackColor = true;
             this.gp2_button1.Click += new System.EventHandler(this.gp2_button1_Click);
             // 
