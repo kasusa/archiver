@@ -237,7 +237,7 @@ namespace archiver
                 string a1;
                 string a2;
                 a1 = a.Substring("2、".Length, "20xx年".Length);
-                a2 = a.Substring("2、".Length, "xx月xx日".Length);
+                a2 = a.Substring("2、20xx年".Length, "xx月xx日".Length);
                 a = a1 + a2;
             }
             tmpstr = a.Replace("年", "-").Replace("日", "").Replace("月", "-");
@@ -285,13 +285,26 @@ namespace archiver
             int i = doc.Find_Paragraph_for_ilist("总体评价")[0] + 1;
             a = doc.document.Paragraphs[i].Text;
             Console.WriteLine(a);
+            if (a == "")
+            {
+                ConsoleWriter.WriteErrorMessage("注意，未找到系统责任描述↓，请手动填写：");
+                a = Console.ReadLine();
+            }
             tempo._replacePatterns.Add("被测对象情况描述（必须包括被测对象责任主体、业务描述、网络拓扑描述）。", a);
 
 
             ConsoleWriter.WriteYEllow("系统业务描述↓");
             i = doc.Find_Paragraph_for_ilist("业务和采用的技术")[1] + 1;
             a = doc.document.Paragraphs[i].Text;
+
             Console.WriteLine(a);
+            
+            if (a == "")
+            {
+                ConsoleWriter.WriteErrorMessage("注意，未找到系统责任描述↓，请手动填写：");
+                a = Console.ReadLine();
+            }
+
             tempo._replacePatterns.Add("系统提供的服务介绍；系统存储的主要业务数据。", a);
 
             ConsoleWriter.WriteYEllow("系统功能截图↓(未实现)");
@@ -301,6 +314,16 @@ namespace archiver
             i = doc.Find_Paragraph_for_ilist("网络结构")[1] + 1;
             a = doc.document.Paragraphs[i].Text;
             Console.WriteLine(a);
+            ConsoleWriter.WriteCyan("请确认一下描述是否正确：(Enter确定，n 更换)");
+            int j = 1;
+            while (Console.ReadLine() == "n")
+            {
+                j++;
+                i = doc.Find_Paragraph_for_ilist("网络结构")[j] + 1;
+                a = doc.document.Paragraphs[i].Text;
+                Console.WriteLine(a+ "(Enter确定，n 更换)");
+                
+            }
             tempo._replacePatterns.Add("网络架构图说明。", a);
             tempo.remove_p(tempo.Find_Paragraph_for_p("至少说明边界、区域划分、主要的设备等。"));
 
