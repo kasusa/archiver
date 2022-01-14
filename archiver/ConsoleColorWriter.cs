@@ -190,5 +190,9 @@ namespace archiver.ConsoleColorWriter
         {
             WriteColoredText(pText, ConsoleColor.Gray,ConsoleColor.DarkBlue);
         }
+        public static void Writehiddeninfo(string pText)
+        {
+            WriteColoredText(pText, ConsoleColor.DarkGray);
+        }
     }
 }

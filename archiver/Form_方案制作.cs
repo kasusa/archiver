@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using archiver.ConsoleColorWriter;
+using archiver.Properties;
 using Xceed.Document.NET;
 
 namespace archiver
@@ -34,6 +35,9 @@ namespace archiver
         private void Form_方案制作_Load(object sender, EventArgs e)
         {
             loadSampleList();
+            //加载保存的人名
+            textBox_zuozhe.Text = Settings.Default.author_str;
+            textBox_pingshen.Text = Settings.Default.auditor_Str;
         }
 
         #region textDrop
@@ -538,7 +542,24 @@ namespace archiver
         {
             this.Hide();
             ConsoleWriter.WriteSeperator('^');
-            var cell = doc.table_index_Get_cell(0, 2, 1);
+            var table1 = doc.findTableList("被测对象")[0];
+            ConsoleWriter.WriteGray("被测对象名称:");
+            Cell cell = table1.Rows[1].Cells[1];
+            Console.WriteLine(doc.cell_get_text(cell));
+            ConsoleWriter.WriteGray("安全保护等级:");
+            cell = table1.Rows[1].Cells[3];
+            Console.WriteLine(doc.cell_get_text(cell));
+
+            table1 = doc.findTableList("被测单位")[0];
+
+            ConsoleWriter.WriteGray("被测单位:");
+            cell = table1.Rows[1].Cells[1];
+            Console.WriteLine(doc.cell_get_text(cell));
+            ConsoleWriter.WriteGray("联系人姓名（甲方）:");
+            cell = table1.Rows[3].Cells[2];
+            Console.WriteLine(doc.cell_get_text(cell));
+
+             cell = doc.table_index_Get_cell(0, 2, 1);
             ConsoleWriter.WriteGray("报告日期：");
             Console.WriteLine(doc.cell_get_text(cell));
 
@@ -1163,10 +1184,55 @@ namespace archiver
         }
         #endregion
 
+        #region 测试按钮
+
         private void button9_Click(object sender, EventArgs e)
         {
-            var table1 = doc.findTableList("序号	设备名称	所属业务应用系统/平台	虚拟设备  操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度")[0];
-            ConsoleWriter.WriteColoredText("table 报告中 ↑", ConsoleColor.Green);
+
+
+
+        }
+        #endregion
+
+
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+
+
+            Settings.Default.author_str = textBox_zuozhe.Text;
+            Settings.Default.auditor_Str = textBox_pingshen.Text;
+
+            toolStripStatusLabel1.Text = "已保存！下次会自动加载人名";
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+
+            //如何可以，顺便显示下时间安排
+            if (textBox1.Text != "")
+            {
+                ConsoleWriter.WriteGray("出任务时间：");
+                int k = doc.Find_Paragraph_for_ilist("本次等级测评分为四个过程")[0];
+                for (int i = k; i < k + 5; i++)
+                {
+                    Console.WriteLine(doc.Paragraphs[i].Text);
+                }
+            }
+
+            ConsoleWriter.WriteSeperator('-');
+            Console.WriteLine("模板时间提示：");
+            ConsoleWriter.WriteYEllow(@"
+[A3.0] 实施日期：2021.12.01
+[A2.5] 实施日期：2021-09-27
+[A2.4] 实施日期：2021-08-09
+[A2.3] 实施日期：2021-04-30
+[A2.2] 实施日期：2020-08-05
+[A2.1] 实施日期：2020-08-01");
+
+            toolStripStatusLabel1.Text = "提示已经显示在命令行";
+            this.Show();
         }
     }
 

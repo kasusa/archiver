@@ -155,7 +155,7 @@ namespace archiver
                     tlist.Add(tables[i]);
                 }
             }
-                Console.WriteLine("找到table个数：" + tlist.Count);
+                ConsoleWriter.Writehiddeninfo("找到table个数：" + tlist.Count);
 
             return tlist;
         }
