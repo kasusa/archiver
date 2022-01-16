@@ -25,7 +25,7 @@ namespace archiver.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("黄瀚国")]
         public string author_str {
             get {
                 return ((string)(this["author_str"]));
@@ -37,7 +37,7 @@ namespace archiver.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("陈家琦")]
         public string auditor_Str {
             get {
                 return ((string)(this["auditor_Str"]));

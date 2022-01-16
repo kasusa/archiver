@@ -376,8 +376,8 @@ namespace archiver
 
 
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
-            tempo.save($"{str_P号}_{str_公司}_{str_系统}_测评方案.docx");
-            tempo.save($"{str_P号}_GF01_测评方案_{str_系统}.docx");
+            //tempo.save($"{str_P号}_{str_公司}_{str_系统}_项目方案.docx");
+            tempo.save($"{str_P号}_GF01_项目方案_{str_系统}.docx");
 
             ConsoleWriter.WriteYEllow(@"
 已经自动保存到桌面-out文件夹
@@ -810,9 +810,18 @@ namespace archiver
                 "序号	设备名称	虚拟设备	系统及版本	品牌型号	用途	重要程度	备注");
 
             ConsoleWriter.WriteGray("copy 表格 A.安全设备 →系统构成 安全设备 ");
-            CopyTable("序号	设备名称	是否虚拟设备	系统及版本	品牌及型号	用途	重要程度	备注",
+            CopyTable(
+                "序号	设备名称	是否虚拟设备	系统及版本	品牌及型号	用途	重要程度	备注",
                 "序号	设备名称	虚拟设备	系统及版本 品牌型号	用途	重要程度	备注", 1, 1);
-
+            if (tryoldVer)
+            {
+                ConsoleWriter.WriteQuestionMessage("自动尝试复制旧版表格");
+                ConsoleWriter.WriteGray("copy 表格 A.安全设备 →系统构成 安全设备 （旧版）");
+                CopyTable(
+                "序号	设备名称	是否虚拟设备	系统及版本	品牌及型号	用途	重要程度	备注",
+                "序号	设备名称	虚拟设备	系统及版本 品牌型号	用途	重要程度	备注", 0, 1);
+                tryoldVer = false;
+            }
             ConsoleWriter.WriteGray("copy 表格 A.服务器 →系统构成 服务器 ");
             CopyTable(
                 "序号	设备名称	所属业务应用系统/平台名称	是否虚拟设备	操作系统及版本	数据库管理系统及版本	中间件及版本	重要程度	备注",
@@ -897,10 +906,22 @@ namespace archiver
                 "序号	设备名称	虚拟设备  系统及版本 品牌型号  用途  重要程度",
                 0, 0);
 
-            ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果 →选择结果 服务器 ");
-            CopyTable_withHead("序号	设备名称	所属业务应用系统/平台	虚拟设备  操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
-                "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
-                0, 0);
+            //ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果 →选择结果 服务器 ");
+            //CopyTable_withHead("序号	设备名称	所属业务应用系统/平台	虚拟设备  操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
+            //    "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
+            //    0, 0);
+            try
+            {
+                ConsoleWriter.WriteGray("Copy表格 2.3.2.选择结果 →选择结果 服务器 ");
+                ConsoleWriter.WriteQuestionMessage("尝试自动识别表格数量");
+                var tlist = tempo.findTableList("序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度");
+                CopyTable_withHead("序号	设备名称	所属业务应用系统/平台	虚拟设备  操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
+                    "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
+                    0, tlist.Count -1);
+                tryoldVer = false;
+            }
+            catch (Exception) { }
+            
 
             ConsoleWriter.WriteGray("Copy表格 2.3.2.5 终端设备 →选择结果 终端设备 ");
             CopyTable_withHead("序号	设备名称	虚拟设备  操作系统及版本 用途  重要程度",

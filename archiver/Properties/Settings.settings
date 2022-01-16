@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="author_str" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">黄瀚国</Value>
     </Setting>
     <Setting Name="auditor_Str" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">陈家琦</Value>
     </Setting>
   </Settings>
 </SettingsFile>
