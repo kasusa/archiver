@@ -134,6 +134,33 @@ namespace archiver
 
         #region table操作
 
+        public void Table_gang()
+        {
+            var tables = document.Tables;
+            foreach (var table in tables)
+            {
+                foreach (var row in table.Rows)
+                {
+                    bool jump = true;
+                    foreach (var cell in row.Cells)
+                    {
+                        if (jump)//跳过第一列（序号列）
+                        {
+                            jump = false;
+
+                            continue;
+                        }
+                        if (cell_get_text(cell) == "")//如果没有杠，自动添加
+                        {
+                            cell_settext(cell, "--");
+
+                        }
+
+                    }
+                }
+            }
+            Console.WriteLine("杠好了");
+        }
         public List<Table> findTableList(string v1)
         {
             v1 = v1.Replace(" ", "").Replace("\t", "");

@@ -1209,7 +1209,9 @@ namespace archiver
 
         private void button9_Click(object sender, EventArgs e)
         {
-
+            var t = doc.findTableList("测评结论和综合得分")[0];
+            var cell = t.Rows[2].Cells[1];
+            Console.WriteLine(doc.cell_get_text(cell));
 
 
         }

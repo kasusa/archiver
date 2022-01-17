@@ -33,6 +33,12 @@ namespace archiver
         private void textBox1_DragDrop(object sender, DragEventArgs e)
         {
             textBox1.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            if (textBox1.Text.EndsWith(".docx"))//如果你把文件夹中的.docx文件拖进来，也可以自动识别文件夹目录
+            {
+                var mystr = textBox1.Text;
+                var laststr = mystr.Split('\\')[mystr.Split('\\').Length - 1];
+                textBox1.Text = mystr.Replace("\\" + laststr, ""); ;
+            }
             string path = textBox1.Text;
 
         }
@@ -66,6 +72,8 @@ namespace archiver
                 toolStripStatusLabel1.Text = "被替换文字不能为空";
             }
             this.Hide();
+            ConsoleWriter.WriteCyan(textBox2.Text + "→" + textBox3.Text);
+
             foreach (var item in listBox1.Items)
             {
                 string filenam = item.ToString();
@@ -76,14 +84,16 @@ namespace archiver
                 if (radioButton1.Checked)
                 {
                     doc.save();
-
+                    toolStripStatusLabel1.Text = "处理完毕，保存到桌面out";
                 }
                 else
                 {
                     doc.saveUrl(path_stub+filenam);
+                    toolStripStatusLabel1.Text = "处理完毕，替换掉了文件";
+
                 }
             }
-            Console.WriteLine("处理完毕,保存到文件夹 out/replace");
+            Console.WriteLine("处理完毕");
             ConsoleWriter.WriteSeperator('#');
             this.Show();
         }
@@ -91,56 +101,61 @@ namespace archiver
         //命令行模式
         private void button3_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
+            if (true)
             {
-                toolStripStatusLabel1.Text = "请先选择文件。";
-            }
-            this.Hide();
-            Dictionary<string,string> map = new Dictionary<string,string>();
-            ConsoleWriter.WriteSeperator('-');
-            ConsoleWriter.WriteColoredText("请输入替换内容，支持多行，|（竖杠）分隔：",ConsoleColor.Green);
-            while (true)
-            {
-                var line = Console.ReadLine().Split("|");
-                if (line[0] == "") break;
-                if (line.Length==1)
+
+                if (textBox1.Text == "")
                 {
-                    ConsoleWriter.WriteYEllow("未检查到竖杠，请正确地重新输入");
-                    continue;
+                    toolStripStatusLabel1.Text = "请先选择文件。";
                 }
-                map.Add(line[0], line[1]);
-                ConsoleWriter.WriteCyan("成功录入,请继续输入（回车离开）");
-            }
-
-            Console.WriteLine("获取到字典：");
-
-            foreach (var kvp in map)
-            {
-                ConsoleWriter.WriteCyan(kvp.Key + " → " + kvp.Value);
-            }
-            Console.WriteLine("将会替换:" + map.Count);
-
-
-            foreach (var item in listBox1.Items)
-            {
-                string filenam = item.ToString();
-                myutil doc = new myutil(path_stub + filenam);
-                doc._replacePatterns = map;
-
-                doc.ReplaceTextWithText_all_noBracket();
-                Console.WriteLine("已经处理：" + filenam);
-                if (radioButton1.Checked)
+                this.Hide();
+                Dictionary<string, string> map = new Dictionary<string, string>();
+                ConsoleWriter.WriteSeperator('-');
+                ConsoleWriter.WriteColoredText("请输入替换内容，支持多行，|（竖杠）分隔：", ConsoleColor.Green);
+                while (true)
                 {
-                    doc.save();
+                    var line = Console.ReadLine().Split("|");
+                    if (line[0] == "") break;
+                    if (line.Length == 1)
+                    {
+                        ConsoleWriter.WriteYEllow("未检查到竖杠，请正确地重新输入");
+                        continue;
+                    }
+                    map.Add(line[0], line[1]);
+                    ConsoleWriter.WriteCyan("成功录入,请继续输入（回车离开）");
                 }
-                else
+
+                Console.WriteLine("获取到字典：");
+
+                foreach (var kvp in map)
                 {
-                    doc.saveUrl(path_stub + filenam);
+                    ConsoleWriter.WriteCyan(kvp.Key + " → " + kvp.Value);
                 }
+                Console.WriteLine("将会替换:" + map.Count);
+
+
+                foreach (var item in listBox1.Items)
+                {
+                    string filenam = item.ToString();
+                    myutil doc = new myutil(path_stub + filenam);
+                    doc._replacePatterns = map;
+
+                    doc.ReplaceTextWithText_all_noBracket();
+                    Console.WriteLine("已经处理：" + filenam);
+                    if (radioButton1.Checked)
+                    {
+                        doc.save();
+                    }
+                    else
+                    {
+                        doc.saveUrl(path_stub + filenam);
+                    }
+                }
+                Console.WriteLine("处理完毕,保存到文件夹 out/replace");
+                ConsoleWriter.WriteSeperator('#');
+                this.Show();
             }
-            Console.WriteLine("处理完毕,保存到文件夹 out/replace");
-            ConsoleWriter.WriteSeperator('#');
-            this.Show();
+           
         }
 
         //刷新列表
@@ -154,6 +169,8 @@ namespace archiver
             }
             else
             {
+                ConsoleWriter.WriteColoredText("目录已识别："+textBox1.Text,ConsoleColor.Green);
+
                 path_stub = path + "\\";
                 string[] fangan_list = Directory.GetFiles(path, "*.docx");
                 
@@ -168,7 +185,6 @@ namespace archiver
             }
             //string text = textBox1.Text;
             //string filename = text.Split('\\')[text.Split('\\').Length - 1];
-            toolStripStatusLabel1.Text = "已刷新";
         }
 
         #region savelocation
@@ -230,6 +246,61 @@ namespace archiver
             f.Reverse();
 
             toolStripStatusLabel1.Text = "已删除";
+        }
+
+        //表格杠杠
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            if (listBox1.Items.Count ==0)
+            {
+                toolStripStatusLabel1.Text = "巧妇难为无米之炊";
+            }
+            foreach (var item in listBox1.Items)
+            {
+                ConsoleWriter.WriteCyan(textBox2.Text + "→" + textBox3.Text);
+                string filenam = item.ToString();
+                myutil doc = new myutil(path_stub + filenam);
+
+                Console.WriteLine("杠杠：" + filenam);
+                doc.Table_gang();
+
+                if (radioButton1.Checked)
+                {
+                    doc.save();
+                    toolStripStatusLabel1.Text = "处理完毕(gang)，保存到桌面out";
+                }
+                else
+                {
+                    doc.saveUrl(path_stub + filenam);
+                    toolStripStatusLabel1.Text = "处理完毕(gang)，替换掉了文件";
+
+                }
+            }
+            ConsoleWriter.WriteGray("处理完毕");
+            ConsoleWriter.WriteSeperator('#');
+            this.Show();
+        }
+
+        //一个临时文字板
+        private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
+        {
+            if (File.Exists("changeto.txt"))
+            {
+                System.Diagnostics.Process.Start("notepad.exe", "changeto.txt");
+            }
+            else
+            {
+                var f = File.Create("changeto.txt");
+                f.Close();
+                System.Diagnostics.Process.Start("notepad.exe", "changeto.txt");
+            }
+            
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox2.Text = textBox3.Text = "";
         }
     }
 }
