@@ -302,5 +302,10 @@ namespace archiver
         {
             textBox2.Text = textBox3.Text = "";
         }
+
+        private void 命令行模式ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button3.PerformClick();
+        }
     }
 }
