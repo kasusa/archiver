@@ -165,9 +165,19 @@ namespace archiver
             this.Hide();
 
             ConsoleWriter.WriteYEllow("项目编号↓");
-            tmpstr = doc.Find_Paragraph_for_text("本报告记录编号：");
-            tmpstr = myutil.get_string_after(tmpstr, "本报告记录编号：", "P202107109".Length);
-            str_P号 = tmpstr;
+            try
+            {
+                tmpstr = doc.Find_Paragraph_for_text("本报告记录编号：");
+                tmpstr = myutil.get_string_after(tmpstr, "本报告记录编号：", "P202107109".Length);
+                str_P号 = tmpstr;
+            }
+            catch (Exception)
+            {
+
+                tmpstr = doc.Find_Paragraph_for_text("本报告记录号：");
+                tmpstr = myutil.get_string_after(tmpstr, "本报告记录号：", "P202107109".Length);
+                str_P号 = tmpstr;
+            }
             Console.WriteLine(tmpstr);
             tempo._replacePatterns.Add("P2021xxxxx", tmpstr);//后面页数
             tempo._replacePatterns.Add("P2021XXXXX", tmpstr);//首页
