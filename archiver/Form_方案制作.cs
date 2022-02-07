@@ -592,6 +592,7 @@ namespace archiver
                 ConsoleWriter.WriteCyan(doc.document.Paragraphs[i + 1].Text);
                 ConsoleWriter.WriteCyan(doc.document.Paragraphs[i + 2].Text);
                 ConsoleWriter.WriteCyan(doc.document.Paragraphs[i + 3].Text);
+                ConsoleWriter.WriteCyan(doc.document.Paragraphs[i + 4].Text);
             }
             catch (Exception)
             {

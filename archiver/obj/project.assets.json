@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\archiver.csproj",
+      "projectUniqueName": "C:\\Users\\kasusa\\source\\repos\\archiver\\archiver\\archiver.csproj",
       "projectName": "archiver",
-      "projectPath": "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\archiver.csproj",
+      "projectPath": "C:\\Users\\kasusa\\source\\repos\\archiver\\archiver\\archiver.csproj",
       "packagesPath": "C:\\Users\\kasusa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\obj\\",
+      "outputPath": "C:\\Users\\kasusa\\source\\repos\\archiver\\archiver\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
