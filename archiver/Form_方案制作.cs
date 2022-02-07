@@ -170,13 +170,23 @@ namespace archiver
                 tmpstr = doc.Find_Paragraph_for_text("本报告记录编号：");
                 tmpstr = myutil.get_string_after(tmpstr, "本报告记录编号：", "P202107109".Length);
                 str_P号 = tmpstr;
+
             }
             catch (Exception)
             {
 
-                tmpstr = doc.Find_Paragraph_for_text("本报告记录号：");
-                tmpstr = myutil.get_string_after(tmpstr, "本报告记录号：", "P202107109".Length);
-                str_P号 = tmpstr;
+                try
+                {
+                    tmpstr = doc.Find_Paragraph_for_text("本报告记录号：");
+                    tmpstr = myutil.get_string_after(tmpstr, "本报告记录号：", "P202107109".Length);
+                    str_P号 = tmpstr;
+                }
+                catch (Exception)
+                {
+
+                    ConsoleWriter.WriteCyan("无法自动获取项目编号（P2022XXXXX)，请手动输入:");
+                    tmpstr = Console.ReadLine();
+                }
             }
             Console.WriteLine(tmpstr);
             tempo._replacePatterns.Add("P2021xxxxx", tmpstr);//后面页数
@@ -782,6 +792,7 @@ namespace archiver
                 ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 1].Text);
                 ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 2].Text);
                 ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 3].Text);
+                ConsoleWriter.WriteQuestionMessage(doc.document.Paragraphs[i + 4].Text);
 
 
             }
@@ -928,8 +939,13 @@ namespace archiver
                 var tlist = tempo.findTableList("序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度");
                 CopyTable_withHead("序号	设备名称	所属业务应用系统/平台	虚拟设备  操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
                     "序号	设备名称	所属业务应用系统/平台名称	虚拟设备	操作系统及版本 数据库管理系统及版本  中间件及版本  重要程度",
-                    0, tlist.Count -1);
+                    0, tlist.Count - 1);
                 tryoldVer = false;
+                //ConsoleWriter.WriteCyan("是否粘贴服务器表格？（enter确定，n跳过该表）");
+                //var rd = Console.ReadLine();
+                //if (rd == "\n")
+                //{
+                //}
             }
             catch (Exception) { }
             
@@ -1109,7 +1125,7 @@ namespace archiver
             string v = Console.ReadLine();
             if (v == "")
             {
-                ConsoleWriter.WriteGray("本次测评未涉及工具。请后续自行在方案中修改。");
+                ConsoleWriter.WriteGray("本次测评未涉及工具测试。\n 需要手动修改 4.2 主要测评工具、5.3 工具测试的内容");
                 return;
             }
 
