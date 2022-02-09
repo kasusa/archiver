@@ -209,23 +209,40 @@ namespace archiver
             Console.WriteLine(a);
 
             tempo._replacePatterns.Add("BBBBB", a);
-            //tempo.cw_read_dictionary("BBBBB");
 
             ConsoleWriter.WriteYEllow("封面日期 2021年XX月XX日:");
             cell = tempo.table_index_Get_cell(0, 3, 1);
             a = doc.Find_Paragraph_for_text("方案编制过程。");
-            //有的测评过程写的时间是左右都有年份的，有的不是。
+            //提取方案制作日期的函数（结束日期）
             if (a.Length == "1、2021年10月08日～2021年10月09日，测评准备过程。".Length)
             {
                 a = a.Substring("2、20xx年xx月xx日～".Length, "20xx年xx月xx日".Length);
             }
-            else
+            else if (a.Length == "2、2021年12月10日～12月10日，测评准备过程。".Length)
             {
-                ConsoleWriter.WriteGray("gantaniangde");
+                ConsoleWriter.WriteGray("日期格式1");
                 string a1;
                 string a2;
                 a1 = a.Substring("2、".Length, "20xx年".Length);
                 a2 = a.Substring("2、20xx年xx月xx日～".Length, "xx月xx日".Length);
+                a = a1 + a2;
+            }
+            else if (a.Length == "2、2021年12月1日～12月1日，测评准备过程。".Length)
+            {
+                ConsoleWriter.WriteGray("日期格式2");
+                string a1;
+                string a2;
+                a1 = a.Substring("2、".Length, "20xx年".Length);
+                a2 = a.Substring("2、20xx年xx月x日～".Length, "xx月x日".Length);
+                a = a1 + a2;
+            }
+            else if (a.Length == "1、2021年9月1日～9月3日，测评准备过程。".Length)
+            {
+                ConsoleWriter.WriteGray("日期格式3");
+                string a1;
+                string a2;
+                a1 = a.Substring("2、".Length, "20xx年".Length);
+                a2 = a.Substring("2、20xx年x月x日～".Length, "x月x日".Length);
                 a = a1 + a2;
             }
             Console.WriteLine(a);
@@ -251,7 +268,7 @@ namespace archiver
             cell = tempo.table_index_Get_cell(1, 1, 3);
             tmpstr = "2021-12-31";
             a = doc.Find_Paragraph_for_text("方案编制过程。");
-            //有的测评过程写的时间是左右都有年份的，有的不是。
+            //todo 修改我
             if (a.Length == "1、2021年10月08日～2021年10月09日，方案编制过程。".Length)
             {
                 a = a.Substring("2、".Length, "20xx年xx月xx日".Length);
@@ -271,7 +288,7 @@ namespace archiver
 
             ConsoleWriter.WriteYEllow("审核日期 2021-XX-XX:");
             a = doc.Find_Paragraph_for_text("方案编制过程。");
-            //有的测评过程写的时间是左右都有年份的，有的不是。
+            //todo 修改我
             if (a.Length == "1、2021年10月08日～2021年10月09日，方案编制过程。".Length)
             {
                 a = a.Substring("2、20xx年xx月xx日～".Length, "20xx年xx月xx日".Length);
