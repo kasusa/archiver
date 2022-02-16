@@ -359,7 +359,25 @@ namespace archiver
 
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
             //tempo.save($"{str_P号}_{str_公司}_{str_系统}_项目方案.docx");
-            tempo.save($"{str_P号}_GF01_项目方案_{str_系统}.docx");
+            string savepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + "out" + "//" + $"{str_P号}_GF01_项目方案_{str_系统}.docx";
+
+
+            if (File.Exists(savepath))
+            {
+                ConsoleWriter.WriteWarningMessage("这个文件已经存在于out文件夹,确认替换吗？（小心工作成果被覆盖！）");
+                ConsoleWriter.WriteCyan("enter 确认覆盖，输入任何其他字符不覆盖源文件。");
+                var tm = Console.ReadLine();
+                if (tm == "")
+                {
+                    tempo.save($"{str_P号}_GF01_项目方案_{str_系统}.docx");
+                }
+                else
+                {
+                    tempo.save($"{tm}_{str_P号}_GF01_项目方案_{str_系统}.docx");
+
+                }
+            }
+
 
             ConsoleWriter.WriteYEllow(@"
 已经自动保存到桌面-out文件夹
