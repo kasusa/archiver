@@ -377,6 +377,11 @@ namespace archiver
 
                 }
             }
+            else
+            {
+                tempo.save($"{str_P号}_GF01_项目方案_{str_系统}.docx");
+
+            }
 
 
             ConsoleWriter.WriteYEllow(@"
