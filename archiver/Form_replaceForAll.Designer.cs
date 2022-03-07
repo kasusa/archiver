@@ -52,6 +52,7 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.保存位置.SuspendLayout();
@@ -78,7 +79,7 @@
             // textBox1
             // 
             this.textBox1.AllowDrop = true;
-            this.textBox1.Location = new System.Drawing.Point(79, 14);
+            this.textBox1.Location = new System.Drawing.Point(79, 19);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(451, 23);
             this.textBox1.TabIndex = 2;
@@ -109,7 +110,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 14);
+            this.label3.Location = new System.Drawing.Point(8, 19);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 17);
             this.label3.TabIndex = 5;
@@ -123,7 +124,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 17;
-            this.listBox1.Location = new System.Drawing.Point(79, 43);
+            this.listBox1.Location = new System.Drawing.Point(79, 48);
             this.listBox1.Margin = new System.Windows.Forms.Padding(0);
             this.listBox1.Name = "listBox1";
             this.listBox1.ScrollAlwaysVisible = true;
@@ -136,7 +137,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 43);
+            this.label4.Location = new System.Drawing.Point(8, 48);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 17);
             this.label4.TabIndex = 7;
@@ -152,7 +153,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Location = new System.Drawing.Point(12, 291);
+            this.groupBox1.Location = new System.Drawing.Point(8, 295);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(616, 152);
             this.groupBox1.TabIndex = 8;
@@ -185,7 +186,7 @@
             // button6
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Location = new System.Drawing.Point(536, 445);
+            this.button6.Location = new System.Drawing.Point(536, 449);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(86, 23);
             this.button6.TabIndex = 14;
@@ -200,7 +201,7 @@
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.button3.Location = new System.Drawing.Point(8, 446);
+            this.button3.Location = new System.Drawing.Point(8, 450);
             this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(86, 23);
@@ -214,7 +215,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSplitButton1,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 471);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 475);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(636, 22);
             this.statusStrip1.TabIndex = 9;
@@ -248,7 +249,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(536, 43);
+            this.button2.Location = new System.Drawing.Point(536, 48);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 10;
@@ -261,7 +262,7 @@
             this.保存位置.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.保存位置.Controls.Add(this.radioButton2);
             this.保存位置.Controls.Add(this.radioButton1);
-            this.保存位置.Location = new System.Drawing.Point(536, 168);
+            this.保存位置.Location = new System.Drawing.Point(536, 173);
             this.保存位置.Name = "保存位置";
             this.保存位置.Size = new System.Drawing.Size(92, 83);
             this.保存位置.TabIndex = 11;
@@ -295,7 +296,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(536, 72);
+            this.button4.Location = new System.Drawing.Point(536, 77);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 12;
@@ -306,7 +307,7 @@
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(536, 101);
+            this.button5.Location = new System.Drawing.Point(536, 106);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 13;
@@ -314,11 +315,23 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(0, 1);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(636, 10);
+            this.panel1.TabIndex = 17;
+            // 
             // Form_replaceForAll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 493);
+            this.ClientSize = new System.Drawing.Size(636, 497);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button3);
@@ -369,5 +382,6 @@
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Panel panel1;
     }
 }
