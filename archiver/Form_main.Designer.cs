@@ -65,7 +65,7 @@
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 46);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 327);
+            this.groupBox1.Size = new System.Drawing.Size(200, 203);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "功能菜单";
@@ -95,7 +95,7 @@
             // 
             // button0
             // 
-            this.button0.Location = new System.Drawing.Point(6, 298);
+            this.button0.Location = new System.Drawing.Point(6, 171);
             this.button0.Name = "button0";
             this.button0.Size = new System.Drawing.Size(188, 23);
             this.button0.TabIndex = 2;
@@ -108,11 +108,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(224, 230);
+            this.ClientSize = new System.Drawing.Size(224, 257);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Name = "Form_main";
-            this.Text = "docx粉碎者";
+            this.Text = "粉碎者";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
