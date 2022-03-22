@@ -28,9 +28,6 @@ namespace archiver
             Form a = new Form_出报告申请();
             a.ShowDialog();
             this.Show();
-
-
-
         }
 
         private void button_Click(object sender, EventArgs e)

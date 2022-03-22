@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using archiver.ConsoleColorWriter;
@@ -398,46 +399,37 @@ namespace archiver
 
         private string date_process(string a)
         {
-            //提取方案制作日期的函数（结束日期）
-            if (a.Length == "1、2021年10月08日～2021年10月09日，测评准备过程。".Length)
+            //提取日期（结束日期）
+            ConsoleWriter.WriteCyan("在字符串中寻找日期：" + a);
+
+            string patternA = @"\d\d\d\d年(\d)*月(\d)*日";
+            string patternB = @"(\d)*月(\d)*日";
+            //如果获取的短日期个数为2，但是长日期仅有1个，那么就是如2021年12月1日～12月1日这种写法
+            //如果长短日期都只有一个，那么就是2021年12月1日这种写法（只有一天之类的）
+
+            int shortDcount = 0;
+            int LongDcount = 0;
+
+            Regex rg = new Regex(patternB);
+            MatchCollection matchedShortDate = rg.Matches(a);
+            shortDcount = matchedShortDate.Count;
+            //Console.WriteLine("shortDcount" + shortDcount);
+            rg = new Regex(patternA);
+            MatchCollection matchedLongDate = rg.Matches(a);
+            LongDcount = matchedLongDate.Count;
+            //Console.WriteLine("LongDcount"+ LongDcount);
+
+            if (shortDcount > LongDcount)
             {
-                a = a.Substring("2、20xx年xx月xx日～".Length, "20xx年xx月xx日".Length);
+                string year = matchedLongDate[LongDcount - 1].Value.Substring(0, 5);
+                string MandD = matchedShortDate[shortDcount - 1].Value;
+                a = year + MandD;
             }
-            else if (a.Length == "2、2021年12月10日～12月10日，测评准备过程。".Length)
+            else if (shortDcount == LongDcount)
             {
-                ConsoleWriter.WriteGray("日期格式1");
-                string a1;
-                string a2;
-                a1 = a.Substring("2、".Length, "20xx年".Length);
-                a2 = a.Substring("2、20xx年xx月xx日～".Length, "xx月xx日".Length);
-                a = a1 + a2;
+                a = matchedLongDate[LongDcount - 1].Value;
             }
-            else if (a.Length == "2、2021年12月1日～12月1日，测评准备过程。".Length)
-            {
-                ConsoleWriter.WriteGray("日期格式2");
-                string a1;
-                string a2;
-                a1 = a.Substring("2、".Length, "20xx年".Length);
-                a2 = a.Substring("2、20xx年xx月x日～".Length, "xx月x日".Length);
-                a = a1 + a2;
-            }
-            else if (a.Length == "1、2021年9月1日～9月3日，测评准备过程。".Length)
-            {
-                ConsoleWriter.WriteGray("日期格式3");
-                string a1;
-                string a2;
-                a1 = a.Substring("2、".Length, "20xx年".Length);
-                a2 = a.Substring("2、20xx年x月x日～".Length, "x月x日".Length);
-                a = a1 + a2;
-            }
-            else if (a.Length <= "2、2021年12月22日，方案编制过程。 ".Length)
-            {
-                ConsoleWriter.WriteGray("日期格式4");
-                string a1;
-                string a2;
-                a1 = a.Substring("2、".Length, "2021年12月22日".Length);
-                a = a1;
-            }
+            Console.WriteLine(a);
             return a;
         }
 

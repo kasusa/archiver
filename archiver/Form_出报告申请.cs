@@ -1,10 +1,12 @@
-﻿using System;
+﻿using archiver.ConsoleColorWriter;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace archiver
@@ -38,7 +40,6 @@ namespace archiver
 
             }
         }
-
 
 
         #region textDrop
@@ -107,11 +108,11 @@ namespace archiver
             tempo.write_dictionary("项目编号",a);
 
             a = doc.Find_Paragraph_for_text("测评准备过程。");
-            a = a.Substring(7, "09月06日".Length);
+            a = date_process(a,true);
             tempo.write_dictionary("起始日期",a);
 
             a = doc.Find_Paragraph_for_text("分析与报告编制过程。",2);
-            a = a.Substring(14, "09月06日".Length);
+            a = date_process(a,false);
             tempo.write_dictionary("最终日期",a);
             a = doc.table_index_Get_cell_text(3, 8, 4);
             a=  a.Substring(5);
@@ -156,7 +157,7 @@ namespace archiver
             }
 
 
-            Console.WriteLine("还请输入：");
+            ConsoleWriter.WriteCyan("还请输入：");
             tempo.cw_read_dictionary("我方人员");
             tempo.ReplaceTextWithText_all();
             Console.WriteLine("已经自动保存到桌面-out文件夹，三防记得手动改成分号");
@@ -191,7 +192,47 @@ namespace archiver
             tempo.save($"出报告申请_{str_公司}_{str_系统}.docx");
             this.Show();
         }
+        private string date_process(string a ,bool givemefirst)
+        {
+            //提取日期（结束日期）
+            //ConsoleWriter.WriteCyan("在字符串中寻找日期：" + a);
 
+            string patternA = @"\d\d\d\d年(\d)*月(\d)*日";
+            string patternB = @"(\d)*月(\d)*日";
+            //如果获取的短日期个数为2，但是长日期仅有1个，那么就是如2021年12月1日～12月1日这种写法
+            //如果长短日期都只有一个，那么就是2021年12月1日这种写法（只有一天之类的）
+
+            int shortDcount = 0;
+            int LongDcount = 0;
+
+            Regex rg = new Regex(patternB);
+            MatchCollection matchedShortDate = rg.Matches(a);
+            shortDcount = matchedShortDate.Count;
+            //Console.WriteLine("shortDcount" + shortDcount);
+            rg = new Regex(patternA);
+            MatchCollection matchedLongDate = rg.Matches(a);
+            LongDcount = matchedLongDate.Count;
+            //Console.WriteLine("LongDcount"+ LongDcount);
+
+            if (givemefirst)
+            {
+                a = matchedLongDate[0].Value;
+                return a;
+            }
+
+            if (shortDcount > LongDcount)
+            {
+                string year = matchedLongDate[LongDcount - 1].Value.Substring(0, 5);
+                string MandD = matchedShortDate[shortDcount - 1].Value;
+                a = year + MandD;
+            }
+            else if (shortDcount == LongDcount)
+            {
+                a = matchedLongDate[LongDcount - 1].Value;
+            }
+            Console.WriteLine(a);
+            return a;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             //出报告申请_xxx公司_xxx系统.docx
