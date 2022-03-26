@@ -94,6 +94,24 @@ namespace archiver.ConsoleColorWriter
                 lvMBuilder.Append(pCharacter);
             Console.WriteLine(lvMBuilder.ToString());
         }
+        /// <summary>
+        /// Writes with the StandardFrontColor and StandardBackColor, creates a new line and then resets the console colors to StandardFrontColor and StandardBackColor.
+        /// </summary>
+        /// <param name="pText">Text to be written to console</param>
+        /// <param name="pWriteLine">TRUE = creates a new line after text has been placed.</param>
+        /// <param name="pWriteTime">TRUE = writes the current time in StandardFrontColor and StandardBackColor before writing the text.</param>
+        public static void Writehighlight(string pText ,string hightlightText, bool pWriteLine = false, bool pWriteTime = false)
+        {
+            int firstAppear = pText.IndexOf(hightlightText);
+            string a = pText.Substring(0, firstAppear);
+            string b = hightlightText;
+            string c = pText.Substring(firstAppear + hightlightText.Length);
+
+            WriteColoredText("    "+a, StandardFrontColor, StandardBackColor, pWriteLine, pWriteTime);
+            WriteColoredText(b, ConsoleColor.Green, StandardBackColor, pWriteLine, pWriteTime);
+            WriteColoredText(c, StandardFrontColor, StandardBackColor, true, pWriteTime);
+            Console.WriteLine();
+        }
 
         /// <summary>
         /// Writes with the StandardFrontColor and StandardBackColor, creates a new line and then resets the console colors to StandardFrontColor and StandardBackColor.
@@ -181,6 +199,14 @@ namespace archiver.ConsoleColorWriter
         public static void WriteYEllow(string pText)
         {
             WriteColoredText(pText, ConsoleColor.Yellow);
+        }
+        public static void WriteGreen(string pText)
+        {
+            WriteColoredText(pText, ConsoleColor.Green);
+        }
+        public static void WriteRed(string pText)
+        {
+            WriteColoredText(pText, ConsoleColor.Red);
         }
         public static void WriteCyan(string pText)
         {

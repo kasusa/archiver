@@ -48,3 +48,4 @@ C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.F
 C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Properties.Resources.resources
 C:\Users\kasusa\source\repos\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Form_replaceForAll.resources
 C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.Form_replaceForAll.resources
+C:\Users\kasusa\Desktop\src\archiver\archiver\obj\Debug\netcoreapp3.1\archiver.form_SuperSearch.resources

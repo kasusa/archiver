@@ -46,5 +46,17 @@ namespace archiver.Properties {
                 this["auditor_Str"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string lastguanliPath {
+            get {
+                return ((string)(this["lastguanliPath"]));
+            }
+            set {
+                this["lastguanliPath"] = value;
+            }
+        }
     }
 }

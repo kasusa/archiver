@@ -481,7 +481,7 @@ namespace archiver
 
                 if (p.Text.Contains(v))
                 {
-                    Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
+                    //Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
                     plist.Add( p);
                 }
             }
@@ -512,6 +512,7 @@ namespace archiver
             {
                 if (p.Text.Contains(v))
                 {
+                    
                     //Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
                     ilist.Add( i);
                 }

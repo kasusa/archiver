@@ -63,5 +63,13 @@ namespace archiver
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form a = new form_SuperSearch();
+            a.ShowDialog();
+            this.Show();
+        }
     }
 }

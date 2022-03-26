@@ -115,7 +115,7 @@ namespace archiver
             a = date_process(a,false);
             tempo.write_dictionary("最终日期",a);
             a = doc.table_index_Get_cell_text(3, 8, 4);
-            a=  a.Substring(5);
+            //a=  a.Substring(5);
             tempo.write_dictionary("出报告日期",a);
 
             Console.WriteLine("三防信息A(如果没有请直接打回车)");
@@ -160,7 +160,7 @@ namespace archiver
             ConsoleWriter.WriteCyan("还请输入：");
             tempo.cw_read_dictionary("我方人员");
             tempo.ReplaceTextWithText_all();
-            Console.WriteLine("已经自动保存到桌面-out文件夹，三防记得手动改成分号");
+            ConsoleWriter.WriteCyan("已经自动保存到桌面-out文件夹，三防记得手动改成分号");
             Console.WriteLine("注意出报告申请的年份（可在模板中修改）");
             this.Show();
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";

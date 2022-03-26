@@ -82,7 +82,12 @@ namespace archiver
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //List<string> a =  doc.document.FindUniqueByPattern("[^ -~]*hello", RegexOptions.None);
+            Table t = doc.findTableList("被测对象")[0];
+            string a = doc.table_Get_cell_text(t,0,1);
+            Paragraph p = doc.Paragraphs[0];
 
+            textBox_input.Text = a;
         }
 
 

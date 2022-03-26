@@ -34,6 +34,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button0 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,13 +60,14 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button0);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 46);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 203);
+            this.groupBox1.Size = new System.Drawing.Size(200, 247);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "功能菜单";
@@ -95,7 +97,7 @@
             // 
             // button0
             // 
-            this.button0.Location = new System.Drawing.Point(6, 171);
+            this.button0.Location = new System.Drawing.Point(6, 218);
             this.button0.Name = "button0";
             this.button0.Size = new System.Drawing.Size(188, 23);
             this.button0.TabIndex = 2;
@@ -103,12 +105,23 @@
             this.button0.UseVisualStyleBackColor = true;
             this.button0.Click += new System.EventHandler(this.button0_Click);
             // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.Yellow;
+            this.button4.Location = new System.Drawing.Point(6, 168);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(188, 44);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "超级搜索";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(224, 257);
+            this.ClientSize = new System.Drawing.Size(224, 305);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Name = "Form_main";
@@ -127,5 +140,6 @@
         private System.Windows.Forms.Button button0;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }

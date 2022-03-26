@@ -8,5 +8,8 @@
     <Setting Name="auditor_Str" Type="System.String" Scope="User">
       <Value Profile="(Default)">陈家琦</Value>
     </Setting>
+    <Setting Name="lastguanliPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
