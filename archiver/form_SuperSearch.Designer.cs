@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("请先拖拽文件夹到本窗口");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("xxxx.docx(选中后 Enter 可以打开)");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("xxxx.docx(选中后 Enter 或 双击 可以打开)");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("【F】文件夹节点", new System.Windows.Forms.TreeNode[] {
             treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("xxxx.docx（按 C 可以复制文件名）");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("xxxx.docx（按 F2 可以复制文件名）");
             System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("[root](根节点）", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4});
@@ -50,6 +50,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button7 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,11 +80,11 @@
             treeNode1.Name = "节点4";
             treeNode1.Text = "请先拖拽文件夹到本窗口";
             treeNode2.Name = "节点2";
-            treeNode2.Text = "xxxx.docx(选中后 Enter 可以打开)";
+            treeNode2.Text = "xxxx.docx(选中后 Enter 或 双击 可以打开)";
             treeNode3.Name = "节点1";
             treeNode3.Text = "【F】文件夹节点";
             treeNode4.Name = "节点3";
-            treeNode4.Text = "xxxx.docx（按 C 可以复制文件名）";
+            treeNode4.Text = "xxxx.docx（按 F2 可以复制文件名）";
             treeNode5.Name = "节点0";
             treeNode5.Text = "[root](根节点）";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
@@ -108,9 +109,9 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(428, 491);
+            this.button1.Location = new System.Drawing.Point(407, 492);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(96, 27);
             this.button1.TabIndex = 4;
             this.button1.Text = "超级搜索";
             this.button1.UseVisualStyleBackColor = true;
@@ -120,9 +121,10 @@
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox1.Location = new System.Drawing.Point(66, 491);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(356, 23);
+            this.textBox1.Size = new System.Drawing.Size(335, 28);
             this.textBox1.TabIndex = 5;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
@@ -130,7 +132,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 494);
+            this.label3.Location = new System.Drawing.Point(12, 498);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 17);
             this.label3.TabIndex = 6;
@@ -182,7 +184,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(347, 548);
+            this.button6.Location = new System.Drawing.Point(255, 547);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 11;
@@ -197,7 +199,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(66, 521);
+            this.checkBox1.Location = new System.Drawing.Point(66, 530);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(123, 21);
             this.checkBox1.TabIndex = 12;
@@ -208,7 +210,7 @@
             // 
             this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(66, 540);
+            this.checkBox2.Location = new System.Drawing.Point(66, 549);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(87, 21);
             this.checkBox2.TabIndex = 13;
@@ -219,7 +221,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Yellow;
+            this.panel1.BackColor = System.Drawing.Color.Gold;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(-4, 0);
@@ -227,11 +229,23 @@
             this.panel1.Size = new System.Drawing.Size(521, 16);
             this.panel1.TabIndex = 18;
             // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(407, 525);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(96, 27);
+            this.button7.TabIndex = 19;
+            this.button7.Text = "复制关键词";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // form_SuperSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 583);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -270,5 +284,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button7;
     }
 }

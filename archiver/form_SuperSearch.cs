@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -143,7 +144,7 @@ namespace archiver
         {
             //和enter功能一样
             string filename = treeView1.SelectedNode.Text;
-            Console.WriteLine("filename " + filename);
+            //Console.WriteLine("filename " + filename);
             string filepath = "";
             foreach (var ipath in filepathlist)
             {
@@ -153,7 +154,7 @@ namespace archiver
                     break;
                 }
             }
-            Console.WriteLine("尝试打开： " + filepath);
+            //Console.WriteLine("尝试打开： " + filepath);
             LaunchCommandLineApp(filepath);
         }
 
@@ -163,7 +164,7 @@ namespace archiver
             if (e.KeyCode == Keys.Enter)
             {
                 string filename = treeView1.SelectedNode.Text;
-                Console.WriteLine("filename "+filename);
+                //Console.WriteLine("filename "+filename);
                 string filepath = "";
                 foreach (var ipath in filepathlist)
                 {
@@ -173,15 +174,16 @@ namespace archiver
                         break;
                     }
                 }
-                Console.WriteLine("尝试打开： "+filepath);
+                //Console.WriteLine("尝试打开： "+filepath);
                 LaunchCommandLineApp(filepath);
 
             }
-            if (e.KeyCode == Keys.C)
+            if (e.KeyCode == Keys.F2)
             {
                 string filename = treeView1.SelectedNode.Text;
                 filename = filename.Replace(".docx","");
-                Console.WriteLine("复制到剪切板：" +"《"+filename +"》");
+                //Console.WriteLine("复制到剪切板：" +"《"+filename +"》");
+                SystemSounds.Exclamation.Play();
                 Clipboard.SetText("《" + filename + "》");
             }
         }
@@ -286,6 +288,11 @@ namespace archiver
             {
                 button1.PerformClick();
             }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(textBox1.Text);
         }
     }
 }
