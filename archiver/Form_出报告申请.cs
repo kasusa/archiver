@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -17,11 +18,13 @@ namespace archiver
         myutil tempo;//出报告模板
         string str_公司 = "xxx公司";
         string str_系统 = "xxx系统";
+        string opendoc = "";
         public Form_出报告申请()
         {
             InitializeComponent();
 
             loadSample();
+            button1.Enabled = false;
         }
 
         private void loadSample()
@@ -123,7 +126,7 @@ namespace archiver
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防网页篡改"));
             else
             {
-                a = a.Substring("在防网页篡改方面".Length + 1) ;
+                a = a.Substring("在防网页篡改方面".Length ) ;
                 tempo.write_dictionary("防网页篡改", a);
             }
 
@@ -133,7 +136,7 @@ namespace archiver
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防数据泄漏"));
             else
             {
-                a = a.Substring("在防数据泄露方面：".Length + 1);
+                a = a.Substring("在防数据泄露方面：".Length );
                 tempo.write_dictionary("防数据泄漏", a);
             }
 
@@ -142,7 +145,7 @@ namespace archiver
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防数据勒索"));
             else
             {
-                a = a.Substring("在防数据勒索方面：".Length + 1) ;
+                a = a.Substring("在防数据勒索方面：".Length ) ;
                 tempo.write_dictionary("防数据勒索", a);
 
             }
@@ -152,7 +155,7 @@ namespace archiver
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防服务中断"));
             else
             {
-                a = a.Substring("在防服务中断方面：".Length + 1);
+                a = a.Substring("在防服务中断方面：".Length );
                 tempo.write_dictionary("防服务中断", a);
             }
 
@@ -160,10 +163,14 @@ namespace archiver
             ConsoleWriter.WriteCyan("还请输入：");
             tempo.cw_read_dictionary("我方人员");
             tempo.ReplaceTextWithText_all();
-            ConsoleWriter.WriteCyan("已经自动保存到桌面-out文件夹，三防记得手动改成分号");
-            Console.WriteLine("注意出报告申请的年份（可在模板中修改）");
+            ConsoleWriter.WriteCyan("已经自动保存到桌面-out文件夹，" +
+                "\n 三防记得手动改成分号");
             this.Show();
             toolStripStatusLabel1.Text = "已经自动保存到桌面-out文件夹";
+
+            opendoc = $"出报告申请_{str_公司}_{str_系统}.docx"; //用于后面打开文件查看
+            button1.Enabled = true; //解锁打开查看的按钮
+
             tempo.save($"出报告申请_{str_公司}_{str_系统}.docx");
         }
         //手工录入
@@ -233,12 +240,35 @@ namespace archiver
             Console.WriteLine(a);
             return a;
         }
-        private void button1_Click(object sender, EventArgs e)
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    //出报告申请_xxx公司_xxx系统.docx
+        //    string filename = $"出报告申请_{str_公司}_{str_系统}.docx";
+        //    tempo.save(filename);
+        //    toolStripStatusLabel1.Text = "保存到桌面out文件夹了。";
+        //}
+
+        /// <summary>
+        /// 打开生成的文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            //出报告申请_xxx公司_xxx系统.docx
-            string filename = $"出报告申请_{str_公司}_{str_系统}.docx";
-            tempo.save(filename);
-            toolStripStatusLabel1.Text = "保存到桌面out文件夹了。";
+            string savepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "out" + "\\" + opendoc;
+            LaunchCommandLineApp(savepath);
+        }
+
+        static void LaunchCommandLineApp(string wordpath)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = "/c" + "start " + wordpath;
+            process.StartInfo.UseShellExecute = false;   //是否使用操作系统shell启动 
+            process.StartInfo.CreateNoWindow = false;   //是否在新窗口中启动该进程的值 (不显示程序窗口)
+            process.Start();
+            process.WaitForExit();  //等待程序执行完退出进程
+            process.Close();
         }
     }
 }
