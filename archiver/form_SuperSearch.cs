@@ -34,6 +34,9 @@ namespace archiver
         private void textBox1_DragDrop(object sender, DragEventArgs e)
         {
             fullguanlipath = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            //debug
+            //Console.WriteLine(fullguanlipath);
+            //Console.ReadLine();
             //MessageBox.Show(fullguanlipath);
             PaintTreeView(treeView1, fullguanlipath);
             Settings.Default.lastguanliPath = fullguanlipath;
@@ -60,12 +63,6 @@ namespace archiver
             try
             {
                 treeView.Nodes.Clear(); //清空TreeView
-
-                //DirectoryInfo dirs = new DirectoryInfo(fullPath); //获得程序所在路径的目录对象
-                //DirectoryInfo[] dir = dirs.GetDirectories();//获得目录下文件夹对象
-                //FileInfo[] file = dirs.GetFiles();//获得目录下文件对象
-                //int dircount = dir.Count();//获得文件夹对象数量
-                //int filecount = file.Count();//获得文件对象数量
                 treeView.Nodes.Add("[Root]");
                 //currentrootpath = fullguanlipath + "\\";
                 GetMultiNode(treeView.Nodes[0], fullPath);
@@ -107,14 +104,20 @@ namespace archiver
             //循环文件
             for (int j = 0; j < filecount; j++)
             {
-                string filepath = currentrootpath + "\\" + file[j].Name;
-                Console.WriteLine(file[j].Name);
+                string filepath = path + "\\" + file[j].Name;
+                //Console.WriteLine(file[j].Name);
                 //如果名字前面~或者后面不是docx跳过
                 if (file[j].Name.Contains("~")) continue;
-                if (!file[j].Name.EndsWith(".docx")) continue;
+                if (file[j].Name.EndsWith(".doc")) {
+                    ConsoleWriter.WriteRed("[Reject] " + file[j].Name );
+                    continue;
+                };
+
+                    if (!file[j].Name.EndsWith(".docx")) continue;
                 treeNode.Nodes.Add(file[j].Name);
-                ConsoleWriter.WriteGreen("[Accepted] "+filepath);
+                ConsoleWriter.WriteGreen("[Accept] "+ file[j].Name );//+ filepath
                 filepathlist.AddLast(filepath);
+                
             }
             return true;
         }
@@ -217,18 +220,6 @@ namespace archiver
  
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            //ConsoleWriter.WriteCyan("开始进行深度搜索：");
-
-            //foreach (var item in filepathlist)
-            //{
-            //    string filenam = item.ToString();
-            //    SearchForkeyWord("二级变更", item);
-            //}
-            //ConsoleWriter.WriteGreen("搜索完毕");
-            //ConsoleWriter.WriteSeperator('#');
-        }
 
         private void SearchForkeyWord(string v,string filepath)
         {
@@ -240,7 +231,7 @@ namespace archiver
             var plist = doc.Find_Paragraph_for_plist(v);
             if (plist.Count == 0)
             {
-                ConsoleWriter.WriteErrorMessage("    文件内未查询到相应关键字。\n");
+                ConsoleWriter.WriteRed("    文件内未查询到相应关键字。\n");
             }
             //一些显示缓冲，慢慢的显示每个文件的结果
             else if (checkBox2.Checked == true)
@@ -293,6 +284,11 @@ namespace archiver
         private void button7_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(textBox1.Text);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            treeView1.CollapseAll();
         }
     }
 }
