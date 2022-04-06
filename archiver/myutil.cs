@@ -62,30 +62,46 @@ namespace archiver
             this.Bitmaplist = bitmapList;      
 
 
-
-
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public myutil()
-        {
-            string str_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @$"\out\test.docx";
 
-            var document = DocX.Create(str_path);
-            this.document = document;
-            this.tables = document.Tables;
-            this.Paragraphs = document.Paragraphs;
-        }
 
         public void remove_p(Paragraph paragraph)
         {
             if (paragraph != null)
             {
                 document.RemoveParagraph(paragraph);
-
+                string a = paragraph.Text;
+                if (a.Length > 20) a = a.Substring(0, 20) + "...";
+                ConsoleWriter.WriteRed($"[del] {a}");
             }
         }
+        public void remove_p_from_to(string v1 ,string v2 , int offset = 0)
+        {
+            int  i1 = Find_Paragraph_for_i(v1);
+            i1 += offset;
+            for (int i = i1; ; i++)//i < i1 + 6
+            {
+                if (Paragraphs[i].Text == v2)
+                {
+                    break;
+                }
+                remove_p(Paragraphs[i]);
+            }
+        }
+        public void remove_p_from_to_blurry(string v1, string v2, int offset = 0)
+        {
+            int i1 = Find_Paragraph_for_i(v1);
+            i1 += offset;
+            for (int i = i1; ; i++)//i < i1 + 6
+            {
+                if (Paragraphs[i].Text.Contains(v2))
+                {
+                    break;
+                }
+                remove_p(Paragraphs[i]);
+            }
+        }
+
 
 
 
@@ -291,6 +307,16 @@ namespace archiver
             Console.WriteLine(text);
             return text;
         }
+        
+        /// <summary>
+        /// 把cell的第一个段落内容替换掉
+        /// </summary>
+        public void cell_replace_text(Cell c,string v )
+        {
+            c.ReplaceText(c.Paragraphs[0].Text,v);
+        }
+
+
         #endregion
 
         #region cell操作
@@ -361,7 +387,15 @@ namespace archiver
             cell.Paragraphs[0].Alignment = Alignment.center;
             cell.Paragraphs[0].FontSize(10.5d);
         }
-
+        public void cell_settext_default(Cell cell, string v)
+        {
+            var p = cell.Paragraphs[0];
+            var a = p.Text;
+            p.ReplaceText(a,v);
+            ////居中五号
+            //cell.Paragraphs[0].Alignment = Alignment.center;
+            //cell.Paragraphs[0].FontSize(10.5d);
+        }
         public void cell_settext_Big(Cell cell, string v)
         {
             cell_clear(cell);
@@ -403,6 +437,7 @@ namespace archiver
                 {"一", "十"},
                 {"二", "二十"},
                 {"三", "三十"},
+                {"〇","" }
             };
 
             foreach(var chr in date)
@@ -438,6 +473,28 @@ namespace archiver
             date = y + "年" + m + "月" + d + "日";
             return date;
         }
+        /// <summary>
+        /// 给日期变成 xx-xx-xx的格式，然后还可以通过后面的参数对日子进行修改
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static string datetosmalldate(string date, int i = 0)
+        {
+            string y = date.Split("年")[0];
+            string m = date.Split("年")[1].Split("月")[0];
+            string d = date.Split("月")[1].Split("日")[0];
+            date = y + "-" + m + "-" + d;
+
+            if (i != 0)
+            {
+                DateTime sdate = DateTime.Parse(date);
+                sdate = sdate.AddDays(i);
+                date = sdate.ToString("yyyy年MM月dd日");
+            }
+            return date;
+        }
+
         #endregion
 
 
@@ -446,7 +503,7 @@ namespace archiver
 
         public Paragraph Find_Paragraph_for_p(string v)
         {
-            foreach (var p in document.Paragraphs)
+            foreach (var p in Paragraphs)
             {
                 if (p.Text.Contains(v))
                 {
@@ -459,7 +516,7 @@ namespace archiver
 
         public string Find_Paragraph_for_text(string v,int count = 1)
         {
-            foreach (var p in document.Paragraphs)
+            foreach (var p in Paragraphs)
             {
                 if (p.Text.Contains(v))
                 {
@@ -476,9 +533,8 @@ namespace archiver
         public List<Paragraph> Find_Paragraph_for_plist( string v)
         {
             List < Paragraph > plist = new List < Paragraph >();
-            foreach (var p in document.Paragraphs)
+            foreach (var p in Paragraphs)
             {
-
                 if (p.Text.Contains(v))
                 {
                     //Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
@@ -487,28 +543,45 @@ namespace archiver
             }
             return plist;
         }
-        public int Find_Paragraph_for_i( string v , int i1)
+        public int Find_Paragraph_for_i( string v , int i1 = 1)
         {
-            int i = 0;
-            foreach (var p in document.Paragraphs)
+            //旧的实现
+            //int i = 0;
+            //foreach (var p in Paragraphs)
+            //{
+            //    if (p.Text.Contains(v))
+            //    {
+            //        if (i1 > 1) { 
+            //            i1--;
+            //            continue;
+            //        }
+            //        return i;
+            //    }
+            //    i++;
+            //}
+            //return -1;
+            for (int i = 0; i < Paragraphs.Count-1; i++)
             {
+                var p = Paragraphs[i];
                 if (p.Text.Contains(v))
                 {
-                    if (i1 > 0) { }
-                    Console.WriteLine("【找到:】" + p.Text + Environment.NewLine);
+                    if (i1 > 1)
+                    {
+                        i1--;
+                        continue;
+                    }
                     return i;
                 }
-                i++;
             }
-            
             return -1;
         }
+        
 
         public List<int> Find_Paragraph_for_ilist( string v)
         {
             List<int> ilist = new List<int>();
             int i = 0;
-            foreach (var p in document.Paragraphs)
+            foreach (var p in Paragraphs)
             {
                 if (p.Text.Contains(v))
                 {

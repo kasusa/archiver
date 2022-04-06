@@ -93,7 +93,7 @@ namespace archiver
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            
         }
         /// <summary>
         /// 提取和处理日期
