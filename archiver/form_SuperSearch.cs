@@ -78,6 +78,7 @@ namespace archiver
 
         private bool GetMultiNode(TreeNode treeNode, string path)
         {
+            filepathlist.Clear();
             currentrootpath = path;
             if (Directory.Exists(path) == false)
             { return false; }
@@ -194,7 +195,8 @@ namespace archiver
         {
             Process process = new Process();
             process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.Arguments = "/c" + "start "+wordpath;
+            //process.StartInfo.Arguments = "/c" + "start "+wordpath;
+            process.StartInfo.Arguments = "/c" + "Explorer " + $"\"{wordpath}\"";
             process.StartInfo.UseShellExecute = false;   //是否使用操作系统shell启动 
             process.StartInfo.CreateNoWindow = false;   //是否在新窗口中启动该进程的值 (不显示程序窗口)
             process.Start();

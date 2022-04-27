@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -60,6 +61,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
@@ -67,11 +69,22 @@
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 46);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(393, 202);
+            this.groupBox1.Size = new System.Drawing.Size(393, 176);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "功能菜单";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.Gainsboro;
+            this.button5.Location = new System.Drawing.Point(200, 72);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(188, 44);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "报告格式处理";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
@@ -108,12 +121,13 @@
             // 
             // button0
             // 
-            this.button0.Location = new System.Drawing.Point(6, 168);
+            this.button0.Location = new System.Drawing.Point(200, 122);
             this.button0.Name = "button0";
-            this.button0.Size = new System.Drawing.Size(188, 23);
+            this.button0.Size = new System.Drawing.Size(188, 40);
             this.button0.TabIndex = 2;
             this.button0.Text = "from1（测试窗体）";
             this.button0.UseVisualStyleBackColor = true;
+            this.button0.Visible = false;
             this.button0.Click += new System.EventHandler(this.button0_Click);
             // 
             // Form_main
@@ -121,7 +135,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(417, 255);
+            this.ClientSize = new System.Drawing.Size(417, 230);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Name = "Form_main";
@@ -141,5 +155,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
