@@ -65,6 +65,7 @@ namespace archiver
                 treeView.Nodes.Clear(); //清空TreeView
                 treeView.Nodes.Add("[Root]");
                 //currentrootpath = fullguanlipath + "\\";
+                filepathlist.Clear();
                 GetMultiNode(treeView.Nodes[0], fullPath);
                 treeView1.ExpandAll();
 
@@ -78,7 +79,6 @@ namespace archiver
 
         private bool GetMultiNode(TreeNode treeNode, string path)
         {
-            filepathlist.Clear();
             currentrootpath = path;
             if (Directory.Exists(path) == false)
             { return false; }
@@ -124,6 +124,7 @@ namespace archiver
         }
         #endregion
 
+        //刷新按钮
         private void button2_Click(object sender, EventArgs e)
         {
             PaintTreeView(treeView1, Settings.Default.lastguanliPath);
@@ -228,32 +229,42 @@ namespace archiver
             string a = filepath.Substring(filepath.LastIndexOf("\\")+1);
 
             myutil doc = new myutil(filepath);
-            ConsoleWriter.WriteGray(a);
-            Console.WriteLine();
             var plist = doc.Find_Paragraph_for_plist(v);
             if (plist.Count == 0)
             {
-                ConsoleWriter.WriteRed("    文件内未查询到相应关键字。\n");
-            }
-            //一些显示缓冲，慢慢的显示每个文件的结果
-            else if (checkBox2.Checked == true)
-            {
-                ConsoleWriter.WriteGreen("匹配段落数：" + plist.Count+"\n");
-                return;
-            }
-            else if(checkBox1.Checked == false && plist.Count >=6)
-            {
-                ConsoleWriter.WriteGreen("匹配段落数(enter显示，n跳过)：" + plist.Count);
-                string abc = Console.ReadLine();
-                if (abc=="n")
+                if (checkBox3.Checked == false)//未勾选“不显示未包含关键字的文件”
                 {
-                    return;
+                    ConsoleWriter.WriteGray(a);
+                    Console.WriteLine();
+                    ConsoleWriter.WriteRed("    文件内未查询到相应关键字。\n");
                 }
             }
-            foreach (var p in plist)
+            else
             {
-               ConsoleWriter.Writehighlight(p.Text,v );
+                ConsoleWriter.WriteGray(a);
+                Console.WriteLine();
+                //一些显示缓冲，慢慢的显示每个文件的结果
+                if (checkBox2.Checked == true)
+                {
+
+                    ConsoleWriter.WriteGreen("匹配段落数：" + plist.Count + "\n");
+                    return;
+                }
+                else if (checkBox1.Checked == false && plist.Count >= 6)
+                {
+                    ConsoleWriter.WriteGreen("匹配段落数(enter显示，n跳过)：" + plist.Count);
+                    string abc = Console.ReadLine();
+                    if (abc == "n")
+                    {
+                        return;
+                    }
+                }
+                foreach (var p in plist)
+                {
+                    ConsoleWriter.Writehighlight(p.Text, v);
+                }
             }
+
 
         }
 
