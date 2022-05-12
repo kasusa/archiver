@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("请先拖拽文件夹到本窗口");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("xxxx.docx(选中后 Enter 或 双击 可以打开)");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("【F】文件夹节点", new System.Windows.Forms.TreeNode[] {
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("xxxx.docx（按 F2 可以复制文件名）");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("[root](根节点）", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("请先拖拽文件夹到本窗口");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("xxxx.docx(选中后 Enter 或 双击 可以打开)");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("【F】文件夹节点", new System.Windows.Forms.TreeNode[] {
+            treeNode7});
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("xxxx.docx（按 F2 可以复制文件名）");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("[root](根节点）", new System.Windows.Forms.TreeNode[] {
+            treeNode8,
+            treeNode9});
             this.label1 = new System.Windows.Forms.Label();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,6 +52,7 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,19 +78,19 @@
             this.treeView1.LineColor = System.Drawing.Color.Gray;
             this.treeView1.Location = new System.Drawing.Point(12, 43);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "节点4";
-            treeNode1.Text = "请先拖拽文件夹到本窗口";
-            treeNode2.Name = "节点2";
-            treeNode2.Text = "xxxx.docx(选中后 Enter 或 双击 可以打开)";
-            treeNode3.Name = "节点1";
-            treeNode3.Text = "【F】文件夹节点";
-            treeNode4.Name = "节点3";
-            treeNode4.Text = "xxxx.docx（按 F2 可以复制文件名）";
-            treeNode5.Name = "节点0";
-            treeNode5.Text = "[root](根节点）";
+            treeNode6.Name = "节点4";
+            treeNode6.Text = "请先拖拽文件夹到本窗口";
+            treeNode7.Name = "节点2";
+            treeNode7.Text = "xxxx.docx(选中后 Enter 或 双击 可以打开)";
+            treeNode8.Name = "节点1";
+            treeNode8.Text = "【F】文件夹节点";
+            treeNode9.Name = "节点3";
+            treeNode9.Text = "xxxx.docx（按 F2 可以复制文件名）";
+            treeNode10.Name = "节点0";
+            treeNode10.Text = "[root](根节点）";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode5});
+            treeNode6,
+            treeNode10});
             this.treeView1.Size = new System.Drawing.Size(491, 443);
             this.treeView1.TabIndex = 2;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -109,7 +110,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(407, 499);
+            this.button1.Location = new System.Drawing.Point(407, 501);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 27);
             this.button1.TabIndex = 4;
@@ -122,7 +123,7 @@
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(66, 498);
+            this.textBox1.Location = new System.Drawing.Point(66, 499);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(335, 28);
             this.textBox1.TabIndex = 5;
@@ -132,7 +133,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 505);
+            this.label3.Location = new System.Drawing.Point(12, 506);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 17);
             this.label3.TabIndex = 6;
@@ -187,7 +188,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(66, 537);
+            this.checkBox1.Location = new System.Drawing.Point(66, 538);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(123, 21);
             this.checkBox1.TabIndex = 12;
@@ -198,7 +199,7 @@
             // 
             this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(66, 564);
+            this.checkBox2.Location = new System.Drawing.Point(66, 565);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(87, 21);
             this.checkBox2.TabIndex = 13;
@@ -220,7 +221,7 @@
             // button7
             // 
             this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.Location = new System.Drawing.Point(407, 532);
+            this.button7.Location = new System.Drawing.Point(407, 534);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(96, 27);
             this.button7.TabIndex = 19;
@@ -244,18 +245,31 @@
             this.checkBox3.AutoSize = true;
             this.checkBox3.Checked = true;
             this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(195, 536);
+            this.checkBox3.Location = new System.Drawing.Point(195, 537);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(171, 21);
             this.checkBox3.TabIndex = 21;
             this.checkBox3.Text = "不显示未包含关键字的文件";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(433, 570);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(70, 17);
+            this.linkLabel1.TabIndex = 22;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "doc转docx";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // form_SuperSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 590);
+            this.ClientSize = new System.Drawing.Size(515, 596);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
@@ -298,5 +312,6 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }

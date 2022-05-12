@@ -303,5 +303,16 @@ namespace archiver
         {
             treeView1.CollapseAll();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LaunchCommandLineApp("http://kasusa.github.io/hugo/posts/%E6%8A%8Adoc%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E6%88%90docx/");
+            
+        }
     }
 }
