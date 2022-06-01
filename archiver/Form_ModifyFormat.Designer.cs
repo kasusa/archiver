@@ -35,6 +35,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.radioButton1国标 = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton2金融标 = new System.Windows.Forms.RadioButton();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -81,9 +89,10 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label2.Location = new System.Drawing.Point(107, 116);
+            this.label2.Location = new System.Drawing.Point(107, 201);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(236, 17);
             this.label2.TabIndex = 4;
@@ -109,11 +118,94 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(23, 81);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(151, 21);
+            this.checkBox1.TabIndex = 7;
+            this.checkBox1.Text = "保留 云计算安全扩展表";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(23, 108);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(151, 21);
+            this.checkBox2.TabIndex = 8;
+            this.checkBox2.Text = "保留 大数据安全扩展表";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1国标
+            // 
+            this.radioButton1国标.AutoSize = true;
+            this.radioButton1国标.Checked = true;
+            this.radioButton1国标.Location = new System.Drawing.Point(6, 22);
+            this.radioButton1国标.Name = "radioButton1国标";
+            this.radioButton1国标.Size = new System.Drawing.Size(74, 21);
+            this.radioButton1国标.TabIndex = 9;
+            this.radioButton1国标.TabStop = true;
+            this.radioButton1国标.Text = "普通国标";
+            this.radioButton1国标.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButton2金融标);
+            this.groupBox1.Controls.Add(this.radioButton1国标);
+            this.groupBox1.Location = new System.Drawing.Point(306, 75);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(131, 81);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "标准选择";
+            // 
+            // radioButton2金融标
+            // 
+            this.radioButton2金融标.AutoSize = true;
+            this.radioButton2金融标.Location = new System.Drawing.Point(6, 49);
+            this.radioButton2金融标.Name = "radioButton2金融标";
+            this.radioButton2金融标.Size = new System.Drawing.Size(74, 21);
+            this.radioButton2金融标.TabIndex = 10;
+            this.radioButton2金融标.Text = "金融标准";
+            this.radioButton2金融标.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.Location = new System.Drawing.Point(23, 135);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(191, 21);
+            this.checkBox3.TabIndex = 11;
+            this.checkBox3.Text = "总体测评 → 单项测评结果分析";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = true;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox4.Location = new System.Drawing.Point(23, 162);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(160, 21);
+            this.checkBox4.TabIndex = 12;
+            this.checkBox4.Text = "清空 4.4 严重程度变化表";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
             // Form_ModifyFormat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(449, 142);
+            this.ClientSize = new System.Drawing.Size(449, 227);
+            this.Controls.Add(this.checkBox4);
+            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label2);
@@ -124,6 +216,8 @@
             this.Name = "Form_ModifyFormat";
             this.Text = "Form_ModifyFormat（改报告格式）";
             this.Load += new System.EventHandler(this.Form_ModifyFormat_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -138,5 +232,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.RadioButton radioButton1国标;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButton2金融标;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox4;
     }
 }

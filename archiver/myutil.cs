@@ -386,6 +386,8 @@ namespace archiver
             //居中五号
             cell.Paragraphs[0].Alignment = Alignment.center;
             cell.Paragraphs[0].FontSize(10.5d);
+            //行高1.0倍
+            cell.Paragraphs[0].SpacingLine(10.0);
         }
         public void cell_settext_default(Cell cell, string v)
         {
