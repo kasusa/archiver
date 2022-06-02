@@ -14,6 +14,7 @@ namespace archiver
     public partial class Form_ModifyFormat : Form
     {
         public myutil doc;
+        string targetname="";
         public Form_ModifyFormat()
         {
             InitializeComponent();
@@ -43,6 +44,7 @@ namespace archiver
             ConsoleWriter.WriteColoredText("加载报告...", ConsoleColor.Green);
             doc = new myutil(path);
             ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
+            button5.Enabled = true;//允许打开源文件
             this.Show();
         }
         private void textBox1_DragEnter(object sender, DragEventArgs e)
@@ -60,13 +62,13 @@ namespace archiver
         #region test
         private void Form_ModifyFormat_Load(object sender, EventArgs e)
         {
-            textBox1.Text = @"C:\Users\kasusa\Desktop\P202204046_维鸣官网_测评报告20220531144620（康玉婷）.docx";
-            string path = textBox1.Text;
-            this.Hide();
-            ConsoleWriter.WriteColoredText("加载报告(有时候假死，请按回车跳出)...", ConsoleColor.Green);
-            doc = new myutil(path);
-            ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
-            this.Show();
+            //textBox1.Text = @"C:\Users\kasusa\Desktop\P202204046_维鸣官网_测评报告20220531144620（康玉婷）.docx";
+            //string path = textBox1.Text;
+            //this.Hide();
+            //ConsoleWriter.WriteColoredText("加载报告(有时候假死，请按回车跳出)...", ConsoleColor.Green);
+            //doc = new myutil(path);
+            //ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
+            //this.Show();
         }
 
         #endregion
@@ -181,12 +183,12 @@ namespace archiver
             //doc.remove_p_from_to("测评过程中主要依据的标准：", "测评过程",1);
             doc.remove_p(doc.Find_Paragraph_for_p("信息安全技术 网络安全等级保护基本"));
             p = doc.Find_Paragraph_for_p("测评过程中主要依据的标准");
-            string putong = @"1. GB/T 22239-2019：《信息安全技术 网络安全等级保护基本要求》
-2. GB/T 28448-2019：《信息安全技术 网络安全等级保护测评要求》
+            string putong = @"（1） GB/T 22239-2019：《信息安全技术 网络安全等级保护基本要求》
+（2） GB/T 28448-2019：《信息安全技术 网络安全等级保护测评要求》
 以下为本次测评的相关参考标准和文档：
-3. GB/T 28449-2018：《信息安全技术 网络安全等级保护测评过程指南》
-4. GB/T 20984-2007：《信息安全技术 信息安全风险评估规范》
-5. GB/T 17859-1999：《计算机信息系统 安全保护等级划分准则》";
+（3） GB/T 28449-2018：《信息安全技术 网络安全等级保护测评过程指南》
+（4） GB/T 20984-2007：《信息安全技术 信息安全风险评估规范》
+（5） GB 17859-1999：《计算机信息系统 安全保护等级划分准则》";
             
             string jinrong = @"1. GB/T 22239-2019：《信息安全技术 网络安全等级保护基本要求》
 2. GB/T 28448-2019：《信息安全技术 网络安全等级保护测评要求》
@@ -354,7 +356,7 @@ namespace archiver
                             {
                                 ++i1;
                                 p = doc.Paragraphs[i1];
-                                p.ReplaceText(p.Text, "\t" + myDictionary总体评价[item]);
+                                p.ReplaceText(p.Text, myDictionary总体评价[item]);
                             }
                         }
                     }
@@ -368,7 +370,7 @@ namespace archiver
                             {
                                 ++i1;
                                 p = doc.Paragraphs[i1];
-                                p.ReplaceText(p.Text, "\t" + myDictionary总体评价["安全计算环境"].Replace("在安全计算环境方面，", "在" + item + "方面，"));
+                                p.ReplaceText(p.Text, myDictionary总体评价["安全计算环境"].Replace("在安全计算环境方面，", "在" + item + "方面，"));
                             }
                         }
                     }
@@ -440,7 +442,15 @@ namespace archiver
             //保存
             try
             {
-                doc.save();
+                //格式
+                //默认导出名称：P202204046_维鸣官网_测评报告20220531144620（康玉婷）
+                //目标名称：P202111003_GB01_测试报告_TOMONICHN
+                string defaultname = textBox1.Text.Split("\\")[textBox1.Text.Split("\\").Length - 1];
+                string Pnum = defaultname.Split("_")[0];
+                string xitongname = defaultname.Split("_")[1];
+                targetname = Pnum + "_GB01_测试报告_" + xitongname + ".docx";
+
+                doc.save(targetname);
                 ConsoleWriter.WriteGreen("已保存到out文件夹");
                 button2.Enabled = true;
             }
@@ -490,7 +500,7 @@ namespace archiver
 
         }
 
-        #region opendoctocheck
+        #region 打开检查按钮
         /// <summary>
         /// open the docx
         /// </summary>
@@ -498,9 +508,9 @@ namespace archiver
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            string opendoc = textBox1.Text.Split("\\")[textBox1.Text.Split("\\").Length-1];
-            label2.Text = opendoc;
-            string savepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "out" + "\\" + opendoc;
+            //string opendoc = textBox1.Text.Split("\\")[textBox1.Text.Split("\\").Length-1];
+            label2.Text = targetname;
+            string savepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "out" + "\\" + targetname;
             LaunchCommandLineApp(savepath);
         }
 
@@ -515,8 +525,14 @@ namespace archiver
             process.WaitForExit();  //等待程序执行完退出进程
             process.Close();
         }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string savepath = textBox1.Text;
+            LaunchCommandLineApp(savepath);
+        }
         #endregion
 
+        //测试按钮
         private void button3_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -538,7 +554,7 @@ namespace archiver
             }
             try
             {
-                doc.save("(自动修改）"+ textBox1.Text.Split("\\")[textBox1.Text.Split("\\").Length-1] );
+                doc.save("(test）"+ textBox1.Text.Split("\\")[textBox1.Text.Split("\\").Length-1] );
                 ConsoleWriter.WriteGreen("已保存到out文件夹");
                 button2.Enabled = true;
             }
@@ -555,5 +571,7 @@ namespace archiver
         {
 
         }
+
+
     }
 }

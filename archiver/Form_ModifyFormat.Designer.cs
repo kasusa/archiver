@@ -42,6 +42,8 @@
             this.radioButton2金融标 = new System.Windows.Forms.RadioButton();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,7 +72,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(239, 35);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(104, 23);
+            this.button1.Size = new System.Drawing.Size(91, 23);
             this.button1.TabIndex = 2;
             this.button1.Text = "格式处理";
             this.button1.UseVisualStyleBackColor = true;
@@ -79,11 +81,11 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(349, 35);
+            this.button2.Location = new System.Drawing.Point(336, 35);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(89, 23);
+            this.button2.Size = new System.Drawing.Size(102, 23);
             this.button2.TabIndex = 3;
-            this.button2.Text = "打开检查";
+            this.button2.Text = "打开检查（新）";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -92,7 +94,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label2.Location = new System.Drawing.Point(107, 201);
+            this.label2.Location = new System.Drawing.Point(107, 200);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(236, 17);
             this.label2.TabIndex = 4;
@@ -155,7 +157,7 @@
             // 
             this.groupBox1.Controls.Add(this.radioButton2金融标);
             this.groupBox1.Controls.Add(this.radioButton1国标);
-            this.groupBox1.Location = new System.Drawing.Point(306, 75);
+            this.groupBox1.Location = new System.Drawing.Point(306, 102);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(131, 81);
             this.groupBox1.TabIndex = 10;
@@ -196,11 +198,36 @@
             this.checkBox4.Text = "清空 4.4 严重程度变化表";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            this.button5.Enabled = false;
+            this.button5.Location = new System.Drawing.Point(336, 64);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(102, 23);
+            this.button5.TabIndex = 13;
+            this.button5.Text = "打开检查（源）";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkColor = System.Drawing.Color.LightSlateGray;
+            this.linkLabel1.Location = new System.Drawing.Point(408, 200);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(29, 17);
+            this.linkLabel1.TabIndex = 11;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "tips";
+            // 
             // Form_ModifyFormat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(449, 227);
+            this.ClientSize = new System.Drawing.Size(449, 226);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.groupBox1);
@@ -239,5 +266,7 @@
         private System.Windows.Forms.RadioButton radioButton2金融标;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
