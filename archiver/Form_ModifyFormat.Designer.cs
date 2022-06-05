@@ -65,6 +65,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(313, 23);
             this.textBox1.TabIndex = 1;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox1_DragDrop);
             this.textBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox1_DragEnter);
             // 
@@ -85,8 +86,8 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(102, 23);
             this.button2.TabIndex = 3;
-            this.button2.Text = "打开检查（新）";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Text = "检查生成报告";
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label2
@@ -205,7 +206,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(102, 23);
             this.button5.TabIndex = 13;
-            this.button5.Text = "打开检查（源）";
+            this.button5.Text = "打开源文件";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -223,6 +224,7 @@
             // 
             // Form_ModifyFormat
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(449, 226);
@@ -243,6 +245,8 @@
             this.Name = "Form_ModifyFormat";
             this.Text = "Form_ModifyFormat（改报告格式）";
             this.Load += new System.EventHandler(this.Form_ModifyFormat_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox1_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox1_DragEnter);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

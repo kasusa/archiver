@@ -1,4 +1,5 @@
 ﻿using archiver.ConsoleColorWriter;
+using archiver.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,12 +29,34 @@ namespace archiver
         #region textDrop
         private void button4_Click(object sender, EventArgs e)
         {
-            string path = textBox1.Text;
-            this.Hide();
-            ConsoleWriter.WriteColoredText("加载报告...", ConsoleColor.Green);
-            doc = new myutil(path);
-            ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
-            this.Show();
+            //如果已经选择了文件（textbox中有字
+            if (textBox1.Text!="")
+            {
+                string path = textBox1.Text;
+                this.Hide();
+                ConsoleWriter.WriteColoredText("加载报告...", ConsoleColor.Green);
+                doc = new myutil(path);
+                ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
+                this.Show();
+            }
+            else
+            {
+                //如果未选择文件，加载上次的文件。
+                textBox1.Text = Settings.Default.MF_path;
+                if (textBox1.Text == "")
+                {
+                    MessageBox.Show("未打开过任何文件，缓存中没有记录");
+                    return;
+                }
+
+                string path = textBox1.Text;
+                this.Hide();
+                ConsoleWriter.WriteColoredText("加载报告...", ConsoleColor.Green);
+                doc = new myutil(path);
+                ConsoleWriter.WriteColoredText("加载完成", ConsoleColor.Green);
+                button5.Enabled = true;//允许打开源文件
+                this.Show();
+            }
         }
         private void textBox1_DragDrop(object sender, DragEventArgs e)
         {
@@ -58,6 +81,13 @@ namespace archiver
                 e.Effect = DragDropEffects.None;
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            //保存位置
+             Settings.Default.MF_path = textBox1.Text;
+        }
+
         #endregion
         #region test
         private void Form_ModifyFormat_Load(object sender, EventArgs e)
@@ -86,6 +116,13 @@ namespace archiver
             string a = p.Text.Substring(5);
             Console.WriteLine(a);
             if (p != null)doc.remove_p(p);
+
+            //机构代码全称 SC202127130010092
+            var t = doc.findTableList("测评单位")[0];
+            var cell = doc.table_Get_cell(t, 1, 3);
+            doc.cell_settext(cell, "SC202127130010092");
+
+
             //- [ ] 声明在最后一段增加：本报告记录编号：P202201056-GB01。
             //- [ ] 声明四号
 
@@ -103,11 +140,11 @@ namespace archiver
             {
                 p.InsertParagraphAfterSelf(" ");
             }
-            p.InsertParagraphAfterSelf($"本报告记录编号：{a}").FontSize(14);
+            p.InsertParagraphAfterSelf($"本报告记录编号：{a}-GB01").FontSize(14);
             Console.WriteLine("[ok] 声明在最后一段增加：本报告记录编号，且增加了空行、字号修改为14");
 
             //- [ ] 首页报告时间变成 中文
-            var t = doc.tables[0];
+             t = doc.tables[0];
             var c = doc.table_Get_cell(t, 2, 1);
             a = doc.table_Get_cell_text(t, 2, 1);
             string fengmian_time = a;
@@ -183,19 +220,19 @@ namespace archiver
             //doc.remove_p_from_to("测评过程中主要依据的标准：", "测评过程",1);
             doc.remove_p(doc.Find_Paragraph_for_p("信息安全技术 网络安全等级保护基本"));
             p = doc.Find_Paragraph_for_p("测评过程中主要依据的标准");
-            string putong = @"（1） GB/T 22239-2019：《信息安全技术 网络安全等级保护基本要求》
-（2） GB/T 28448-2019：《信息安全技术 网络安全等级保护测评要求》
+            string putong = @"1. GB/T 22239-2019：《信息安全技术 网络安全等级保护基本要求》
+2. GB/T 28448-2019：《信息安全技术 网络安全等级保护测评要求》
 以下为本次测评的相关参考标准和文档：
-（3） GB/T 28449-2018：《信息安全技术 网络安全等级保护测评过程指南》
-（4） GB/T 20984-2007：《信息安全技术 信息安全风险评估规范》
-（5） GB 17859-1999：《计算机信息系统 安全保护等级划分准则》";
+3. GB/T 28449-2018：《信息安全技术 网络安全等级保护测评过程指南》
+4. GB/T 20984-2007：《信息安全技术 信息安全风险评估规范》
+5. GB 17859-1999：《计算机信息系统 安全保护等级划分准则》";
             
             string jinrong = @"1. GB/T 22239-2019：《信息安全技术 网络安全等级保护基本要求》
 2. GB/T 28448-2019：《信息安全技术 网络安全等级保护测评要求》
 3. JR/T 0071.2-2020：《金融行业网络安全等级保护实施指引 第 2 部分：基本要求》
 4. JR/T 0072—2020：《金融行业网络安全等级保护测评指南》
 以下为本次测评的相关参考标准和文档：
-5. GB/T 17859—1999 ：《计算机信息系统 安全保护等级划分准则》
+5. GB 17859—1999 ：《计算机信息系统 安全保护等级划分准则》
 6. GB/T 28449-2018：《信息安全技术 网络安全等级保护测评过程指南》
 7. GB/T 20984-2007：《信息安全技术 信息安全风险评估规范》
 ";
@@ -300,7 +337,7 @@ namespace archiver
             //- [ ] 3.4.7 其他系统或设备： 本次测评未涉及其他系统或设备。，删除3.4.7.1\3.4.7.2
             i1 = doc.Find_Paragraph_for_i("其他系统或设备", 2);
             p = doc.Paragraphs[i1].InsertParagraphAfterSelf("   本次测评未涉及其他系统或设备");
-            for (int i = i1+2; ; i++)
+            for (int i = i1+1; ; i++)
             {
                 p = doc.Paragraphs[i];
                 a = p.Text;
@@ -417,28 +454,32 @@ namespace archiver
             t = doc.findTableList("序号业务应用系统/平台名称主要功能业务应用软件及版本开发厂商重要程度备注")[0];
             doc.table_lastcell_ganggang(t);
             ConsoleWriter.WriteText(" [ok] 附录A中的设备 备注一律杠杠");
+
             //- [ ] A.10 检查有没有密码产品行决定添加不添加新行
             //- [ ] A.11安全相关人员/所属单位都变成系统的单位
             //- [ ]
             //- [ ] C.11 本次测评未涉及其它安全要求指标,并删除两个表头
             i1 = doc.Find_Paragraph_for_i("其他安全要求指标", 9);
-            i2 = doc.Find_Paragraph_for_i("单项测评结果记录", 3);
-            for (int i = i1 + 1; i < i2 - 1; i++)
+            //i2 = doc.Find_Paragraph_for_i("单项测评结果记录", 3);
+            for (int i = i1 + 1; i <= i1+4; i++)
             {
                 p = doc.Paragraphs[i];
                 doc.remove_p(p);
             }
-            p = doc.Paragraphs[i2 - 1];
-            p.ReplaceText(p.Text, "本次测评未涉及其他安全要求指标。");
+            p = doc.Paragraphs[i1];
+            p = p.InsertParagraphAfterSelf("\t本次测评未涉及其他安全要求指标。");
+            //p.ReplaceText(p.Text, );
             //- [ ] 删除附录H,I
             //删除文档中红字提示
             delred();
+
             //全文替换
-            var plist= doc.Find_Paragraph_for_plist("本次测评不涉及");
-            foreach (var item in plist)
-            {
-                item.ReplaceText(item.Text, item.Text.Replace("本次测评不涉及", "本次测评未涉及"));
-            }
+            //其他要求指标 → 其他安全要求指标
+            doc._replacePatterns.Add("本次测评不涉及", "本次测评未涉及");
+            doc._replacePatterns.Add("其他要求指标", "其他安全要求指标");
+            doc._replacePatterns.Add("其他设备", "其他系统或设备");
+            doc.ReplaceTextWithText_all_noBracket();
+
             //保存
             try
             {
@@ -539,19 +580,13 @@ namespace archiver
             int i1, i2;
             var p = doc.Paragraphs[0];
             string a;
+            //机构代码全称
+            var t = doc.findTableList("测评单位")[0];
+            var cell = doc.table_Get_cell(t, 1, 3);
+            doc.cell_settext(cell, "SC202127130010092");
 
-            //- [ ] 3.4.7 其他系统或设备： 本次测评未涉及其他系统或设备。，删除3.4.7.1\3.4.7.2
-            i1 = doc.Find_Paragraph_for_i("其他系统或设备", 2);
-            for (int i = i1; ; i++)
-            {
-                p = doc.Paragraphs[i];
-                a = p.Text;
-                Console.WriteLine(a);
-                if (a.Contains("安全管理中心"))
-                {
-                    break;
-                }
-            }
+
+            Console.WriteLine();
             try
             {
                 doc.save("(test）"+ textBox1.Text.Split("\\")[textBox1.Text.Split("\\").Length-1] );
