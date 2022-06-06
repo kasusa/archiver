@@ -477,7 +477,7 @@ namespace archiver
             //其他要求指标 → 其他安全要求指标
             doc._replacePatterns.Add("本次测评不涉及", "本次测评未涉及");
             doc._replacePatterns.Add("其他要求指标", "其他安全要求指标");
-            doc._replacePatterns.Add("其他设备", "其他系统或设备");
+            //doc._replacePatterns.Add("其他设备", "其他系统或设备");
             doc.ReplaceTextWithText_all_noBracket();
 
             //保存
