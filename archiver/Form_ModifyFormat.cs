@@ -473,7 +473,7 @@ namespace archiver
             //删除文档中红字提示
             delred();
 
-            //全文替换
+            //全文替换(自定义错别字替换
             //其他要求指标 → 其他安全要求指标
             doc._replacePatterns.Add("本次测评不涉及", "本次测评未涉及");
             doc._replacePatterns.Add("其他要求指标", "其他安全要求指标");
