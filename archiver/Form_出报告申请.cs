@@ -18,29 +18,28 @@ namespace archiver
         myutil tempo;//出报告模板
         string str_公司 = "xxx公司";
         string str_系统 = "xxx系统";
+        string str_P项目编号 = "Pxxxxxxxxx";
+
         string opendoc = "";
         public Form_出报告申请()
         {
             InitializeComponent();
-
-            loadSample();
             button1.Enabled = false;
         }
-
-        private void loadSample()
+        //version v2.0 v3.0
+        private void loadSample(string version)
         {
-            string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + '\\' + "Sample\\出报告申请_模板.docx";
+            string tempo_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+ @$"\Sample\出报告申请\出报告申请_模板{version}.docx";
             if (!File.Exists(tempo_path))
             {
+                MessageBox.Show("dude,获取模板 失败");
                 toolStripStatusLabel1.ForeColor = System.Drawing.Color.Red;
-                toolStripStatusLabel1.Text = "获取模板 失败，检查桌面的Sample\\出报告申请_模板.docx";
+                toolStripStatusLabel1.Text = $"获取模板 失败" + tempo_path;
             }
             else
             {
                 tempo = new myutil(tempo_path);
-
                 toolStripStatusLabel1.Text = "获取模板 成功";
-
             }
         }
 
@@ -78,7 +77,19 @@ namespace archiver
         }
         private void gp1_button1_Click(object sender, EventArgs e)
         {
-            loadSample();
+            if (textBox1.Text == "")
+            {
+                toolStripStatusLabel1.Text = "先吧报告拖进来，然后点击生成…";
+                return;
+            }
+            if (radioButton1.Checked)
+            {
+                loadSample("v3.0");
+            }
+            else
+            {
+                loadSample("v2.0");
+            }
             string a = "";
             tempo._replacePatterns.Clear();
             a = doc.Paragraphs[0].Text;
@@ -109,6 +120,7 @@ namespace archiver
             a = doc.Find_Paragraph_for_text("本报告记录编号：");
             a = myutil.get_string_after(a,"本报告记录编号：", "P202107109".Length);
             tempo.write_dictionary("项目编号",a);
+            str_P项目编号 = a;
 
             a = doc.Find_Paragraph_for_text("测评准备过程。");
             a = date_process(a,true);
@@ -132,7 +144,7 @@ namespace archiver
 
             Console.WriteLine("三防信息B.1");
             a = doc.Find_Paragraph_for_text("在防数据泄露方面");
-            if (a == "") a = doc.Find_Paragraph_for_text("在防数据泄漏方面：");
+            if (a == "") a = doc.Find_Paragraph_for_text("在防数据泄漏方面");
             if (a == "") tempo.remove_p(tempo.Find_Paragraph_for_p("防数据泄漏"));
             else
             {
@@ -269,6 +281,66 @@ namespace archiver
             process.Start();
             process.WaitForExit();  //等待程序执行完退出进程
             process.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string rootfoldername = $"{str_P项目编号}_{str_公司}_{str_系统}_出报告申请";
+            string rootpath =  Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + rootfoldername;
+            System.IO.Directory.CreateDirectory(rootpath);
+            createFile(rootpath, $"{str_P项目编号}_GB01_测试报告_{str_系统}.docx");
+            createFile(rootpath, $"{str_P项目编号}云计算附件.docx");
+            createFile(rootpath, $"SSTL2022{str_公司}_{str_系统}网络安全等级保护测评报告附件.docx");
+            createFile(rootpath, $"差距分析_{str_公司}_{str_系统}.xlsx");
+            createFile(rootpath, $"出报告申请_{str_公司}_{str_系统}.docx");
+            createFile(rootpath, $"大数据安全测评补充项_{str_公司}_{str_系统}.xlsx");
+            createFile(rootpath, $"等保测评委托书_唯鸣官网.pdf");
+            createFile(rootpath, $"漏洞清单_{str_公司}_{str_系统}.xlsx");
+            createFile(rootpath, $"{str_公司}_{str_系统}.bak");
+
+            Console.WriteLine("end:");
+
+        }
+
+        private void createFile(string pathString ,string fileName = "")
+        {
+            // Create a file name for the file you want to create.
+            if (fileName == "")
+            {
+                fileName = System.IO.Path.GetRandomFileName();
+
+            }
+
+            // This example uses a random string for the name, but you also can specify
+            // a particular name.
+            //string fileName = "MyNewFile.txt";
+
+            // Use Combine again to add the file name to the path.
+            pathString = System.IO.Path.Combine(pathString, fileName);
+
+            // Verify the path that you have constructed.
+            Console.WriteLine("Path to my file: {0}\n", pathString);
+            Console.WriteLine("Created file: {0}\n", pathString);
+
+            // Check that the file doesn't already exist. If it doesn't exist, create
+            // the file and write integers 0 - 99 to it.
+            // DANGER: System.IO.File.Create will overwrite the file if it already exists.
+            // This could happen even with random file names, although it is unlikely.
+            if (!System.IO.File.Exists(pathString))
+            {
+                using (System.IO.FileStream fs = System.IO.File.Create(pathString))
+                {
+                    for (byte i = 0; i < 100; i++)
+                    {
+                        fs.WriteByte(i);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("File \"{0}\" already exists.", fileName);
+                return;
+            }
         }
     }
 }
