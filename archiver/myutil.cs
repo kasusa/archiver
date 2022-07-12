@@ -282,6 +282,12 @@ namespace archiver
         public void table_lastcell_ganggang(Table table)
         {
             int linelength = table.Rows[0].Cells.Count;
+            int linelength2 = table.Rows[1].Cells.Count;
+            if (linelength != linelength2)
+            {
+                Console.WriteLine("表格一二行长度不同，资产为空，跳过");
+                return;
+            }
             int lastindex = linelength - 1;
             int rowcount = table.RowCount;
             for (int i = 1; i < rowcount; i++)

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\archiver.csproj": {}
+    "C:\\Users\\kasusa\\Documents\\GitHub\\archiver\\archiver\\archiver.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\archiver.csproj": {
+    "C:\\Users\\kasusa\\Documents\\GitHub\\archiver\\archiver\\archiver.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\archiver.csproj",
+        "projectUniqueName": "C:\\Users\\kasusa\\Documents\\GitHub\\archiver\\archiver\\archiver.csproj",
         "projectName": "archiver",
-        "projectPath": "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\archiver.csproj",
+        "projectPath": "C:\\Users\\kasusa\\Documents\\GitHub\\archiver\\archiver\\archiver.csproj",
         "packagesPath": "C:\\Users\\kasusa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kasusa\\Desktop\\src\\archiver\\archiver\\obj\\",
+        "outputPath": "C:\\Users\\kasusa\\Documents\\GitHub\\archiver\\archiver\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -60,7 +60,7 @@
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.21, 3.1.21]"
+              "version": "[3.1.24, 3.1.24]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
@@ -79,7 +79,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
